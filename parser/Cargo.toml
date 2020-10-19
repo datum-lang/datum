@@ -1,0 +1,17 @@
+[package]
+name = "parser"
+version = "0.1.0"
+authors = ["Phodal Huang <h@phodal.com>"]
+edition = "2018"
+build = "build.rs" # LALRPOP preprocessing
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+lalrpop-util = "0.19.0"
+regex = "1"
+
+# Add a build-time dependency on the lalrpop library:
+[build-dependencies.lalrpop]
+version = "0.19.1"
+features = ["lexer"]
