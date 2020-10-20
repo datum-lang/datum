@@ -3,6 +3,7 @@ extern crate lalrpop_util;
 
 lalrpop_mod!(pub charj); // synthesized by LALRPOP
 
+pub mod location;
 pub mod token;
 
 #[test]
