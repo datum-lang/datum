@@ -2,30 +2,27 @@ use std::str::FromStr;
 
 use crate::location;
 use crate::lexer;
+use crate::token::{Tok};
 use crate::error::LexicalError;
 
-grammar;
+grammar<'input>(input: &'input str);
 
 pub Charj: i32 = {
-    <n:Num> => n,
-    "(" <t:Charj> ")" => t,
+//    <n:Num> => n,
+//    "(" <t:Charj> ")" => t,
 };
 
-Num: i32 = <s:r"[0-9]+"> => i32::from_str(s).unwrap();
-
-Identifier: String = <s:name> => s;
+// Num: i32 = <s:r"[0-9]+"> => i32::from_str(s).unwrap();
 
 extern {
     type Location = location::Location;
     type Error = LexicalError;
 
-//    enum lexer::Tok {
-//        Indent => lexer::Tok::Indent,
-//        name => lexer::Tok::Name { name: <String> },
-//    }
-
     enum Tok<'input> {
+        Identifier => Tok::Identifier(<&'input str>),
+        StringLiteral => Tok::StringLiteral(<&'input str>),
 
+        ";" => Tok::Semicolon,
     }
 }
 

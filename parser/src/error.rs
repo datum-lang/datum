@@ -6,14 +6,14 @@ use std::fmt;
 
 /// Represents an error during parsing
 #[derive(Debug, PartialEq)]
-pub struct ParseError {
-    pub error: ParseErrorType,
+pub struct ParseError<'input> {
+    pub error: ParseErrorType<'input>,
     pub location: Location,
 }
 
 /// Convert `lalrpop_util::ParseError` to our internal type
-impl From<LalrpopError<Location, Tok, LexicalError>> for ParseError {
-    fn from(err: LalrpopError<Location, Tok, LexicalError>) -> Self {
+impl<'input> From<LalrpopError<Location, Tok<'input>, LexicalError>> for ParseError<'input> {
+    fn from(err: LalrpopError<Location, Tok<'input>, LexicalError>) -> Self {
         match err {
             // TODO: Are there cases where this isn't an EOF?
             LalrpopError::InvalidToken { location } => ParseError {
@@ -49,7 +49,7 @@ impl From<LalrpopError<Location, Tok, LexicalError>> for ParseError {
     }
 }
 
-impl fmt::Display for ParseError {
+impl<'input> fmt::Display for ParseError<'input> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{} at {}", self.error, self.location)
     }
@@ -62,34 +62,43 @@ pub struct LexicalError {
     pub location: Location,
 }
 
+impl fmt::Display for LexicalError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            _ => write!(f, "default"),
+        }
+    }
+}
+
 #[derive(Debug, PartialEq)]
-pub enum ParseErrorType {
+pub enum ParseErrorType<'input> {
     /// Parser encountered an unexpected end of input
     EOF,
     /// Parser encountered an extra token
-    ExtraToken(Tok),
+    ExtraToken(Tok<'input>),
     /// Parser encountered an invalid token
     InvalidToken,
     /// Parser encountered an unexpected token
-    UnrecognizedToken(Tok, Option<String>),
+    UnrecognizedToken(Tok<'input>, Option<String>),
     /// Maps to `User` type from `lalrpop-util`
     Lexical(LexicalErrorType),
 }
 
-impl fmt::Display for ParseErrorType {
+impl<'input> fmt::Display for ParseErrorType<'input> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match *self {
             ParseErrorType::EOF => write!(f, "Got unexpected EOF"),
             ParseErrorType::ExtraToken(ref tok) => write!(f, "Got extraneous token: {:?}", tok),
             ParseErrorType::InvalidToken => write!(f, "Got invalid token"),
             ParseErrorType::UnrecognizedToken(ref tok, ref expected) => {
-                if *tok == Tok::Indent {
-                    write!(f, "unexpected indent")
-                } else if expected.as_deref() == Some("Indent") {
-                    write!(f, "expected an indented block")
-                } else {
-                    write!(f, "Got unexpected token {}", tok)
-                }
+                // if *tok == Tok::Indent {
+                //     write!(f, "unexpected indent")
+                // } else if expected.as_deref() == Some("Indent") {
+                //     write!(f, "expected an indented block")
+                // } else {
+                //     write!(f, "Got unexpected token {}", tok)
+                // }
+                write!(f, "UnrecognizedToken")
             }
             ParseErrorType::Lexical(ref error) => write!(f, "{}", error),
         }

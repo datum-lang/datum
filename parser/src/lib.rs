@@ -13,11 +13,3 @@ pub mod lexer;
 pub mod location;
 pub mod parser;
 pub mod token;
-
-#[test]
-fn test_charj() {
-    assert!(charj::CharjParser::new().parse("22").is_ok());
-    assert!(charj::CharjParser::new().parse("(22)").is_ok());
-    assert!(charj::CharjParser::new().parse("((((22))))").is_ok());
-    assert!(charj::CharjParser::new().parse("((22)").is_err());
-}
