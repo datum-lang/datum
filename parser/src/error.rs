@@ -1,52 +1,8 @@
-use lalrpop_util::ParseError as LalrpopError;
-
-use crate::location::Location;
+use crate::location::Loc;
 use crate::token::Tok;
 use std::fmt;
 
-/// Represents an error during parsing
 #[derive(Debug, PartialEq)]
-pub struct ParseError<'input> {
-    pub error: ParseErrorType<'input>,
-    pub location: Location,
-}
-
-/// Convert `lalrpop_util::ParseError` to our internal type
-impl<'input> From<LalrpopError<Location, Tok<'input>, LexicalError>> for ParseError<'input> {
-    fn from(err: LalrpopError<Location, Tok<'input>, LexicalError>) -> Self {
-        match err {
-            _ => {
-                ParseError {
-                    error: ParseErrorType::EOF,
-                    location: Default::default()
-                }
-            }
-        }
-    }
-}
-
-impl<'input> fmt::Display for ParseError<'input> {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "{} at {}", self.error, self.location)
-    }
-}
-
-/// Represents an error during lexical scanning.
-// #[derive(Debug, PartialEq)]
-// pub struct LexicalError {
-//     pub error: LexicalErrorType,
-//     pub location: Location,
-// }
-//
-// impl fmt::Display for LexicalError {
-//     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-//         match self {
-//             _ => write!(f, "default"),
-//         }
-//     }
-// }
-
-
 pub enum LexicalError {
     EndOfFileInComment(usize, usize),
     EndOfFileInString(usize, usize),
@@ -80,16 +36,16 @@ impl fmt::Display for LexicalError {
 }
 
 impl LexicalError {
-    pub fn loc(&self, file_no: usize) -> Location {
+    pub fn loc(&self, file_no: usize) -> Loc {
         match self {
-            LexicalError::EndOfFileInComment(start, end) => Location::new(*start, *end),
-            LexicalError::EndOfFileInString(start, end) => Location::new(*start, *end),
-            LexicalError::EndofFileInHex(start, end) => Location::new(*start, *end),
-            LexicalError::MissingNumber(start, end) => Location::new(*start, *end),
-            LexicalError::InvalidCharacterInHexLiteral(pos, _) => Location::new(*pos, *pos),
-            LexicalError::UnrecognisedToken(start, end, _) => Location::new(*start, *end),
-            LexicalError::ExpectedFrom(start, end, _) => Location::new(*start, *end),
-            LexicalError::MissingExponent(start, end) => Location::new(*start, *end),
+            LexicalError::EndOfFileInComment(start, end) => Loc(file_no, *start, *end),
+            LexicalError::EndOfFileInString(start, end) => Loc(file_no, *start, *end),
+            LexicalError::EndofFileInHex(start, end) => Loc(file_no, *start, *end),
+            LexicalError::MissingNumber(start, end) => Loc(file_no, *start, *end),
+            LexicalError::InvalidCharacterInHexLiteral(pos, _) => Loc(file_no, *pos, *pos),
+            LexicalError::UnrecognisedToken(start, end, _) => Loc(file_no, *start, *end),
+            LexicalError::ExpectedFrom(start, end, _) => Loc(file_no, *start, *end),
+            LexicalError::MissingExponent(start, end) => Loc(file_no, *start, *end),
         }
     }
 }
@@ -115,13 +71,6 @@ impl<'input> fmt::Display for ParseErrorType<'input> {
             ParseErrorType::ExtraToken(ref tok) => write!(f, "Got extraneous token: {:?}", tok),
             ParseErrorType::InvalidToken => write!(f, "Got invalid token"),
             ParseErrorType::UnrecognizedToken(ref tok, ref expected) => {
-                // if *tok == Tok::Indent {
-                //     write!(f, "unexpected indent")
-                // } else if expected.as_deref() == Some("Indent") {
-                //     write!(f, "expected an indented block")
-                // } else {
-                //     write!(f, "Got unexpected token {}", tok)
-                // }
                 write!(f, "UnrecognizedToken")
             }
             ParseErrorType::Lexical(ref error) => write!(f, "{}", error),

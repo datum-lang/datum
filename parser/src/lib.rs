@@ -7,10 +7,9 @@ lalrpop_mod!(
     pub charj
 ); // synthesized by LALRPOP
 
-pub mod ast;
 pub mod error;
 pub mod lexer;
 pub mod location;
 pub mod parser;
-pub mod token;
 pub mod pt;
+pub mod token;

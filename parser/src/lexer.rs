@@ -1,7 +1,7 @@
+use crate::error::LexicalError;
 use crate::token::Tok;
 use std::iter::Peekable;
 use std::str::CharIndices;
-use crate::error::LexicalError;
 
 pub struct Lexer<'input> {
     input: &'input str,

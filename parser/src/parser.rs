@@ -1,20 +1,12 @@
-use crate::ast::Program;
 use crate::charj;
-// use crate::error::ParseError;
 use crate::lexer;
 
-#[derive(Debug, PartialEq)]
-pub enum Top {
-    Program(Program),
-}
-
 macro_rules! do_lalr_parsing {
-    ($input: expr, $pat: ident, $tok: ident) => {{
+    ($input: expr, $file_no: ident) => {{
         let lex = lexer::Lexer::new($input);
-        match charj::CharjParser::new().parse($input, lex) {
+        match charj::CharjParser::new().parse($input, $file_no, lex) {
             Err(err) => {
-                println!("{}", err);
-                // Err(ParseError::from(err));
+                // println!("{}", err);
             }
             Ok(top) => {
                 // println!("{}", top);
@@ -23,12 +15,8 @@ macro_rules! do_lalr_parsing {
     }};
 }
 
-/// Parse a full charj program, containing usually multiple lines.
-// pub fn parse_program(source: &str) -> Result<ast::Program, ParseError> {
-//     do_lalr_parsing!(source, Program, StartProgram)
-// }
-pub fn parse_program(source: &str) {
-    do_lalr_parsing!(source, Program, StartProgram);
+pub fn parse_program(source: &str, file_no: usize) {
+    do_lalr_parsing!(source, file_no);
 }
 
 #[cfg(test)]
@@ -37,7 +25,7 @@ mod test {
 
     #[test]
     fn test_parse_empty() {
-        let parse_ast = parse_program("pkg \"chajr\"");
+        let parse_ast = parse_program("pkg \"chajr\"", 0);
         // assert_eq!(parse_ast, Ok(ast::Program { statements: vec![] }))
     }
 }

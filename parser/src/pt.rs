@@ -1,4 +1,4 @@
-use crate::location::Location;
+use crate::location::Loc;
 
 #[derive(Debug, PartialEq)]
 pub struct SourceUnit(pub Vec<SourceUnitPart>);
@@ -17,13 +17,12 @@ pub enum Import {
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct StringLiteral {
-    pub loc: Location,
+    pub loc: Loc,
     pub string: String,
 }
 
 #[derive(Debug, PartialEq, Clone)]
 pub struct Identifier {
-    pub loc: Location,
+    pub loc: Loc,
     pub name: String,
 }
-

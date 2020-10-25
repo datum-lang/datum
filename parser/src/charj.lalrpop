@@ -1,12 +1,12 @@
 use std::str::FromStr;
 
-use crate::location;
+use crate::location::Loc;
 use crate::lexer;
 use crate::token::{Tok};
 use crate::error::LexicalError;
 use crate::pt::*;
 
-grammar<'input>(input: &'input str);
+grammar<'input>(input: &'input str, file_no: usize);
 
 pub Charj: SourceUnit = {
     SourceUnitPart+ => SourceUnit(<>)
@@ -17,16 +17,24 @@ SourceUnitPart: SourceUnitPart = {
 }
 
 ImportDirective: Import = {
-    "import" <s:StringLiteral> ";" => Import::Plain(s)
+    "import" <s:StringLiteral> ";" => Import::Plain(s),
 }
 
+
+StringLiteral: StringLiteral = {
+    <l:@L> <s:LexStringLiteral> <r:@R> => {
+        StringLiteral{ loc: Loc(file_no, l, r), string: s.to_string() }
+    }
+}
+
+
 extern {
-    type Location = location::Location;
+    type Location = usize;
     type Error = LexicalError;
 
     enum Tok<'input> {
-        Identifier => Tok::Identifier(<&'input str>),
-        StringLiteral => Tok::StringLiteral(<&'input str>),
+        LexIdentifier => Tok::LexIdentifier(<&'input str>),
+        LexStringLiteral => Tok::LexStringLiteral(<&'input str>),
 
         "import" => Tok::Import,
         ";" => Tok::Semicolon,
