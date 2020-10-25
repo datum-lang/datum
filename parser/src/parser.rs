@@ -1,9 +1,5 @@
-use std::iter;
-
 use crate::ast::Program;
 use crate::charj;
-use crate::error::ParseError;
-use crate::lexer;
 
 #[derive(Debug, PartialEq)]
 pub enum Top {
@@ -16,7 +12,7 @@ macro_rules! do_lalr_parsing {
         // let marker_token = (Default::default(), token::Tok::$tok, Default::default());
         // let tokenizer = iter::once(Ok(marker_token)).chain(lxr);
 
-        match charj::TermParser::new().parse($input) {
+        match charj::CharjParser::new().parse($input) {
             Err(err) => {
                 println!("{}", err);
                 // Err(ParseError::from(err));
@@ -42,7 +38,7 @@ mod test {
 
     #[test]
     fn test_parse_empty() {
-        let parse_ast = parse_program("");
+        let parse_ast = parse_program("1");
         // assert_eq!(parse_ast, Ok(ast::Program { statements: vec![] }))
     }
 }

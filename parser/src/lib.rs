@@ -16,8 +16,8 @@ pub mod token;
 
 #[test]
 fn test_charj() {
-    assert!(charj::TermParser::new().parse("22").is_ok());
-    assert!(charj::TermParser::new().parse("(22)").is_ok());
-    assert!(charj::TermParser::new().parse("((((22))))").is_ok());
-    assert!(charj::TermParser::new().parse("((22)").is_err());
+    assert!(charj::CharjParser::new().parse("22").is_ok());
+    assert!(charj::CharjParser::new().parse("(22)").is_ok());
+    assert!(charj::CharjParser::new().parse("((((22))))").is_ok());
+    assert!(charj::CharjParser::new().parse("((22)").is_err());
 }

@@ -1,4 +1,4 @@
-use std::fmt::{self, Write};
+use std::fmt::{self};
 
 /// Python source code can be tokenized in a sequence of these tokens.
 #[derive(Clone, Debug, PartialEq)]
