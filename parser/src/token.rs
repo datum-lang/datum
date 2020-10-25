@@ -4,6 +4,7 @@ use std::fmt::{self};
 #[derive(Clone, Debug, PartialEq)]
 pub enum Tok {
     Name { name: String },
+    Indent,
 }
 
 impl fmt::Display for Tok {
@@ -11,6 +12,7 @@ impl fmt::Display for Tok {
         use Tok::*;
         match self {
             Name { name } => write!(f, "'{}'", name),
+            Indent => f.write_str("Indent"),
         }
     }
 }

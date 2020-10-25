@@ -1,5 +1,6 @@
 use crate::ast::Program;
 use crate::charj;
+use crate::error::ParseError;
 
 #[derive(Debug, PartialEq)]
 pub enum Top {
@@ -38,7 +39,7 @@ mod test {
 
     #[test]
     fn test_parse_empty() {
-        let parse_ast = parse_program("1");
+        let parse_ast = parse_program("pkg \"chajr\"");
         // assert_eq!(parse_ast, Ok(ast::Program { statements: vec![] }))
     }
 }
