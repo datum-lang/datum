@@ -1,6 +1,8 @@
 use std::str::FromStr;
 
 use crate::location;
+use crate::lexer;
+use crate::error::LexicalError;
 
 grammar;
 
@@ -10,3 +12,20 @@ pub Charj: i32 = {
 };
 
 Num: i32 = <s:r"[0-9]+"> => i32::from_str(s).unwrap();
+
+Identifier: String = <s:name> => s;
+
+extern {
+    type Location = location::Location;
+    type Error = LexicalError;
+
+//    enum lexer::Tok {
+//        Indent => lexer::Tok::Indent,
+//        name => lexer::Tok::Name { name: <String> },
+//    }
+
+    enum Tok<'input> {
+
+    }
+}
+
