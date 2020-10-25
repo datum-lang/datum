@@ -32,7 +32,7 @@ impl From<ParseError<usize, Tok<'_>, LexicalError>> for Diagnostic {
 pub enum LexicalError {
     EndOfFileInComment(usize, usize),
     EndOfFileInString(usize, usize),
-    EndofFileInHex(usize, usize),
+    EndOfFileInHex(usize, usize),
     MissingNumber(usize, usize),
     InvalidCharacterInHexLiteral(usize, char),
     UnrecognisedToken(usize, usize, String),
@@ -47,7 +47,7 @@ impl fmt::Display for LexicalError {
             LexicalError::EndOfFileInString(_, _) => {
                 write!(f, "end of file found in string literal")
             }
-            LexicalError::EndofFileInHex(_, _) => {
+            LexicalError::EndOfFileInHex(_, _) => {
                 write!(f, "end of file found in hex literal string")
             }
             LexicalError::MissingNumber(_, _) => write!(f, "missing number"),
@@ -66,7 +66,7 @@ impl LexicalError {
         match self {
             LexicalError::EndOfFileInComment(start, end) => Loc(file_no, *start, *end),
             LexicalError::EndOfFileInString(start, end) => Loc(file_no, *start, *end),
-            LexicalError::EndofFileInHex(start, end) => Loc(file_no, *start, *end),
+            LexicalError::EndOfFileInHex(start, end) => Loc(file_no, *start, *end),
             LexicalError::MissingNumber(start, end) => Loc(file_no, *start, *end),
             LexicalError::InvalidCharacterInHexLiteral(pos, _) => Loc(file_no, *pos, *pos),
             LexicalError::UnrecognisedToken(start, end, _) => Loc(file_no, *start, *end),
