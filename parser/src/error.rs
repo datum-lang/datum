@@ -15,36 +15,12 @@ pub struct ParseError<'input> {
 impl<'input> From<LalrpopError<Location, Tok<'input>, LexicalError>> for ParseError<'input> {
     fn from(err: LalrpopError<Location, Tok<'input>, LexicalError>) -> Self {
         match err {
-            // TODO: Are there cases where this isn't an EOF?
-            LalrpopError::InvalidToken { location } => ParseError {
-                error: ParseErrorType::EOF,
-                location,
-            },
-            LalrpopError::ExtraToken { token } => ParseError {
-                error: ParseErrorType::ExtraToken(token.1),
-                location: token.0,
-            },
-            LalrpopError::User { error } => ParseError {
-                error: ParseErrorType::Lexical(error.error),
-                location: error.location,
-            },
-            LalrpopError::UnrecognizedToken { token, expected } => {
-                // Hacky, but it's how CPython does it. See PyParser_AddToken,
-                // in particular "Only one possible expected token" comment.
-                let expected = if expected.len() == 1 {
-                    Some(expected[0].clone())
-                } else {
-                    None
-                };
+            _ => {
                 ParseError {
-                    error: ParseErrorType::UnrecognizedToken(token.1, expected),
-                    location: token.0,
+                    error: ParseErrorType::EOF,
+                    location: Default::default()
                 }
             }
-            LalrpopError::UnrecognizedEOF { location, .. } => ParseError {
-                error: ParseErrorType::EOF,
-                location,
-            },
         }
     }
 }
@@ -56,16 +32,64 @@ impl<'input> fmt::Display for ParseError<'input> {
 }
 
 /// Represents an error during lexical scanning.
-#[derive(Debug, PartialEq)]
-pub struct LexicalError {
-    pub error: LexicalErrorType,
-    pub location: Location,
+// #[derive(Debug, PartialEq)]
+// pub struct LexicalError {
+//     pub error: LexicalErrorType,
+//     pub location: Location,
+// }
+//
+// impl fmt::Display for LexicalError {
+//     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+//         match self {
+//             _ => write!(f, "default"),
+//         }
+//     }
+// }
+
+
+pub enum LexicalError {
+    EndOfFileInComment(usize, usize),
+    EndOfFileInString(usize, usize),
+    EndofFileInHex(usize, usize),
+    MissingNumber(usize, usize),
+    InvalidCharacterInHexLiteral(usize, char),
+    UnrecognisedToken(usize, usize, String),
+    MissingExponent(usize, usize),
+    ExpectedFrom(usize, usize, String),
 }
 
 impl fmt::Display for LexicalError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            _ => write!(f, "default"),
+            LexicalError::EndOfFileInComment(_, _) => write!(f, "end of file found in comment"),
+            LexicalError::EndOfFileInString(_, _) => {
+                write!(f, "end of file found in string literal")
+            }
+            LexicalError::EndofFileInHex(_, _) => {
+                write!(f, "end of file found in hex literal string")
+            }
+            LexicalError::MissingNumber(_, _) => write!(f, "missing number"),
+            LexicalError::InvalidCharacterInHexLiteral(_, ch) => {
+                write!(f, "invalid character ‘{}’ in hex literal string", ch)
+            }
+            LexicalError::UnrecognisedToken(_, _, t) => write!(f, "unrecognised token ‘{}’", t),
+            LexicalError::ExpectedFrom(_, _, t) => write!(f, "‘{}’ found where ‘from’ expected", t),
+            LexicalError::MissingExponent(_, _) => write!(f, "missing number"),
+        }
+    }
+}
+
+impl LexicalError {
+    pub fn loc(&self, file_no: usize) -> Location {
+        match self {
+            LexicalError::EndOfFileInComment(start, end) => Location::new(*start, *end),
+            LexicalError::EndOfFileInString(start, end) => Location::new(*start, *end),
+            LexicalError::EndofFileInHex(start, end) => Location::new(*start, *end),
+            LexicalError::MissingNumber(start, end) => Location::new(*start, *end),
+            LexicalError::InvalidCharacterInHexLiteral(pos, _) => Location::new(*pos, *pos),
+            LexicalError::UnrecognisedToken(start, end, _) => Location::new(*start, *end),
+            LexicalError::ExpectedFrom(start, end, _) => Location::new(*start, *end),
+            LexicalError::MissingExponent(start, end) => Location::new(*start, *end),
         }
     }
 }

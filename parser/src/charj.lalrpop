@@ -4,15 +4,21 @@ use crate::location;
 use crate::lexer;
 use crate::token::{Tok};
 use crate::error::LexicalError;
+use crate::pt::*;
 
 grammar<'input>(input: &'input str);
 
-pub Charj: i32 = {
-//    <n:Num> => n,
-//    "(" <t:Charj> ")" => t,
+pub Charj: SourceUnit = {
+    SourceUnitPart+ => SourceUnit(<>)
 };
 
-// Num: i32 = <s:r"[0-9]+"> => i32::from_str(s).unwrap();
+SourceUnitPart: SourceUnitPart = {
+    ImportDirective => SourceUnitPart::ImportDirective(<>),
+}
+
+ImportDirective: Import = {
+    "import" <s:StringLiteral> ";" => Import::Plain(s)
+}
 
 extern {
     type Location = location::Location;
@@ -22,6 +28,7 @@ extern {
         Identifier => Tok::Identifier(<&'input str>),
         StringLiteral => Tok::StringLiteral(<&'input str>),
 
+        "import" => Tok::Import,
         ";" => Tok::Semicolon,
     }
 }

@@ -1,6 +1,6 @@
 use crate::ast::Program;
 use crate::charj;
-use crate::error::ParseError;
+// use crate::error::ParseError;
 use crate::lexer;
 
 #[derive(Debug, PartialEq)]
@@ -10,10 +10,6 @@ pub enum Top {
 
 macro_rules! do_lalr_parsing {
     ($input: expr, $pat: ident, $tok: ident) => {{
-        // let lxr = lexer::make_tokenizer($input);
-        // let marker_token = (Default::default(), token::Tok::$tok, Default::default());
-        // let tokenizer = iter::once(Ok(marker_token)).chain(lxr);
-
         let lex = lexer::Lexer::new($input);
         match charj::CharjParser::new().parse($input, lex) {
             Err(err) => {
@@ -21,7 +17,7 @@ macro_rules! do_lalr_parsing {
                 // Err(ParseError::from(err));
             }
             Ok(top) => {
-                println!("{}", top);
+                // println!("{}", top);
             }
         };
     }};
