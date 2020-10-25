@@ -14,11 +14,11 @@ pub struct ParseError {
 impl From<LalrpopError<usize, Tok<'_>, LexicalError>> for ParseError {
     fn from(err: LalrpopError<usize, Tok, LexicalError>) -> Self {
         match err {
-            ParseError::InvalidToken { .. } => {}
-            ParseError::UnrecognizedEOF { .. } => {}
-            ParseError::UnrecognizedToken { .. } => {}
-            ParseError::ExtraToken { .. } => {}
-            ParseError::User { .. } => {}
+            LalrpopError::InvalidToken { .. } => {}
+            LalrpopError::UnrecognizedEOF { .. } => {}
+            LalrpopError::UnrecognizedToken { .. } => {}
+            LalrpopError::ExtraToken { .. } => {}
+            LalrpopError::User { .. } => {}
         }
         println!("{:}", err);
         ParseError {
