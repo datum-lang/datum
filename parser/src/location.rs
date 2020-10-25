@@ -1,8 +1,6 @@
 /// MIT License
 //
 // Copyright (c) 2020 RustPython Team
-//! Datatypes to support source location information.
-
 use std::fmt;
 
 /// A location somewhere in the sourcecode.
