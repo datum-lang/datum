@@ -1,14 +1,13 @@
 use crate::charj;
+use crate::error::Diagnostic;
 use crate::lexer;
-use crate::error::ParseErrorType;
-use crate::error::ParseError;
 
 macro_rules! do_lalr_parsing {
     ($input: expr, $file_no: ident) => {{
         let lex = lexer::Lexer::new($input);
         match charj::CharjParser::new().parse($input, $file_no, lex) {
             Err(err) => {
-                ParseError::from(err);
+                Diagnostic::from(err);
             }
             Ok(top) => {
                 println!("{:?}", top);

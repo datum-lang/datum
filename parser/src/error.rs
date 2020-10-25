@@ -1,27 +1,27 @@
 use std::fmt;
 
-use lalrpop_util::ParseError as LalrpopError;
+use lalrpop_util::ParseError;
 
 use crate::location::Loc;
 use crate::token::Tok;
 
 #[derive(Debug, PartialEq)]
-pub struct ParseError {
+pub struct Diagnostic {
     pub error: LexicalErrorType,
     pub location: Loc,
 }
 
-impl From<LalrpopError<usize, Tok<'_>, LexicalError>> for ParseError {
-    fn from(err: LalrpopError<usize, Tok, LexicalError>) -> Self {
+impl From<ParseError<usize, Tok<'_>, LexicalError>> for Diagnostic {
+    fn from(err: ParseError<usize, Tok, LexicalError>) -> Self {
         match err {
-            LalrpopError::InvalidToken { .. } => {}
-            LalrpopError::UnrecognizedEOF { .. } => {}
-            LalrpopError::UnrecognizedToken { .. } => {}
-            LalrpopError::ExtraToken { .. } => {}
-            LalrpopError::User { .. } => {}
+            ParseError::InvalidToken { .. } => {}
+            ParseError::UnrecognizedEOF { .. } => {}
+            ParseError::UnrecognizedToken { .. } => {}
+            ParseError::ExtraToken { .. } => {}
+            ParseError::User { .. } => {}
         }
         println!("{:}", err);
-        ParseError {
+        Diagnostic {
             error: LexicalErrorType::StringError,
             location: Loc(1, 0, 0),
         }
