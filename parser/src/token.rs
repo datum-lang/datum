@@ -3,9 +3,10 @@ use std::fmt::{self};
 /// Python source code can be tokenized in a sequence of these tokens.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Tok<'input> {
-    LexIdentifier(&'input str),
-    LexStringLiteral(&'input str),
+    Identifier(&'input str),
+    StringLiteral(&'input str),
 
+    Pragma,
     Import,
     As,
 
@@ -15,14 +16,14 @@ pub enum Tok<'input> {
 
 impl<'input> fmt::Display for Tok<'input> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        use Tok::*;
         match self {
-            LexIdentifier(id) => write!(f, "{}", id),
-            LexStringLiteral(s) => write!(f, "\"{}\"", s),
-            Semicolon => write!(f, ";"),
-            Import => write!(f, "import"),
-            As => write!(f, "as"),
-            NewLine => write!(f, "NEWLINE"),
+            Tok::Identifier(id) => write!(f, "{}", id),
+            Tok::StringLiteral(s) => write!(f, "\"{}\"", s),
+            Tok::Pragma => write!(f, "pragma"),
+            Tok::Semicolon => write!(f, ";"),
+            Tok::Import => write!(f, "import"),
+            Tok::As => write!(f, "as"),
+            Tok::NewLine => write!(f, "NEWLINE"),
         }
     }
 }

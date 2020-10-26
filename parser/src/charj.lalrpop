@@ -37,8 +37,8 @@ extern {
     type Error = LexicalError;
 
     enum Tok<'input> {
-        LexIdentifier => Tok::LexIdentifier(<&'input str>),
-        LexStringLiteral => Tok::LexStringLiteral(<&'input str>),
+        LexIdentifier => Tok::Identifier(<&'input str>),
+        LexStringLiteral => Tok::StringLiteral(<&'input str>),
 
         // operators symbol
 
