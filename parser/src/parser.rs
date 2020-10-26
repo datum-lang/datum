@@ -24,14 +24,13 @@ mod test {
     use crate::parser::parse_program;
 
     #[test]
+    #[rustfmt::skip]
     fn test_parse_empty() {
-        let parse_ast = parse_program("pkg \"chajr\"", 0);
+        let parse_ast = parse_program("", 0);
         assert!(parse_ast.is_err());
+        println!("{:?}", parse_ast);
 
         let message = String::from("unexpected end of file, expecting \"import\"");
-        assert_eq!(
-            parse_ast,
-            Err(Diagnostic::parser_error(Loc(0, 0, 0), message))
-        );
+        assert_eq!(parse_ast, Err(Diagnostic::parser_error(Loc(0, 0, 0), message)));
     }
 }
