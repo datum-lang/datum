@@ -1,10 +1,11 @@
 use std::fmt::{self};
 
 /// Python source code can be tokenized in a sequence of these tokens.
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub enum Tok<'input> {
+#[derive(Copy, Clone, PartialEq, Debug)]
+pub enum Token<'input> {
     Identifier(&'input str),
     StringLiteral(&'input str),
+    HexLiteral(&'input str),
 
     Pragma,
     Import,
@@ -14,16 +15,17 @@ pub enum Tok<'input> {
     Semicolon,
 }
 
-impl<'input> fmt::Display for Tok<'input> {
+impl<'input> fmt::Display for Token<'input> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
-            Tok::Identifier(id) => write!(f, "{}", id),
-            Tok::StringLiteral(s) => write!(f, "\"{}\"", s),
-            Tok::Pragma => write!(f, "pragma"),
-            Tok::Semicolon => write!(f, ";"),
-            Tok::Import => write!(f, "import"),
-            Tok::As => write!(f, "as"),
-            Tok::NewLine => write!(f, "NEWLINE"),
+            Token::Identifier(id) => write!(f, "{}", id),
+            Token::StringLiteral(s) => write!(f, "\"{}\"", s),
+            Token::HexLiteral(hex) => write!(f, "{}", hex),
+            Token::Pragma => write!(f, "pragma"),
+            Token::Semicolon => write!(f, ";"),
+            Token::Import => write!(f, "import"),
+            Token::As => write!(f, "as"),
+            Token::NewLine => write!(f, "NEWLINE"),
         }
     }
 }

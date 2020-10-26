@@ -3,7 +3,7 @@ use std::fmt;
 use lalrpop_util::ParseError;
 
 use crate::location::Loc;
-use crate::token::Tok;
+use crate::token::Token;
 
 #[derive(Debug, Eq, Hash, PartialEq)]
 pub enum Level {
@@ -39,7 +39,10 @@ pub struct Diagnostic {
 }
 
 impl Diagnostic {
-    pub fn handle_error(file_no: usize, error: ParseError<usize, Tok, LexicalError>) -> Diagnostic {
+    pub fn handle_error(
+        file_no: usize,
+        error: ParseError<usize, Token, LexicalError>,
+    ) -> Diagnostic {
         match error {
             ParseError::InvalidToken { location } => Diagnostic::parser_error(
                 Loc(file_no, location, location),

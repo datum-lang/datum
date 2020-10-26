@@ -1,13 +1,21 @@
-use crate::error::LexicalError;
-use crate::token::Tok;
 use std::iter::Peekable;
 use std::str::CharIndices;
+
+use phf::phf_map;
+use unicode_xid::UnicodeXID;
+
+use crate::error::LexicalError;
+use crate::token::Token;
 
 pub struct Lexer<'input> {
     input: &'input str,
     chars: Peekable<CharIndices<'input>>,
-    last_tokens: [Option<Tok<'input>>; 2],
+    last_tokens: [Option<Token<'input>>; 2],
 }
+
+static KEYWORDS: phf::Map<&'static str, Token> = phf_map! {
+    "pragma" => Token::Pragma,
+};
 
 impl<'input> Lexer<'input> {
     pub fn new(input: &'input str) -> Self {
@@ -18,7 +26,7 @@ impl<'input> Lexer<'input> {
         }
     }
 
-    fn pragma_value(&mut self) -> Option<Result<(usize, Tok<'input>, usize), LexicalError>> {
+    fn pragma_value(&mut self) -> Option<Result<(usize, Token<'input>, usize), LexicalError>> {
         // special parser for pragma solidity >=0.4.22 <0.7.0;
         let mut start = None;
         let mut end = 0;
@@ -31,7 +39,7 @@ impl<'input> Lexer<'input> {
                     return if let Some(start) = start {
                         Some(Ok((
                             start,
-                            Tok::StringLiteral(&self.input[start..end]),
+                            Token::StringLiteral(&self.input[start..end]),
                             end,
                         )))
                     } else {
@@ -57,11 +65,112 @@ impl<'input> Lexer<'input> {
         }
     }
 
-    fn next(&mut self) -> Option<Result<(usize, Tok<'input>, usize), LexicalError>> {
+    fn lex_string(
+        &mut self,
+        token_start: usize,
+        string_start: usize,
+    ) -> Option<Result<(usize, Token<'input>, usize), LexicalError>> {
+        let mut end;
+
+        let mut last_was_escape = false;
+
+        loop {
+            if let Some((i, ch)) = self.chars.next() {
+                end = i;
+                if !last_was_escape {
+                    if ch == '"' {
+                        break;
+                    }
+                    last_was_escape = ch == '\\';
+                } else {
+                    last_was_escape = false;
+                }
+            } else {
+                return Some(Err(LexicalError::EndOfFileInString(
+                    token_start,
+                    self.input.len(),
+                )));
+            }
+        }
+
+        Some(Ok((
+            token_start,
+            Token::StringLiteral(&self.input[string_start..end]),
+            end + 1,
+        )))
+    }
+
+    fn next(&mut self) -> Option<Result<(usize, Token<'input>, usize), LexicalError>> {
         loop {
             match self.chars.next() {
+                Some((start, ch)) if ch == '_' || ch == '$' || UnicodeXID::is_xid_start(ch) => {
+                    let end;
+
+                    loop {
+                        if let Some((i, ch)) = self.chars.peek() {
+                            if !UnicodeXID::is_xid_continue(*ch) && *ch != '$' {
+                                end = *i;
+                                break;
+                            }
+                            self.chars.next();
+                        } else {
+                            end = self.input.len();
+                            break;
+                        }
+                    }
+
+                    let id = &self.input[start..end];
+
+                    if id == "unicode" {
+                        if let Some((_, '"')) = self.chars.peek() {
+                            self.chars.next();
+
+                            return self.lex_string(start, start + 8);
+                        }
+                    }
+
+                    if id == "hex" {
+                        if let Some((_, '"')) = self.chars.peek() {
+                            self.chars.next();
+
+                            while let Some((i, ch)) = self.chars.next() {
+                                if ch == '"' {
+                                    return Some(Ok((
+                                        start,
+                                        Token::HexLiteral(&self.input[start..=i]),
+                                        i + 1,
+                                    )));
+                                }
+
+                                if !ch.is_ascii_hexdigit() && ch != '_' {
+                                    // Eat up the remainer of the string
+                                    while let Some((_, ch)) = self.chars.next() {
+                                        if ch == '"' {
+                                            break;
+                                        }
+                                    }
+
+                                    return Some(Err(LexicalError::InvalidCharacterInHexLiteral(
+                                        i, ch,
+                                    )));
+                                }
+                            }
+
+                            return Some(Err(LexicalError::EndOfFileInString(
+                                start,
+                                self.input.len(),
+                            )));
+                        }
+                    }
+
+                    return if let Some(w) = KEYWORDS.get(id) {
+                        Some(Ok((start, *w, end)))
+                    } else {
+                        Some(Ok((start, Token::Identifier(id), end)))
+                    };
+                }
                 Some((_, ch)) if ch.is_whitespace() => (),
-                Some((i, ';')) => return Some(Ok((i, Tok::Semicolon, i + 1))),
+                Some((i, ';')) => return Some(Ok((i, Token::Semicolon, i + 1))),
                 Some((start, _)) => {
                     let mut end;
 
@@ -93,14 +202,14 @@ impl<'input> Lexer<'input> {
 pub type Spanned<Token, Loc, Error> = Result<(Loc, Token, Loc), Error>;
 
 impl<'input> Iterator for Lexer<'input> {
-    type Item = Spanned<Tok<'input>, usize, LexicalError>;
+    type Item = Spanned<Token<'input>, usize, LexicalError>;
 
     /// Return the next token
     fn next(&mut self) -> Option<Self::Item> {
         // Lexer should be aware of whether the last two tokens were
         // pragma followed by identifier. If this is true, then special parsing should be
         // done for the pragma value
-        let token = if let [Some(Tok::Pragma), Some(Tok::Identifier(_))] = self.last_tokens {
+        let token = if let [Some(Token::Pragma), Some(Token::Identifier(_))] = self.last_tokens {
             self.pragma_value()
         } else {
             self.next()

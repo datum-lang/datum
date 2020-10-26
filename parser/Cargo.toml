@@ -9,6 +9,9 @@ build = "build.rs" # LALRPOP preprocessing
 
 [dependencies]
 lalrpop-util = "0.19.0"
+unicode-xid = "0.2.0"
+phf = { version = "0.8", features = ["macros"] }
+
 regex = "1"
 
 # Add a build-time dependency on the lalrpop library:

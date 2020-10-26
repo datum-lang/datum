@@ -41,7 +41,7 @@ mod test {
         assert!(parse_ast.is_err());
         println!("{:?}", parse_ast);
 
-        let message = String::from("unexpected end of file, expected \"import\"");
-        assert_eq!(parse_ast, Err(Diagnostic::parser_error(Loc(0, 0, 0), message)));
+        let message = String::from("unrecognised token `import\', expected \"import\"");
+        assert_eq!(parse_ast, Err(Diagnostic::parser_error(Loc(0, 0, 6), message)));
     }
 }

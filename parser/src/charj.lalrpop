@@ -2,7 +2,7 @@ use std::str::FromStr;
 
 use crate::location::Loc;
 use crate::lexer;
-use crate::token::{Tok};
+use crate::token::Token;
 use crate::error::LexicalError;
 use crate::pt::*;
 
@@ -36,19 +36,19 @@ extern {
     type Location = usize;
     type Error = LexicalError;
 
-    enum Tok<'input> {
-        LexIdentifier => Tok::Identifier(<&'input str>),
-        LexStringLiteral => Tok::StringLiteral(<&'input str>),
+    enum Token<'input> {
+        LexIdentifier => Token::Identifier(<&'input str>),
+        LexStringLiteral => Token::StringLiteral(<&'input str>),
 
         // operators symbol
 
         // keywords
-        "import" => Tok::Import,
-        "as" => Tok::As,
+        "import" => Token::Import,
+        "as" => Token::As,
 
         // other symbols
-        "\n" => Tok::NewLine,
-        ";" => Tok::Semicolon,
+        "\n" => Token::NewLine,
+        ";" => Token::Semicolon,
     }
 }
 
