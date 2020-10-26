@@ -18,8 +18,12 @@ SourceUnitPart: SourceUnitPart = {
 
 ImportDirective: Import = {
     "import" <s:StringLiteral> ";" => Import::Plain(s),
+    "import" <s:StringLiteral> "as" <id:Identifier> ";" => Import::GlobalSymbol(s, id)
 }
 
+Identifier: Identifier = {
+    <l:@L> <n:LexIdentifier> <r:@R> => Identifier{loc: Loc(file_no, l, r), name: n.to_string()}
+}
 
 StringLiteral: StringLiteral = {
     <l:@L> <s:LexStringLiteral> <r:@R> => {
@@ -36,7 +40,13 @@ extern {
         LexIdentifier => Tok::LexIdentifier(<&'input str>),
         LexStringLiteral => Tok::LexStringLiteral(<&'input str>),
 
+        // operators symbol
+
+        // keywords
         "import" => Tok::Import,
+        "as" => Tok::As,
+
+        // other symbols
         ";" => Tok::Semicolon,
     }
 }

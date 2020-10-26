@@ -30,7 +30,7 @@ mod test {
         assert!(parse_ast.is_err());
         println!("{:?}", parse_ast);
 
-        let message = String::from("unexpected end of file, expecting \"import\"");
+        let message = String::from("unexpected end of file, expected \"import\"");
         assert_eq!(parse_ast, Err(Diagnostic::parser_error(Loc(0, 0, 0), message)));
     }
 
@@ -41,7 +41,7 @@ mod test {
         assert!(parse_ast.is_err());
         println!("{:?}", parse_ast);
 
-        let message = String::from("unexpected end of file, expecting \"import\"");
+        let message = String::from("unexpected end of file, expected \"import\"");
         assert_eq!(parse_ast, Err(Diagnostic::parser_error(Loc(0, 0, 0), message)));
     }
 }

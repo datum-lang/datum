@@ -7,6 +7,7 @@ pub enum Tok<'input> {
     LexStringLiteral(&'input str),
     Import,
     Semicolon,
+    As
 }
 
 impl<'input> fmt::Display for Tok<'input> {
@@ -17,6 +18,7 @@ impl<'input> fmt::Display for Tok<'input> {
             LexStringLiteral(s) => write!(f, "\"{}\"", s),
             Semicolon => write!(f, ";"),
             Import => write!(f, "import"),
+            As => write!(f, "as")
         }
     }
 }

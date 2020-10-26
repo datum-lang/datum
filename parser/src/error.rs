@@ -65,7 +65,7 @@ impl Diagnostic {
             ),
             ParseError::UnrecognizedEOF { location, expected } => Diagnostic::parser_error(
                 Loc(file_no, location, location),
-                format!("unexpected end of file, expecting {}", expected.join(", ")),
+                format!("unexpected end of file, expected {}", expected.join(", ")),
             ),
         }
     }
