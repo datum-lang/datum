@@ -18,6 +18,38 @@ impl<'input> Lexer<'input> {
             last_tokens: [None, None],
         }
     }
+
+    fn next(&mut self) -> Option<Result<(usize, Tok<'input>, usize), LexicalError>> {
+        loop {
+            match self.chars.next() {
+                Some((_, ch)) if ch.is_whitespace() => (),
+                Some((i, ';')) => return Some(Ok((i, Tok::Semicolon, i + 1))),
+                Some((start, _)) => {
+                    let mut end;
+
+                    loop {
+                        if let Some((i, ch)) = self.chars.next() {
+                            end = i;
+
+                            if ch.is_whitespace() {
+                                break;
+                            }
+                        } else {
+                            end = self.input.len();
+                            break;
+                        }
+                    }
+
+                    return Some(Err(LexicalError::UnrecognisedToken(
+                        start,
+                        end,
+                        self.input[start..end].to_owned(),
+                    )));
+                }
+                None => return None, // End of file
+            }
+        }
+    }
 }
 
 pub type Spanned<Token, Loc, Error> = Result<(Loc, Token, Loc), Error>;
@@ -27,7 +59,8 @@ impl<'input> Iterator for Lexer<'input> {
 
     fn next(&mut self) -> Option<Self::Item> {
         // todo: add next logic
-        println!("{:?}", self);
+        let option = self.next();
+        println!("{:?}", option);
         None
     }
 }
