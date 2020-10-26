@@ -19,8 +19,6 @@ pub fn parse_program(source: &str, file_no: usize) -> Result<SourceUnit, Diagnos
 
 #[cfg(test)]
 mod test {
-    use crate::error::Diagnostic;
-    use crate::location::Loc;
     use crate::parser::parse_program;
     use crate::pt::{Import, SourceUnitPart};
 
