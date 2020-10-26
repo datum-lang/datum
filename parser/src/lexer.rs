@@ -3,6 +3,7 @@ use crate::token::Tok;
 use std::iter::Peekable;
 use std::str::CharIndices;
 
+#[derive(Debug, Clone)]
 pub struct Lexer<'input> {
     input: &'input str,
     chars: Peekable<CharIndices<'input>>,
@@ -25,6 +26,8 @@ impl<'input> Iterator for Lexer<'input> {
     type Item = Spanned<Tok<'input>, usize, LexicalError>;
 
     fn next(&mut self) -> Option<Self::Item> {
+        // todo: add next logic
+        println!("{:?}", self);
         None
     }
 }

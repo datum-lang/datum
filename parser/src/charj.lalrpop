@@ -47,6 +47,7 @@ extern {
         "as" => Tok::As,
 
         // other symbols
+        "\n" => Tok::NewLine,
         ";" => Tok::Semicolon,
     }
 }

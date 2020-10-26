@@ -5,9 +5,12 @@ use std::fmt::{self};
 pub enum Tok<'input> {
     LexIdentifier(&'input str),
     LexStringLiteral(&'input str),
+
     Import,
+    As,
+
+    NewLine,
     Semicolon,
-    As
 }
 
 impl<'input> fmt::Display for Tok<'input> {
@@ -18,7 +21,8 @@ impl<'input> fmt::Display for Tok<'input> {
             LexStringLiteral(s) => write!(f, "\"{}\"", s),
             Semicolon => write!(f, ";"),
             Import => write!(f, "import"),
-            As => write!(f, "as")
+            As => write!(f, "as"),
+            NewLine => write!(f, "NEWLINE"),
         }
     }
 }

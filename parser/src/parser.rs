@@ -6,6 +6,7 @@ use crate::pt::SourceUnit;
 macro_rules! do_lalr_parsing {
     ($input: expr, $file_no: ident) => {{
         let lex = lexer::Lexer::new($input);
+        println!("{:?}", lex.clone());
         match charj::CharjParser::new().parse($input, $file_no, lex) {
             Err(err) => Err(Diagnostic::handle_error($file_no, err)),
             Ok(s) => Ok(s),
