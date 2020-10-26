@@ -36,8 +36,15 @@ mod test {
 
     #[test]
     #[rustfmt::skip]
+    fn test_parse_package() {
+        let parse_ast = parse_program("package charj", 0);
+        println!("{:?}", parse_ast);
+    }
+
+    #[test]
+    #[rustfmt::skip]
     fn test_parse_import() {
-        let parse_ast = parse_program("import hello;", 0);
+        let parse_ast = parse_program("import hello", 0);
         assert!(parse_ast.is_ok());
 
         if let SourceUnitPart::ImportDirective(import) = parse_ast.unwrap().0.get(0).unwrap() {

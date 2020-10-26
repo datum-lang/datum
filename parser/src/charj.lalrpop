@@ -13,11 +13,16 @@ pub Charj: SourceUnit = {
 };
 
 SourceUnitPart: SourceUnitPart = {
+    PackageDirective => SourceUnitPart::PackageDirective(<>),
     ImportDirective => SourceUnitPart::ImportDirective(<>),
 }
 
+PackageDirective: Package = {
+   "package" <s:Identifier> => Package::Plain(s),
+}
+
 ImportDirective: Import = {
-    "import" <s:Identifier> ";" => Import::Plain(s),
+    "import" <s:Identifier> => Import::Plain(s),
     "import" <s:StringLiteral> "as" <id:Identifier> ";" => Import::GlobalSymbol(s, id)
 }
 
@@ -44,6 +49,7 @@ extern {
 
         // keywords
         "import" => Token::Import,
+        "package" => Token::Package,
         "as" => Token::As,
 
         // other symbols

@@ -6,7 +6,13 @@ pub struct SourceUnit(pub Vec<SourceUnitPart>);
 #[derive(Debug, PartialEq)]
 pub enum SourceUnitPart {
     ImportDirective(Import),
+    PackageDirective(Package),
     StructDefinition,
+}
+
+#[derive(Debug, PartialEq)]
+pub enum Package {
+    Plain(Identifier),
 }
 
 #[derive(Debug, PartialEq)]

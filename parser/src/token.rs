@@ -8,6 +8,7 @@ pub enum Token<'input> {
     HexLiteral(&'input str),
 
     Pragma,
+    Package,
     Import,
     As,
 
@@ -21,8 +22,11 @@ impl<'input> fmt::Display for Token<'input> {
             Token::Identifier(id) => write!(f, "{}", id),
             Token::StringLiteral(s) => write!(f, "\"{}\"", s),
             Token::HexLiteral(hex) => write!(f, "{}", hex),
+
             Token::Pragma => write!(f, "pragma"),
             Token::Semicolon => write!(f, ";"),
+
+            Token::Package => write!(f, "package"),
             Token::Import => write!(f, "import"),
             Token::As => write!(f, "as"),
             Token::NewLine => write!(f, "NEWLINE"),
