@@ -19,6 +19,7 @@ SourceUnitPart: SourceUnitPart = {
 
 PackageDirective: Package = {
    "package" <s:Identifier> => Package::Plain(s),
+   "pkg" <s:Identifier> => Package::Plain(s),
 }
 
 ImportDirective: Import = {
@@ -50,6 +51,7 @@ extern {
         // keywords
         "import" => Token::Import,
         "package" => Token::Package,
+        "pkg" => Token::Package,
         "as" => Token::As,
 
         // other symbols

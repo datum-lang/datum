@@ -37,8 +37,8 @@ mod test {
     #[test]
     #[rustfmt::skip]
     fn test_parse_package() {
-        let parse_ast = parse_program("package charj", 0);
-        println!("{:?}", parse_ast);
+        println!("{:?}", parse_program("package charj", 0));
+        println!("{:?}", parse_program("pkg charj", 0));
     }
 
     #[test]
