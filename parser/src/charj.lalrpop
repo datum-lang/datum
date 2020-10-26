@@ -56,7 +56,12 @@ extern {
 
         // other symbols
         "\n" => Token::NewLine,
+        "," => Token::Comma,
         ";" => Token::Semicolon,
+        "{" => Token::OpenCurlyBrace,
+        "}" => Token::CloseCurlyBrace,
+        "(" => Token::OpenParenthesis,
+        ")" => Token::CloseParenthesis,
     }
 }
 

@@ -6,6 +6,7 @@ pub struct SourceUnit(pub Vec<SourceUnitPart>);
 #[derive(Debug, PartialEq)]
 pub enum SourceUnitPart {
     ImportDirective(Import),
+    MultipleImportDirective(Vec<Import>),
     PackageDirective(Package),
     StructDefinition,
 }
@@ -18,7 +19,7 @@ pub enum Package {
 #[derive(Debug, PartialEq)]
 pub enum Import {
     Plain(Identifier),
-    Remote,        // for such github.com/phodal/coca
+    Remote, // for such github.com/phodal/coca
     GlobalSymbol(StringLiteral, Identifier),
     Rename(StringLiteral, Vec<(Identifier, Option<Identifier>)>),
 }

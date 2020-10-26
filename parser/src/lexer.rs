@@ -177,6 +177,11 @@ impl<'input> Lexer<'input> {
                 }
                 Some((_, ch)) if ch.is_whitespace() => (),
                 Some((i, ';')) => return Some(Ok((i, Token::Semicolon, i + 1))),
+                Some((i, ',')) => return Some(Ok((i, Token::Comma, i + 1))),
+                Some((i, '(')) => return Some(Ok((i, Token::OpenParenthesis, i + 1))),
+                Some((i, ')')) => return Some(Ok((i, Token::CloseParenthesis, i + 1))),
+                Some((i, '{')) => return Some(Ok((i, Token::OpenCurlyBrace, i + 1))),
+                Some((i, '}')) => return Some(Ok((i, Token::CloseCurlyBrace, i + 1))),
                 Some((start, _)) => {
                     let mut end;
 
