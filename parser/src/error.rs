@@ -5,25 +5,65 @@ use lalrpop_util::ParseError;
 use crate::location::Loc;
 use crate::token::Tok;
 
-#[derive(Debug, PartialEq)]
-pub struct Diagnostic {
-    pub error: LexicalErrorType,
-    pub location: Loc,
+#[derive(Debug, Eq, Hash, PartialEq)]
+pub enum Level {
+    Debug,
+    Info,
+    Warning,
+    Error,
 }
 
-impl From<ParseError<usize, Tok<'_>, LexicalError>> for Diagnostic {
-    fn from(err: ParseError<usize, Tok, LexicalError>) -> Self {
-        match err {
+#[derive(Debug, Eq, Hash, PartialEq)]
+pub enum ErrorType {
+    None,
+    ParserError,
+    SyntaxError,
+    DeclarationError,
+    TypeError,
+    Warning,
+}
+
+#[derive(Debug, Eq, Hash, PartialEq)]
+pub struct Note {
+    pub pos: Loc,
+    pub message: String,
+}
+
+#[derive(Debug, PartialEq)]
+pub struct Diagnostic {
+    pub level: Level,
+    pub ty: ErrorType,
+    pub pos: Option<Loc>,
+    pub message: String,
+    pub notes: Vec<Note>,
+}
+
+impl Diagnostic {
+    pub fn handle_error(file_no: usize, error: ParseError<usize, Tok, LexicalError>) -> Diagnostic {
+        match error {
             ParseError::InvalidToken { .. } => {}
             ParseError::UnrecognizedEOF { .. } => {}
             ParseError::UnrecognizedToken { .. } => {}
             ParseError::ExtraToken { .. } => {}
             ParseError::User { .. } => {}
         }
-        println!("{:}", err);
+
         Diagnostic {
-            error: LexicalErrorType::StringError,
-            location: Loc(1, 0, 0),
+            level: Level::Debug,
+            ty: ErrorType::None,
+            pos: None,
+            message: "".to_string(),
+            notes: vec![],
+        }
+    }
+
+    pub fn parser_error(pos: Loc, message: String) -> Self {
+        Diagnostic {
+            level: Level::Error,
+            ty: ErrorType::ParserError,
+            pos: Some(pos),
+            message,
+            notes: Vec::new(),
         }
     }
 }
