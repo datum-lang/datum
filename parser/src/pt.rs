@@ -6,11 +6,12 @@ pub struct SourceUnit(pub Vec<SourceUnitPart>);
 #[derive(Debug, PartialEq)]
 pub enum SourceUnitPart {
     ImportDirective(Import),
+    StructDefinition,
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Import {
-    Plain(StringLiteral),
+    Plain(Identifier),
     GlobalSymbol(StringLiteral, Identifier),
     Rename(StringLiteral, Vec<(Identifier, Option<Identifier>)>),
 }

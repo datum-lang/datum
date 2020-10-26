@@ -170,6 +170,9 @@ impl<'input> Lexer<'input> {
                         Some(Ok((start, Token::Identifier(id), end)))
                     };
                 }
+                Some((start, '"')) => {
+                    return self.lex_string(start, start + 1);
+                }
                 Some((_, ch)) if ch.is_whitespace() => (),
                 Some((i, ';')) => return Some(Ok((i, Token::Semicolon, i + 1))),
                 Some((start, _)) => {

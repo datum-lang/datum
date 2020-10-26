@@ -17,7 +17,7 @@ SourceUnitPart: SourceUnitPart = {
 }
 
 ImportDirective: Import = {
-    "import" <s:StringLiteral> ";" => Import::Plain(s),
+    "import" <s:Identifier> ";" => Import::Plain(s),
     "import" <s:StringLiteral> "as" <id:Identifier> ";" => Import::GlobalSymbol(s, id)
 }
 

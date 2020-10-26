@@ -22,6 +22,7 @@ mod test {
     use crate::error::Diagnostic;
     use crate::location::Loc;
     use crate::parser::parse_program;
+    use crate::pt::{Import, SourceUnitPart};
 
     #[test]
     #[rustfmt::skip]
@@ -36,10 +37,17 @@ mod test {
     #[test]
     #[rustfmt::skip]
     fn test_parse_import() {
-        let parse_ast = parse_program("import \"hello\";", 0);
-        assert!(parse_ast.is_err());
+        let parse_ast = parse_program("import hello;", 0);
+        assert!(parse_ast.is_ok());
 
-        let message = String::from("unrecognised token ‘\"hello\";’");
-        assert_eq!(parse_ast, Err(Diagnostic::parser_error(Loc(0, 7, 15), message)));
+        if let SourceUnitPart::ImportDirective(import) = parse_ast.unwrap().0.get(0).unwrap() {
+            if let Import::Plain(plain) = import {
+                assert_eq!("hello", plain.name);
+            } else {
+                panic!("error");
+            }
+        } else {
+            panic!("error");
+        }
     }
 }
