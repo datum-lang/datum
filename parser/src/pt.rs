@@ -12,6 +12,7 @@ pub enum SourceUnitPart {
 #[derive(Debug, PartialEq)]
 pub enum Import {
     Plain(Identifier),
+    Remote,        // for such github.com/phodal/coca
     GlobalSymbol(StringLiteral, Identifier),
     Rename(StringLiteral, Vec<(Identifier, Option<Identifier>)>),
 }
