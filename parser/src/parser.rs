@@ -33,4 +33,15 @@ mod test {
         let message = String::from("unexpected end of file, expecting \"import\"");
         assert_eq!(parse_ast, Err(Diagnostic::parser_error(Loc(0, 0, 0), message)));
     }
+
+    #[test]
+    #[rustfmt::skip]
+    fn test_parse_import() {
+        let parse_ast = parse_program("import hello;", 0);
+        assert!(parse_ast.is_err());
+        println!("{:?}", parse_ast);
+
+        let message = String::from("unexpected end of file, expecting \"import\"");
+        assert_eq!(parse_ast, Err(Diagnostic::parser_error(Loc(0, 0, 0), message)));
+    }
 }
