@@ -41,19 +41,42 @@ pub struct Diagnostic {
 impl Diagnostic {
     pub fn handle_error(file_no: usize, error: ParseError<usize, Tok, LexicalError>) -> Diagnostic {
         match error {
-            ParseError::InvalidToken { .. } => {}
-            ParseError::UnrecognizedEOF { .. } => {}
-            ParseError::UnrecognizedToken { .. } => {}
-            ParseError::ExtraToken { .. } => {}
-            ParseError::User { .. } => {}
+            ParseError::InvalidToken { location } => Diagnostic::parser_error(
+                Loc(file_no, location, location),
+                "invalid token".to_string(),
+            ),
+            ParseError::UnrecognizedToken {
+                token: (l, token, r),
+                expected,
+            } => Diagnostic::parser_error(
+                Loc(file_no, l, r),
+                format!(
+                    "unrecognised token `{}', expected {}",
+                    token,
+                    expected.join(", ")
+                ),
+            ),
+            ParseError::User { error } => {
+                Diagnostic::parser_error(error.loc(file_no), error.to_string())
+            }
+            ParseError::ExtraToken { token } => Diagnostic::parser_error(
+                Loc(file_no, token.0, token.2),
+                format!("extra token `{}' encountered", token.0),
+            ),
+            ParseError::UnrecognizedEOF { location, expected } => Diagnostic::parser_error(
+                Loc(file_no, location, location),
+                format!("unexpected end of file, expecting {}", expected.join(", ")),
+            ),
         }
+    }
 
+    pub fn error(pos: Loc, message: String) -> Self {
         Diagnostic {
-            level: Level::Debug,
-            ty: ErrorType::None,
-            pos: None,
-            message: "".to_string(),
-            notes: vec![],
+            level: Level::Error,
+            ty: ErrorType::SyntaxError,
+            pos: Some(pos),
+            message,
+            notes: Vec::new(),
         }
     }
 

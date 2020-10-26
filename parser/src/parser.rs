@@ -1,33 +1,37 @@
 use crate::charj;
 use crate::error::Diagnostic;
 use crate::lexer;
+use crate::pt::SourceUnit;
 
 macro_rules! do_lalr_parsing {
     ($input: expr, $file_no: ident) => {{
         let lex = lexer::Lexer::new($input);
         match charj::CharjParser::new().parse($input, $file_no, lex) {
-            Err(err) => {
-                let diagnostic =  Diagnostic::handle_error($file_no, err);
-                println!("{:?}", diagnostic);
-            }
-            Ok(top) => {
-                println!("{:?}", top);
-            }
-        };
+            Err(err) => Err(Diagnostic::handle_error($file_no, err)),
+            Ok(s) => Ok(s),
+        }
     }};
 }
 
-pub fn parse_program(source: &str, file_no: usize) {
-    do_lalr_parsing!(source, file_no);
+pub fn parse_program(source: &str, file_no: usize) -> Result<SourceUnit, Diagnostic> {
+    do_lalr_parsing!(source, file_no)
 }
 
 #[cfg(test)]
 mod test {
+    use crate::error::Diagnostic;
+    use crate::location::Loc;
     use crate::parser::parse_program;
 
     #[test]
     fn test_parse_empty() {
         let parse_ast = parse_program("pkg \"chajr\"", 0);
-        // assert_eq!(parse_ast, Ok(ast::Program { statements: vec![] }))
+        assert!(parse_ast.is_err());
+
+        let message = String::from("unexpected end of file, expecting \"import\"");
+        assert_eq!(
+            parse_ast,
+            Err(Diagnostic::parser_error(Loc(0, 0, 0), message))
+        );
     }
 }
