@@ -60,12 +60,12 @@ struct IO {}", 0);
     #[test]
     #[rustfmt::skip]
     fn test_parse_import() {
-        let parse_ast = parse_program("import hello", 0);
+        let parse_ast = parse_program("import io", 0);
         assert!(parse_ast.is_ok());
 
         if let SourceUnitPart::ImportDirective(import) = parse_ast.unwrap().0.get(0).unwrap() {
             if let Import::Standard(plain) = import {
-                assert_eq!("hello", plain.name);
+                assert_eq!("io", plain.name);
             } else {
                 panic!("error");
             }

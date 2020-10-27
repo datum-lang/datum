@@ -68,6 +68,7 @@ extern {
 
         // other symbols
         "\n" => Token::NewLine,
+        "$" => Token::Binding,
         "," => Token::Comma,
         ";" => Token::Semicolon,
         "{" => Token::OpenCurlyBrace,

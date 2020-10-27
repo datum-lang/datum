@@ -15,6 +15,7 @@ pub enum Token<'input> {
 
     NewLine,
     Semicolon,
+    Binding,
     Comma,
     OpenParenthesis,
     CloseParenthesis,
@@ -36,6 +37,7 @@ impl<'input> fmt::Display for Token<'input> {
 
             Token::Semicolon => write!(f, ";"),
             Token::Comma => write!(f, ","),
+            Token::Binding => write!(f, "$"),
             Token::OpenParenthesis => write!(f, "("),
             Token::CloseParenthesis => write!(f, ")"),
             Token::OpenCurlyBrace => write!(f, "{{"),
