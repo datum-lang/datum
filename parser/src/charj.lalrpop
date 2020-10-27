@@ -15,6 +15,7 @@ pub Charj: SourceUnit = {
 SourceUnitPart: SourceUnitPart = {
     PackageDirective => SourceUnitPart::PackageDirective(<>),
     ImportDirective => SourceUnitPart::ImportDirective(<>),
+    DefaultFunctionDefinition => SourceUnitPart::DefaultFunctionDefinition(<>),
     StructDefinition => SourceUnitPart::StructDefinition(<>),
 }
 
@@ -31,6 +32,12 @@ ImportDirective: Import = {
 StructDefinition: Box<StructDefinition> = {
      <l:@L> "struct" <name:Identifier> "{" <fields:(<VariableDeclaration> ";")*> "}" <r:@R> => {
         Box::new(StructDefinition{loc: Loc(file_no, l, r), name, fields})
+    }
+}
+
+DefaultFunctionDefinition: Box<DefaultFunctionDefinition> = {
+    <l:@L> "default" "$" <name:Identifier> "{" <fields:(<VariableDeclaration> ";")*> "}" <r:@R> => {
+       Box::new(DefaultFunctionDefinition{loc: Loc(file_no, l, r), name})
     }
 }
 
