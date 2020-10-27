@@ -15,8 +15,9 @@ pub Charj: SourceUnit = {
 SourceUnitPart: SourceUnitPart = {
     PackageDirective => SourceUnitPart::PackageDirective(<>),
     ImportDirective => SourceUnitPart::ImportDirective(<>),
-    DefaultFunctionDefinition => SourceUnitPart::DefaultFunctionDefinition(<>),
     StructDefinition => SourceUnitPart::StructDefinition(<>),
+    DefaultFunctionDefinition => SourceUnitPart::DefaultFunctionDefinition(<>),
+    FunctionDefinition => SourceUnitPart::FunctionDefinition(<>),
 }
 
 PackageDirective: Package = {
@@ -36,8 +37,14 @@ StructDefinition: Box<StructDefinition> = {
 }
 
 DefaultFunctionDefinition: Box<DefaultFunctionDefinition> = {
-    <l:@L> "default" "$" <name:Identifier> "{" <fields:(<VariableDeclaration> ";")*> "}" <r:@R> => {
+    <l:@L> "default" "$" <name:Identifier> "{"  "}" <r:@R> => {
        Box::new(DefaultFunctionDefinition{loc: Loc(file_no, l, r), name})
+    }
+}
+
+FunctionDefinition: Box<FunctionDefinition> = {
+    <l:@L> "def" <name:Identifier> "{"  "}" <r:@R> => {
+       Box::new(FunctionDefinition{loc: Loc(file_no, l, r), name})
     }
 }
 
@@ -72,7 +79,8 @@ extern {
         "package" => Token::Package,
         "struct" => Token::Struct,
         "pkg" => Token::Package,
-        "as" => Token::As,
+        "def" => Token::As,
+        "as" => Token::Def,
 
         // other symbols
         "\n" => Token::NewLine,

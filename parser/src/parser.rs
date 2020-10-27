@@ -60,7 +60,7 @@ struct IO {}", 0);
     #[test]
     #[rustfmt::skip]
     fn test_default_function() {
-        let code = parse_program("default$main {}", 0);
+        let code = parse_program("default $ main {}", 0);
         println!("{:?}", code);
         // assert!(code.is_ok());
     }
