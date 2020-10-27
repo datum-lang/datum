@@ -35,8 +35,17 @@ mod test {
     #[test]
     #[rustfmt::skip]
     fn test_parse_package() {
-        println!("{:?}", parse_program("package charj", 0));
-        println!("{:?}", parse_program("pkg charj", 0));
+        let package = parse_program("package charj", 0);
+        assert!(package.is_ok());
+        let pkg_alias = parse_program("pkg charj", 0);
+        assert!(pkg_alias.is_ok());
+    }
+
+    #[test]
+    #[rustfmt::skip]
+    fn test_parse_struct() {
+        let package = parse_program("struct IO {}", 0);
+        assert!(package.is_ok());
     }
 
     #[test]
