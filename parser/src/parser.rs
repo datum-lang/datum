@@ -60,9 +60,9 @@ struct IO {}", 0);
     #[test]
     #[rustfmt::skip]
     fn test_normal_struct_function() {
-        let normal_struct_fun = parse_program("default$main {}", 0);
+        let normal_struct_fun = parse_program("default$main() {}", 0);
         assert!(normal_struct_fun.is_ok());
-        let with_empty_struct_fun = parse_program("default $ main {}", 0);
+        let with_empty_struct_fun = parse_program("default $ main () {}", 0);
         assert!(with_empty_struct_fun.is_ok());
     }
 

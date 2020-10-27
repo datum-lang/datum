@@ -37,13 +37,13 @@ StructDefinition: Box<StructDefinition> = {
 }
 
 StructFunctionDefinition: Box<StructFunctionDefinition> = {
-    <l:@L> <struct_name:Identifier> "$" <name:Identifier> "{"  "}" <r:@R> => {
+    <l:@L> <struct_name:Identifier> "$" <name:Identifier> "(" ")" "{"  "}" <r:@R> => {
        Box::new(StructFunctionDefinition{loc: Loc(file_no, l, r), name, struct_name})
     }
 }
 
 FunctionDefinition: Box<FunctionDefinition> = {
-    <l:@L> "fun" <name:Identifier> "{"  "}" <r:@R> => {
+    <l:@L> "fun" <name:Identifier> "(" ")" "{"  "}" <r:@R> => {
        Box::new(FunctionDefinition{loc: Loc(file_no, l, r), name})
     }
 }
