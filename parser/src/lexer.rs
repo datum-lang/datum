@@ -68,7 +68,7 @@ impl<'input> Lexer<'input> {
     fn next(&mut self) -> Option<Result<(usize, Token<'input>, usize), LexicalError>> {
         loop {
             match self.chars.next() {
-                Some((start, ch)) if ch == '_' || ch == '$' || UnicodeXID::is_xid_start(ch) => {
+                Some((start, ch)) if ch == '_' || UnicodeXID::is_xid_start(ch) => {
                     let end;
 
                     loop {
@@ -150,8 +150,8 @@ impl<'input> Lexer<'input> {
                 Some((i, ':')) => return Some(Ok((i, Token::Colon, i + 1))),
                 Some((i, '?')) => return Some(Ok((i, Token::Question, i + 1))),
                 Some((i, '~')) => return Some(Ok((i, Token::Complement, i + 1))),
-
                 Some((i, '$')) => return Some(Ok((i, Token::Binding, i + 1))),
+
                 Some((start, _)) => {
                     let mut end;
 

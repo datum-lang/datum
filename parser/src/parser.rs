@@ -59,6 +59,14 @@ struct IO {}", 0);
 
     #[test]
     #[rustfmt::skip]
+    fn test_default_function() {
+        let code = parse_program("default$main {}", 0);
+        println!("{:?}", code);
+        // assert!(code.is_ok());
+    }
+
+    #[test]
+    #[rustfmt::skip]
     fn test_parse_import() {
         let parse_ast = parse_program("import io", 0);
         assert!(parse_ast.is_ok());
