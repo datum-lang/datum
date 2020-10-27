@@ -8,8 +8,18 @@ pub enum SourceUnitPart {
     ImportDirective(Import),
     MultipleImportDirective(Vec<Import>),
     PackageDirective(Package),
-    StructDefinition,
+    StructDefinition(Box<StructDefinition>),
 }
+
+#[derive(Debug, PartialEq)]
+pub struct StructDefinition {
+    pub loc: Loc,
+    pub name: Identifier,
+    pub fields: Vec<VariableDeclaration>,
+}
+
+#[derive(Debug, PartialEq, Clone)]
+pub struct VariableDeclaration {}
 
 #[derive(Debug, PartialEq)]
 pub enum Package {

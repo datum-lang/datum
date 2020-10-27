@@ -10,6 +10,7 @@ pub enum Token<'input> {
     Pragma,
     Package,
     Import,
+    Struct,
     As,
 
     NewLine,
@@ -29,14 +30,16 @@ impl<'input> fmt::Display for Token<'input> {
             Token::HexLiteral(hex) => write!(f, "{}", hex),
 
             Token::Pragma => write!(f, "pragma"),
+            Token::Package => write!(f, "package"),
+            Token::Import => write!(f, "import"),
+            Token::Struct => write!(f, "struct"),
+
             Token::Semicolon => write!(f, ";"),
             Token::Comma => write!(f, ","),
             Token::OpenParenthesis => write!(f, "("),
             Token::CloseParenthesis => write!(f, ")"),
             Token::OpenCurlyBrace => write!(f, "{{"),
             Token::CloseCurlyBrace => write!(f, "}}"),
-            Token::Package => write!(f, "package"),
-            Token::Import => write!(f, "import"),
             Token::As => write!(f, "as"),
             Token::NewLine => write!(f, "NEWLINE"),
         }

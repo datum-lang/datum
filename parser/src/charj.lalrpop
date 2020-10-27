@@ -15,6 +15,7 @@ pub Charj: SourceUnit = {
 SourceUnitPart: SourceUnitPart = {
     PackageDirective => SourceUnitPart::PackageDirective(<>),
     ImportDirective => SourceUnitPart::ImportDirective(<>),
+    StructDefinition => SourceUnitPart::StructDefinition(<>),
 }
 
 PackageDirective: Package = {
@@ -25,6 +26,16 @@ PackageDirective: Package = {
 ImportDirective: Import = {
     "import" <s:Identifier> => Import::Plain(s),
     "import" <s:StringLiteral> "as" <id:Identifier> ";" => Import::GlobalSymbol(s, id)
+}
+
+StructDefinition: Box<StructDefinition> = {
+     <l:@L> "struct" <name:Identifier> "{" <fields:(<VariableDeclaration> ";")*> "}" <r:@R> => {
+        Box::new(StructDefinition{loc: Loc(file_no, l, r), name, fields})
+    }
+}
+
+VariableDeclaration: VariableDeclaration = {
+
 }
 
 Identifier: Identifier = {
@@ -51,6 +62,7 @@ extern {
         // keywords
         "import" => Token::Import,
         "package" => Token::Package,
+        "struct" => Token::Struct,
         "pkg" => Token::Package,
         "as" => Token::As,
 
