@@ -8,21 +8,22 @@ pub enum SourceUnitPart {
     ImportDirective(Import),
     MultipleImportDirective(Vec<Import>),
     PackageDirective(Package),
-    DefaultFunctionDefinition(Box<DefaultFunctionDefinition>),
+    StructFunctionDefinition(Box<StructFunctionDefinition>),
     FunctionDefinition(Box<FunctionDefinition>),
     StructDefinition(Box<StructDefinition>),
-}
-
-#[derive(Debug, PartialEq)]
-pub struct DefaultFunctionDefinition {
-    pub loc: Loc,
-    pub name: Identifier,
 }
 
 #[derive(Debug, PartialEq)]
 pub struct FunctionDefinition {
     pub loc: Loc,
     pub name: Identifier,
+}
+
+#[derive(Debug, PartialEq)]
+pub struct StructFunctionDefinition {
+    pub loc: Loc,
+    pub name: Identifier,
+    pub struct_name: Identifier,
 }
 
 #[derive(Debug, PartialEq)]

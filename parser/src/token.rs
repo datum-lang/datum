@@ -12,7 +12,7 @@ pub enum Token<'input> {
     Struct,
     Default,
     As,
-    Def,
+    Fun,
 
     NewLine,
     Binding,
@@ -67,7 +67,7 @@ impl<'input> fmt::Display for Token<'input> {
             Token::Struct => write!(f, "struct"),
             Token::Default => write!(f, "default"),
             Token::As => write!(f, "as"),
-            Token::Def => write!(f, "def"),
+            Token::Fun => write!(f, "fun"),
 
             Token::Binding => write!(f, "$"),
             Token::NewLine => write!(f, "NEWLINE"),

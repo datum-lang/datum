@@ -16,7 +16,7 @@ SourceUnitPart: SourceUnitPart = {
     PackageDirective => SourceUnitPart::PackageDirective(<>),
     ImportDirective => SourceUnitPart::ImportDirective(<>),
     StructDefinition => SourceUnitPart::StructDefinition(<>),
-    DefaultFunctionDefinition => SourceUnitPart::DefaultFunctionDefinition(<>),
+    StructFunctionDefinition => SourceUnitPart::StructFunctionDefinition(<>),
     FunctionDefinition => SourceUnitPart::FunctionDefinition(<>),
 }
 
@@ -36,14 +36,14 @@ StructDefinition: Box<StructDefinition> = {
     }
 }
 
-DefaultFunctionDefinition: Box<DefaultFunctionDefinition> = {
-    <l:@L> "default" "$" <name:Identifier> "{"  "}" <r:@R> => {
-       Box::new(DefaultFunctionDefinition{loc: Loc(file_no, l, r), name})
+StructFunctionDefinition: Box<StructFunctionDefinition> = {
+    <l:@L> <struct_name:Identifier> "$" <name:Identifier> "{"  "}" <r:@R> => {
+       Box::new(StructFunctionDefinition{loc: Loc(file_no, l, r), name, struct_name})
     }
 }
 
 FunctionDefinition: Box<FunctionDefinition> = {
-    <l:@L> "def" <name:Identifier> "{"  "}" <r:@R> => {
+    <l:@L> "fun" <name:Identifier> "{"  "}" <r:@R> => {
        Box::new(FunctionDefinition{loc: Loc(file_no, l, r), name})
     }
 }
@@ -79,8 +79,8 @@ extern {
         "package" => Token::Package,
         "struct" => Token::Struct,
         "pkg" => Token::Package,
-        "def" => Token::As,
-        "as" => Token::Def,
+        "as" => Token::As,
+        "fun" => Token::Fun,
 
         // other symbols
         "\n" => Token::NewLine,
