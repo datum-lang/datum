@@ -60,6 +60,7 @@ extern {
         // operators symbol
 
         // keywords
+        "default" => Token::Default,
         "import" => Token::Import,
         "package" => Token::Package,
         "struct" => Token::Struct,

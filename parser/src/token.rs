@@ -10,6 +10,7 @@ pub enum Token<'input> {
     Package,
     Import,
     Struct,
+    Default,
     As,
 
     NewLine,
@@ -63,6 +64,7 @@ impl<'input> fmt::Display for Token<'input> {
             Token::Package => write!(f, "package"),
             Token::Import => write!(f, "import"),
             Token::Struct => write!(f, "struct"),
+            Token::Default => write!(f, "default"),
             Token::As => write!(f, "as"),
 
             Token::Binding => write!(f, "$"),
