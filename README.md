@@ -2,6 +2,22 @@
 
 > a common language as a temp language for transform other languages.
 
+## Roadmap
+
+ - [ ] lexer & parser
+    - [ ] syntax design
+       - [x] import
+       - [x] package
+       - [x] struct
+       - [ ] function
+       - [ ] control flow
+       - [ ] statement
+    - [ ] poet design
+ - [ ] compile
+    - [ ] LLVM spike
+    - [ ] hello, world
+ - [ ] build system
+ - [ ] dependency manager
 
 
 ## License
