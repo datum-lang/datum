@@ -1,7 +1,7 @@
 use crate::charj;
 use crate::error::Diagnostic;
 use crate::lexer;
-use crate::pt::SourceUnit;
+use crate::ast::SourceUnit;
 
 macro_rules! do_lalr_parsing {
     ($input: expr, $file_no: ident) => {{
@@ -20,7 +20,7 @@ pub fn parse_program(source: &str, file_no: usize) -> Result<SourceUnit, Diagnos
 #[cfg(test)]
 mod test {
     use crate::parser::parse_program;
-    use crate::pt::{Import, SourceUnitPart};
+    use crate::ast::{Import, SourceUnitPart};
 
     #[test]
     #[rustfmt::skip]

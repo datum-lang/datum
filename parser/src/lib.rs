@@ -13,5 +13,5 @@ pub mod error;
 pub mod lexer;
 pub mod location;
 pub mod parser;
-pub mod pt;
+pub mod ast;
 pub mod token;
