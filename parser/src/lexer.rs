@@ -144,6 +144,13 @@ impl<'input> Lexer<'input> {
                 Some((i, ')')) => return Some(Ok((i, Token::CloseParenthesis, i + 1))),
                 Some((i, '{')) => return Some(Ok((i, Token::OpenCurlyBrace, i + 1))),
                 Some((i, '}')) => return Some(Ok((i, Token::CloseCurlyBrace, i + 1))),
+                Some((i, '.')) => return Some(Ok((i, Token::Member, i + 1))),
+                Some((i, '[')) => return Some(Ok((i, Token::OpenBracket, i + 1))),
+                Some((i, ']')) => return Some(Ok((i, Token::CloseBracket, i + 1))),
+                Some((i, ':')) => return Some(Ok((i, Token::Colon, i + 1))),
+                Some((i, '?')) => return Some(Ok((i, Token::Question, i + 1))),
+                Some((i, '~')) => return Some(Ok((i, Token::Complement, i + 1))),
+
                 Some((i, '$')) => return Some(Ok((i, Token::Binding, i + 1))),
                 Some((start, _)) => {
                     let mut end;
