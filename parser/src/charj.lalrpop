@@ -37,20 +37,39 @@ StructDefinition: Box<StructDefinition> = {
 }
 
 StructFunctionDefinition: Box<StructFunctionDefinition> = {
-    <l:@L> <struct_name:Identifier> "$" <name:Identifier> "(" ")" "{"  "}" <r:@R> => {
-       Box::new(StructFunctionDefinition{loc: Loc(file_no, l, r), name, struct_name})
+    <l:@L> <struct_name:Identifier> "$" <name:Identifier> <args:Parameters> "{"  "}" <r:@R> => {
+       Box::new(StructFunctionDefinition{loc: Loc(file_no, l, r), name, struct_name, args: Box::new(args)})
     }
 }
 
 FunctionDefinition: Box<FunctionDefinition> = {
-    <l:@L> "fun" <name:Identifier> "(" ")" "{"  "}" <r:@R> => {
-       Box::new(FunctionDefinition{loc: Loc(file_no, l, r), name})
+    <l:@L> "fun" <name:Identifier> <args:Parameters> "{"  "}" <r:@R> => {
+       Box::new(FunctionDefinition {
+            loc: Loc(file_no, l, r),
+            name,
+            args: Box::new(args)
+            })
     }
 }
 
 VariableDeclaration: VariableDeclaration = {
 
 }
+
+Parameters: Parameters = {
+    "(" <a: (ParameterList<TypedParameter>)?> ")" => a.unwrap_or_default(),
+}
+
+ParameterList<ArgType>: Parameters = {
+
+}
+
+TypedParameter: Parameter = {
+    <l:@L> <arg:Identifier> <r:@R>  => {
+        Parameter { loc: Loc(file_no, l, r), arg }
+    },
+};
+
 
 Identifier: Identifier = {
     <l:@L> <n:LexIdentifier> <r:@R> => Identifier{loc: Loc(file_no, l, r), name: n.to_string()}
