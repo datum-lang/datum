@@ -64,7 +64,7 @@ struct IO {}", 0);
         assert!(parse_ast.is_ok());
 
         if let SourceUnitPart::ImportDirective(import) = parse_ast.unwrap().0.get(0).unwrap() {
-            if let Import::Plain(plain) = import {
+            if let Import::Standard(plain) = import {
                 assert_eq!("hello", plain.name);
             } else {
                 panic!("error");
