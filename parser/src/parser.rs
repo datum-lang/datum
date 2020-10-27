@@ -50,6 +50,15 @@ mod test {
 
     #[test]
     #[rustfmt::skip]
+    fn test_basic_location() {
+        let code = parse_program("pkg charj
+struct IO {}", 0);
+        println!("{:?}", code);
+        assert!(code.is_ok());
+    }
+
+    #[test]
+    #[rustfmt::skip]
     fn test_parse_import() {
         let parse_ast = parse_program("import hello", 0);
         assert!(parse_ast.is_ok());
