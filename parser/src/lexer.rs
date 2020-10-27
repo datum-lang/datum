@@ -73,7 +73,7 @@ impl<'input> Lexer<'input> {
 
                     loop {
                         if let Some((i, ch)) = self.chars.peek() {
-                            if !UnicodeXID::is_xid_continue(*ch) && *ch != '$' {
+                            if !UnicodeXID::is_xid_continue(*ch) {
                                 end = *i;
                                 break;
                             }
