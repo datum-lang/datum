@@ -1,6 +1,6 @@
 use std::str::FromStr;
 
-use crate::location::Loc;
+use crate::location::{Loc, Location};
 use crate::lexer;
 use crate::token::Token;
 use crate::error::LexicalError;
@@ -16,8 +16,8 @@ SourceUnitPart: SourceUnitPart = {
     PackageDirective => SourceUnitPart::PackageDirective(<>),
     ImportDirective => SourceUnitPart::ImportDirective(<>),
     StructDefinition => SourceUnitPart::StructDefinition(<>),
-    StructFunctionDefinition => SourceUnitPart::StructFunctionDefinition(<>),
     FunctionDefinition => SourceUnitPart::FunctionDefinition(<>),
+    StructFunctionDefinition => SourceUnitPart::StructFunctionDefinition(<>),
 }
 
 PackageDirective: Package = {
@@ -36,27 +36,55 @@ StructDefinition: Box<StructDefinition> = {
     }
 }
 
-StructFunctionDefinition: Box<StructFunctionDefinition> = {
-    <l:@L> <struct_name:Identifier> "$" <name:Identifier> <params:ParameterList?> "{"  "}" <r:@R> => {
-        let params = params.unwrap_or(Vec::new());
-        Box::new(StructFunctionDefinition{loc: Loc(l, r), name, struct_name, params})
-    }
-}
-
 FunctionDefinition: Box<FunctionDefinition> = {
-    <l:@L> "fun" <name:Identifier> <params:ParameterList?> "{"  "}" <r:@R> => {
+    <l:@L> "fun" <name:Identifier> <params:ParameterList?> "{" <body:Suite> "}" <r:@R> => {
         let params = params.unwrap_or(Vec::new());
         Box::new(FunctionDefinition {
             loc: Loc(l, r),
             name,
-            params
+            params,
+            body,
        })
+    }
+};
+
+StructFunctionDefinition: Box<StructFunctionDefinition> = {
+    <l:@L> <struct_name:Identifier> "$" <name:Identifier> <params:ParameterList?> "{" "}" <r:@R> => {
+        let params = params.unwrap_or(Vec::new());
+        Box::new(StructFunctionDefinition{
+            loc: Loc(l, r),
+            name, struct_name,
+            params,
+            body: Vec::new()
+        })
     }
 }
 
 VariableDeclaration: VariableDeclaration = {
 
+};
+
+Suite: Suite = {
+    "\n" <s:Statement+> => s.into_iter().flatten().collect(),
+};
+
+Statement: Suite = {
+//    SimpleStatement,
+    <s:CompoundStatement> => vec![s],
+};
+
+CompoundStatement: Statement = {
+    IfStatement,
 }
+
+IfStatement: Statement = {
+    <l:@L> "if" "(" ")" "{" "}" <r:@R> => {
+        Statement {
+            location: Location::new(l, r),
+            node: StatementType::If
+        }
+    }
+};
 
 // A parameter list is used for function arguments, returns, and destructuring statements.
 // In destructuring statements, parameters can be optional. So, we make parameters optional
@@ -119,6 +147,7 @@ extern {
         "pkg" => Token::Package,
         "as" => Token::As,
         "fun" => Token::Fun,
+        "if" => Token::If,
 
         // other symbols
         "\n" => Token::NewLine,

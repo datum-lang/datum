@@ -1,4 +1,4 @@
-use crate::location::Loc;
+use crate::location::{Loc, Location};
 
 #[derive(Debug, PartialEq)]
 pub struct SourceUnit(pub Vec<SourceUnitPart>);
@@ -13,11 +13,14 @@ pub enum SourceUnitPart {
     StructDefinition(Box<StructDefinition>),
 }
 
+pub type Suite = Vec<Statement>;
+
 #[derive(Debug, PartialEq)]
 pub struct FunctionDefinition {
     pub loc: Loc,
     pub name: Identifier,
     pub params: Vec<(Loc, Option<Parameter>)>,
+    pub body: Suite,
 }
 
 #[derive(Debug, PartialEq)]
@@ -26,6 +29,7 @@ pub struct StructFunctionDefinition {
     pub name: Identifier,
     pub struct_name: Identifier,
     pub params: Vec<(Loc, Option<Parameter>)>,
+    pub body: Suite,
 }
 
 #[derive(Debug, PartialEq, Default)]
@@ -44,6 +48,24 @@ pub struct Parameter {
 #[derive(Debug, PartialEq, Clone)]
 pub enum Expression {
     Variable(Identifier),
+}
+
+#[derive(Debug, PartialEq)]
+pub struct Located<T> {
+    pub location: Location,
+    pub node: T,
+}
+
+pub type Statement = Located<StatementType>;
+
+#[derive(Debug, PartialEq)]
+pub enum StatementType {
+    Break,
+    Continue,
+    /// A [`pass`](https://docs.python.org/3/reference/simple_stmts.html#pass) statement.
+    ///  thinking in python
+    Pass,
+    If,
 }
 
 #[derive(Debug, PartialEq)]

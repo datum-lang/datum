@@ -13,6 +13,7 @@ pub enum Token<'input> {
     Default,
     As,
     Fun,
+    If,
 
     NewLine,
     Binding,
@@ -68,6 +69,7 @@ impl<'input> fmt::Display for Token<'input> {
             Token::Default => write!(f, "default"),
             Token::As => write!(f, "as"),
             Token::Fun => write!(f, "fun"),
+            Token::If => write!(f, "if"),
 
             Token::Binding => write!(f, "$"),
             Token::NewLine => write!(f, "NEWLINE"),

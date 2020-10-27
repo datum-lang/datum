@@ -72,8 +72,19 @@ struct IO {}", 0);
         let params = parse_program("default$main(string name) {}", 0);
         assert!(params.is_ok());
 
-        let multi_params = parse_program("default$main(string name, string id) {}", 0);
+        let multi_params = parse_program("default$main(string name, string first, int id) {}", 0);
         assert!(multi_params.is_ok());
+    }
+
+    #[test]
+    #[rustfmt::skip]
+    fn test_if_statement() {
+        //     if() {}
+        let if_condition = parse_program("default$main(string name) {
+
+}", 0);
+        println!("{:?}", if_condition);
+        assert!(if_condition.is_ok());
     }
 
     #[test]
