@@ -11,6 +11,11 @@
        - [x] struct
        - [ ] function
        - [ ] control flow
+          - [ ] if
+          - [ ] loop
+          - [ ] while
+          - [ ] for
+          - [ ] break
        - [ ] statement
     - [ ] poet design
  - [ ] compile
