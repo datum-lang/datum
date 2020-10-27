@@ -62,10 +62,11 @@ pub type Statement = Located<StatementType>;
 pub enum StatementType {
     Break,
     Continue,
-    /// A [`pass`](https://docs.python.org/3/reference/simple_stmts.html#pass) statement.
-    ///  thinking in python
-    Pass,
     If,
+    Loop,
+    For,
+    Return { value: Option<Expression> },
+    While
 }
 
 #[derive(Debug, PartialEq)]
