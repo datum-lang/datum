@@ -29,5 +29,7 @@ exclude = [
 
 [workspace]
 members = [
-    "parser"
+    "parser",
+    "compiler",
+    "codegen"
 ]
