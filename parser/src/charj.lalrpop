@@ -4,7 +4,7 @@ use crate::location::Loc;
 use crate::lexer;
 use crate::token::Token;
 use crate::error::LexicalError;
-use crate::ast::*;
+use use crate::parse_tree::*;;
 
 grammar<'input>(input: &'input str, file_no: usize);
 
