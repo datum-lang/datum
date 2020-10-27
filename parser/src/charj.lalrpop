@@ -69,12 +69,33 @@ Suite: Suite = {
 };
 
 Statement: Suite = {
-//    SimpleStatement,
+    SimpleStatement,
     <s:CompoundStatement> => vec![s],
 };
 
 CompoundStatement: Statement = {
     IfStatement,
+}
+
+SimpleStatement: Suite = {
+    <s1:SmallStatement> <s2:(";" SmallStatement)*> ";"? "\n" => {
+        let mut statements = vec![s1];
+        statements.extend(s2.into_iter().map(|e| e.1));
+        statements
+    }
+}
+
+SmallStatement: Statement = {
+    FlowStatement,
+}
+
+FlowStatement: Statement = {
+    <l:@L> "break" <r:@R> => {
+        Statement {
+            location: Location::new(l, r),
+            node: StatementType::Break,
+        }
+    },
 }
 
 IfStatement: Statement = {
@@ -148,6 +169,7 @@ extern {
         "as" => Token::As,
         "fun" => Token::Fun,
         "if" => Token::If,
+        "break" => Token::Break,
 
         // other symbols
         "\n" => Token::NewLine,
