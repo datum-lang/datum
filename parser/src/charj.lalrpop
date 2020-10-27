@@ -4,7 +4,7 @@ use crate::location::Loc;
 use crate::lexer;
 use crate::token::Token;
 use crate::error::LexicalError;
-use use crate::parse_tree::*;;
+use crate::parse_tree::*;
 
 grammar<'input>(input: &'input str, file_no: usize);
 
@@ -37,18 +37,20 @@ StructDefinition: Box<StructDefinition> = {
 }
 
 StructFunctionDefinition: Box<StructFunctionDefinition> = {
-    <l:@L> <struct_name:Identifier> "$" <name:Identifier> <args:Parameters> "{"  "}" <r:@R> => {
-       Box::new(StructFunctionDefinition{loc: Loc(l, r), name, struct_name, args: Box::new(args)})
+    <l:@L> <struct_name:Identifier> "$" <name:Identifier> <params:ParameterList?> "{"  "}" <r:@R> => {
+        let params = params.unwrap_or(Vec::new());
+        Box::new(StructFunctionDefinition{loc: Loc(l, r), name, struct_name, params})
     }
 }
 
 FunctionDefinition: Box<FunctionDefinition> = {
-    <l:@L> "fun" <name:Identifier> <args:Parameters> "{"  "}" <r:@R> => {
-       Box::new(FunctionDefinition {
+    <l:@L> "fun" <name:Identifier> <params:ParameterList?> "{"  "}" <r:@R> => {
+        let params = params.unwrap_or(Vec::new());
+        Box::new(FunctionDefinition {
             loc: Loc(l, r),
             name,
-            args: Box::new(args)
-            })
+            params
+       })
     }
 }
 
@@ -56,20 +58,30 @@ VariableDeclaration: VariableDeclaration = {
 
 }
 
-Parameters: Parameters = {
-    "(" <a: (ParameterList<TypedParameter>)?> ")" => a.unwrap_or_default(),
+// A parameter list is used for function arguments, returns, and destructuring statements.
+// In destructuring statements, parameters can be optional. So, we make parameters optional
+// and as an added bonus we can generate error messages about missing parameters/returns
+// to functions
+Parameter: Parameter = {
+    <l:@L> <ty:Expression> <name:Identifier?> <r:@R> => {
+        let loc = Loc(l, r);
+        Parameter{loc, ty, name}
+    }
 }
 
-ParameterList<ArgType>: Parameters = {
-
+Expression: Expression = {
+    <Identifier> => Expression::Variable(<>),
 }
 
-TypedParameter: Parameter = {
-    <l:@L> <arg:Identifier> <r:@R>  => {
-        Parameter { loc: Loc(l, r), arg }
-    },
-};
+OptParameter: (Loc, Option<Parameter>) = {
+    <l:@L> <p:Parameter?> <r:@R> => (Loc(l, r), p),
+}
 
+ParameterList: Vec<(Loc, Option<Parameter>)> = {
+    "(" ")" => Vec::new(),
+    "(" <l:@L> <p:Parameter> <r:@R> ")" => vec!((Loc(l, r), Some(p))),
+    "(" <CommaTwo<OptParameter>> ")" => <>,
+}
 
 Identifier: Identifier = {
     <l:@L> <n:LexIdentifier> <r:@R> => Identifier{loc: Loc(l, r), name: n.to_string()}
@@ -81,6 +93,13 @@ StringLiteral: StringLiteral = {
     }
 }
 
+CommaTwo<T>: Vec<T> = {
+    <e:T> <v:("," <T>)+>  => {
+        let mut v = v;
+        v.insert(0, e);
+        v
+    }
+};
 
 extern {
     type Location = usize;

@@ -17,7 +17,7 @@ pub enum SourceUnitPart {
 pub struct FunctionDefinition {
     pub loc: Loc,
     pub name: Identifier,
-    pub args: Box<Parameters>,
+    pub params: Vec<(Loc, Option<Parameter>)>,
 }
 
 #[derive(Debug, PartialEq)]
@@ -25,7 +25,7 @@ pub struct StructFunctionDefinition {
     pub loc: Loc,
     pub name: Identifier,
     pub struct_name: Identifier,
-    pub args: Box<Parameters>,
+    pub params: Vec<(Loc, Option<Parameter>)>,
 }
 
 #[derive(Debug, PartialEq, Default)]
@@ -34,10 +34,16 @@ pub struct Parameters {
 }
 
 /// A single formal parameter to a function.
-#[derive(Debug, PartialEq, Default)]
+#[derive(Debug, PartialEq)]
 pub struct Parameter {
     pub loc: Loc,
-    pub arg: Identifier,
+    pub ty: Expression,
+    pub name: Option<Identifier>,
+}
+
+#[derive(Debug, PartialEq, Clone)]
+pub enum Expression {
+    Variable(Identifier),
 }
 
 #[derive(Debug, PartialEq)]

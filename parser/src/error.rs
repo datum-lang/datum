@@ -39,14 +39,11 @@ pub struct Diagnostic {
 }
 
 impl Diagnostic {
-    pub fn handle_error(
-        error: ParseError<usize, Token, LexicalError>,
-    ) -> Diagnostic {
+    pub fn handle_error(error: ParseError<usize, Token, LexicalError>) -> Diagnostic {
         match error {
-            ParseError::InvalidToken { location } => Diagnostic::parser_error(
-                Loc(location, location),
-                "invalid token".to_string(),
-            ),
+            ParseError::InvalidToken { location } => {
+                Diagnostic::parser_error(Loc(location, location), "invalid token".to_string())
+            }
             ParseError::UnrecognizedToken {
                 token: (l, token, r),
                 expected,
@@ -58,9 +55,7 @@ impl Diagnostic {
                     expected.join(", ")
                 ),
             ),
-            ParseError::User { error } => {
-                Diagnostic::parser_error(error.loc(), error.to_string())
-            }
+            ParseError::User { error } => Diagnostic::parser_error(error.loc(), error.to_string()),
             ParseError::ExtraToken { token } => Diagnostic::parser_error(
                 Loc(token.0, token.2),
                 format!("extra token `{}' encountered", token.0),

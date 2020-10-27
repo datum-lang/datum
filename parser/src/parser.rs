@@ -19,8 +19,8 @@ pub fn parse_program(source: &str, file_no: usize) -> Result<SourceUnit, Diagnos
 
 #[cfg(test)]
 mod test {
-    use crate::parser::parse_program;
     use crate::parse_tree::{Import, SourceUnitPart};
+    use crate::parser::parse_program;
 
     #[test]
     #[rustfmt::skip]
@@ -64,6 +64,14 @@ struct IO {}", 0);
         assert!(normal_struct_fun.is_ok());
         let with_empty_struct_fun = parse_program("default $ main () {}", 0);
         assert!(with_empty_struct_fun.is_ok());
+    }
+
+    #[test]
+    #[rustfmt::skip]
+    fn test_function_parameters() {
+        let params = parse_program("default$main(string name) {}", 0);
+        println!("{:?}", params);
+        assert!(params.is_ok());
     }
 
     #[test]
