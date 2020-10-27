@@ -1,13 +1,13 @@
+//! Datatypes to support source location information.
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy, Default)]
-pub struct Loc(pub usize, pub usize, pub usize);
+pub struct Loc(pub usize, pub usize);
 
 impl Loc {
-    pub fn new(file_no: usize, start: usize, end: usize) -> Self {
-        Loc(file_no, start, end)
+    pub fn new(start: usize, end: usize) -> Self {
+        Loc(start, end)
     }
 }
 
-//! Datatypes to support source location information.
 use std::fmt;
 
 /// A location somewhere in the sourcecode.

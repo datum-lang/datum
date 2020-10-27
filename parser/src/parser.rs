@@ -7,7 +7,7 @@ macro_rules! do_lalr_parsing {
     ($input: expr, $file_no: ident) => {{
         let lex = lexer::Lexer::new($input);
         match charj::CharjParser::new().parse($input, $file_no, lex) {
-            Err(err) => Err(Diagnostic::handle_error($file_no, err)),
+            Err(err) => Err(Diagnostic::handle_error(err)),
             Ok(s) => Ok(s),
         }
     }};

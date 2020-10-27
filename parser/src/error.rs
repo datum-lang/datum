@@ -40,19 +40,18 @@ pub struct Diagnostic {
 
 impl Diagnostic {
     pub fn handle_error(
-        file_no: usize,
         error: ParseError<usize, Token, LexicalError>,
     ) -> Diagnostic {
         match error {
             ParseError::InvalidToken { location } => Diagnostic::parser_error(
-                Loc(file_no, location, location),
+                Loc(location, location),
                 "invalid token".to_string(),
             ),
             ParseError::UnrecognizedToken {
                 token: (l, token, r),
                 expected,
             } => Diagnostic::parser_error(
-                Loc(file_no, l, r),
+                Loc(l, r),
                 format!(
                     "unrecognised token `{}', expected {}",
                     token,
@@ -60,14 +59,14 @@ impl Diagnostic {
                 ),
             ),
             ParseError::User { error } => {
-                Diagnostic::parser_error(error.loc(file_no), error.to_string())
+                Diagnostic::parser_error(error.loc(), error.to_string())
             }
             ParseError::ExtraToken { token } => Diagnostic::parser_error(
-                Loc(file_no, token.0, token.2),
+                Loc(token.0, token.2),
                 format!("extra token `{}' encountered", token.0),
             ),
             ParseError::UnrecognizedEOF { location, expected } => Diagnostic::parser_error(
-                Loc(file_no, location, location),
+                Loc(location, location),
                 format!("unexpected end of file, expected {}", expected.join(", ")),
             ),
         }
@@ -128,16 +127,16 @@ impl fmt::Display for LexicalError {
 }
 
 impl LexicalError {
-    pub fn loc(&self, file_no: usize) -> Loc {
+    pub fn loc(&self) -> Loc {
         match self {
-            LexicalError::EndOfFileInComment(start, end) => Loc(file_no, *start, *end),
-            LexicalError::EndOfFileInString(start, end) => Loc(file_no, *start, *end),
-            LexicalError::EndOfFileInHex(start, end) => Loc(file_no, *start, *end),
-            LexicalError::MissingNumber(start, end) => Loc(file_no, *start, *end),
-            LexicalError::InvalidCharacterInHexLiteral(pos, _) => Loc(file_no, *pos, *pos),
-            LexicalError::UnrecognisedToken(start, end, _) => Loc(file_no, *start, *end),
-            LexicalError::ExpectedFrom(start, end, _) => Loc(file_no, *start, *end),
-            LexicalError::MissingExponent(start, end) => Loc(file_no, *start, *end),
+            LexicalError::EndOfFileInComment(start, end) => Loc(*start, *end),
+            LexicalError::EndOfFileInString(start, end) => Loc(*start, *end),
+            LexicalError::EndOfFileInHex(start, end) => Loc(*start, *end),
+            LexicalError::MissingNumber(start, end) => Loc(*start, *end),
+            LexicalError::InvalidCharacterInHexLiteral(pos, _) => Loc(*pos, *pos),
+            LexicalError::UnrecognisedToken(start, end, _) => Loc(*start, *end),
+            LexicalError::ExpectedFrom(start, end, _) => Loc(*start, *end),
+            LexicalError::MissingExponent(start, end) => Loc(*start, *end),
         }
     }
 }

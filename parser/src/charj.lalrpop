@@ -4,7 +4,7 @@ use crate::location::Loc;
 use crate::lexer;
 use crate::token::Token;
 use crate::error::LexicalError;
-use use crate::ast::*;;
+use crate::ast::*;
 
 grammar<'input>(input: &'input str, file_no: usize);
 
@@ -32,20 +32,20 @@ ImportDirective: Import = {
 
 StructDefinition: Box<StructDefinition> = {
      <l:@L> "struct" <name:Identifier> "{" <fields:(<VariableDeclaration> ";")*> "}" <r:@R> => {
-        Box::new(StructDefinition{loc: Loc(file_no, l, r), name, fields})
+        Box::new(StructDefinition{loc: Loc(l, r), name, fields})
     }
 }
 
 StructFunctionDefinition: Box<StructFunctionDefinition> = {
     <l:@L> <struct_name:Identifier> "$" <name:Identifier> <args:Parameters> "{"  "}" <r:@R> => {
-       Box::new(StructFunctionDefinition{loc: Loc(file_no, l, r), name, struct_name, args: Box::new(args)})
+       Box::new(StructFunctionDefinition{loc: Loc(l, r), name, struct_name, args: Box::new(args)})
     }
 }
 
 FunctionDefinition: Box<FunctionDefinition> = {
     <l:@L> "fun" <name:Identifier> <args:Parameters> "{"  "}" <r:@R> => {
        Box::new(FunctionDefinition {
-            loc: Loc(file_no, l, r),
+            loc: Loc(l, r),
             name,
             args: Box::new(args)
             })
@@ -66,18 +66,18 @@ ParameterList<ArgType>: Parameters = {
 
 TypedParameter: Parameter = {
     <l:@L> <arg:Identifier> <r:@R>  => {
-        Parameter { loc: Loc(file_no, l, r), arg }
+        Parameter { loc: Loc(l, r), arg }
     },
 };
 
 
 Identifier: Identifier = {
-    <l:@L> <n:LexIdentifier> <r:@R> => Identifier{loc: Loc(file_no, l, r), name: n.to_string()}
+    <l:@L> <n:LexIdentifier> <r:@R> => Identifier{loc: Loc(l, r), name: n.to_string()}
 }
 
 StringLiteral: StringLiteral = {
     <l:@L> <s:LexStringLiteral> <r:@R> => {
-        StringLiteral{ loc: Loc(file_no, l, r), string: s.to_string() }
+        StringLiteral{ loc: Loc(l, r), string: s.to_string() }
     }
 }
 
