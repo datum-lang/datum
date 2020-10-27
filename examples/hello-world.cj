@@ -2,6 +2,6 @@ pkg examples
 
 import fmt
 
-default$main {
+default$main() {
     fmt.println("hello, world")
 }

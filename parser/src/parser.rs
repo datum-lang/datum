@@ -70,8 +70,10 @@ struct IO {}", 0);
     #[rustfmt::skip]
     fn test_function_parameters() {
         let params = parse_program("default$main(string name) {}", 0);
-        println!("{:?}", params);
         assert!(params.is_ok());
+
+        let multi_params = parse_program("default$main(string name, string id) {}", 0);
+        assert!(multi_params.is_ok());
     }
 
     #[test]
