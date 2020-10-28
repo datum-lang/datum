@@ -58,7 +58,19 @@ pub enum ExpressionType {
     /// An identifier, designating a certain variable or type.
     Identifier {
         name: Identifier,
-    }
+    },
+    /// A call expression.
+    FunctionCall {
+        function: Box<Expression>,
+        args: Vec<Expression>,
+        keywords: Vec<Keyword>,
+    },
+}
+
+#[derive(Debug, PartialEq)]
+pub struct Keyword {
+    pub name: Option<String>,
+    pub value: Expression,
 }
 
 #[derive(Debug, PartialEq)]
