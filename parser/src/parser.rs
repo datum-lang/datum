@@ -19,7 +19,6 @@ pub fn parse_program(source: &str, file_no: usize) -> Result<SourceUnit, Diagnos
 
 #[cfg(test)]
 mod test {
-    use crate::parse_tree::{Import, SourceUnitPart};
     use crate::parser::parse_program;
 
     #[test]
@@ -27,9 +26,6 @@ mod test {
     fn test_parse_empty() {
         let parse_ast = parse_program("", 0);
         assert!(parse_ast.is_err());
-
-        // let message = String::from("unexpected end of file, expected \"import\"");
-        // assert_eq!(parse_ast, Err(Diagnostic::parser_error(Loc(0, 0, 0), message)));
     }
 
     #[test]
@@ -106,16 +102,6 @@ while() {}
     fn test_parse_import() {
         let parse_ast = parse_program("import io", 0);
         assert!(parse_ast.is_ok());
-
-        if let SourceUnitPart::ImportDirective(import) = parse_ast.unwrap().0.get(0).unwrap() {
-            if let Import::Standard(plain) = import {
-                assert_eq!("io", plain.name);
-            } else {
-                panic!("error");
-            }
-        } else {
-            panic!("error");
-        }
     }
 
     #[test]
