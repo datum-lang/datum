@@ -10,19 +10,22 @@
        - [x] package
        - [x] struct
        - [ ] function
+          - [ ] parameters
+          - [ ] return
        - [ ] control flow
-          - [ ] if
+          - [x] if
           - [ ] loop
           - [ ] while
           - [ ] for
           - [ ] break
-       - [ ] statement
-       - [ ] assignment
-         - [ ] Single assignment
-         - [ ] assignment Variant [TBC]
-       - [ ] method call
+       - [ ] expression
+          - [ ] assignment
+            - [x] Single assignment
+            - [ ] assignment Variant [TBC]
+          - [ ] method call
+            - [ ] arguments
     - [ ] poet design
- - [ ] compile
+ - [ ] compiler
     - [ ] LLVM spike
     - [ ] hello, world
  - [ ] build system
