@@ -93,12 +93,12 @@ if() {}
 
 while() {}
 }", 0);
-        println!("{:?}", empty_if);
         assert!(empty_if.is_ok());
 
-//         let if_with_expr = parse_program("default$main(string name) {
-//     if() {}
-// }", 0);
+        let if_with_expr = parse_program("default$main(string name) {
+    if( a == true) {}
+}", 0);
+        println!("{:?}", if_with_expr);
     }
 
     #[test]

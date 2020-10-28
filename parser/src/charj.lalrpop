@@ -95,6 +95,32 @@ SmallStatement: Statement = {
     FlowStatement,
 }
 
+
+Comparison: Expression = {
+    <e:Expression> <l:@L> <comparisons:(CompOp Expression)+> <r:@R> => {
+        let mut vals = vec![e];
+        let mut ops = vec![];
+        for x in comparisons {
+            ops.push(x.0);
+            vals.push(x.1);
+        }
+        Expression {
+            location: Location::new(l, r),
+            node: ExpressionType::Compare { vals, ops }
+        }
+    },
+    Expression,
+};
+
+CompOp: Comparison = {
+    "==" => Comparison::Equal,
+    "!=" => Comparison::NotEqual,
+    "<" => Comparison::Less,
+    "<=" => Comparison::LessOrEqual,
+    ">" => Comparison::Greater,
+    ">=" => Comparison::GreaterOrEqual,
+};
+
 FlowStatement: Statement = {
     <l:@L> "break" <r:@R> => {
         Statement {

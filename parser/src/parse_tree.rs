@@ -61,6 +61,13 @@ pub enum ExpressionType {
         args: Vec<Expression>,
         keywords: Vec<Keyword>,
     },
+
+    /// A chained comparison. Note that in python you can use
+    /// `1 < a < 10` for example.
+    Compare {
+        vals: Vec<Expression>,
+        ops: Vec<Comparison>,
+    },
 }
 
 #[derive(Debug, PartialEq)]
@@ -130,4 +137,19 @@ pub struct DocComment {
     pub offset: usize,
     pub tag: String,
     pub value: String,
+}
+
+/// A comparison operation.
+#[derive(Debug, PartialEq)]
+pub enum Comparison {
+    Equal,
+    NotEqual,
+    Less,
+    LessOrEqual,
+    Greater,
+    GreaterOrEqual,
+    In,
+    NotIn,
+    Is,
+    IsNot,
 }
