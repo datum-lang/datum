@@ -17,6 +17,9 @@
           - [ ] for
           - [ ] break
        - [ ] statement
+       - [ ] assignment
+         - [ ] Single assignment
+         - [ ] assignment Variant [TBC]
     - [ ] poet design
  - [ ] compile
     - [ ] LLVM spike
