@@ -64,8 +64,8 @@ pub enum ExpressionType {
     /// A call expression.
     Call {
         function: Box<Expression>,
-        args: Vec<Expression>,
-        keywords: Vec<Keyword>,
+        args: Vec<Argument>,
+        // keywords: Vec<Keyword>,
     },
 
     /// A chained comparison. Note that in python you can use
@@ -74,6 +74,17 @@ pub enum ExpressionType {
         vals: Vec<Expression>,
         ops: Vec<Comparison>,
     },
+}
+//
+// #[derive(Debug, PartialEq)]
+// pub struct ArgumentList {
+//     pub args: Vec<Argument>,
+// }
+
+#[derive(Debug, PartialEq)]
+pub struct Argument {
+    pub location: Location,
+    pub expr: Expression,
 }
 
 #[derive(Debug, PartialEq)]
