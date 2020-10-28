@@ -160,8 +160,10 @@ ReturnValue: Expression = {
     }
 }
 
+//ComprehensionIf: Expression = <c:Comparison> => c;
+
 IfStatement: Statement = {
-    <l:@L> "if" "(" ")" "{" "}" <r:@R> => {
+    <l:@L> "if" "(" Comparison ")" "{" "}" <r:@R> => {
         Statement {
             location: Location::new(l, r),
             node: StatementType::If

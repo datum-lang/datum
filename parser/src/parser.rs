@@ -89,7 +89,7 @@ pkg comment
     #[rustfmt::skip]
     fn test_if_statement() {
         let empty_if = parse_program("default$main(string name) {
-if() {}
+if(true) {}
 
 while() {}
 }", 0);
