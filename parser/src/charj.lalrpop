@@ -2,7 +2,7 @@ use std::str::FromStr;
 
 use crate::location::{Loc, Location};
 use crate::lexer;
-use crate::token::Token;
+use crate::token::{Token, CommentType};
 use crate::error::LexicalError;
 use crate::parse_tree::*;
 
@@ -204,6 +204,7 @@ extern {
         LexIdentifier => Token::Identifier(<&'input str>),
         LexStringLiteral => Token::StringLiteral(<&'input str>),
 
+        DocComment => Token::DocComment(<CommentType>, <&'input str>),
         // operators symbol
 
         // keywords

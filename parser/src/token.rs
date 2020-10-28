@@ -7,6 +7,8 @@ pub enum Token<'input> {
     StringLiteral(&'input str),
     HexLiteral(&'input str),
 
+    DocComment(CommentType, &'input str),
+
     Package,
     Import,
     Struct,
@@ -66,6 +68,9 @@ impl<'input> fmt::Display for Token<'input> {
             Token::StringLiteral(s) => write!(f, "\"{}\"", s),
             Token::HexLiteral(hex) => write!(f, "{}", hex),
 
+            Token::DocComment(CommentType::Line, s) => write!(f, "///{}", s),
+            Token::DocComment(CommentType::Block, s) => write!(f, "/**{}\n*/", s),
+
             Token::Package => write!(f, "package"),
             Token::Import => write!(f, "import"),
             Token::Struct => write!(f, "struct"),
@@ -119,4 +124,10 @@ impl<'input> fmt::Display for Token<'input> {
             Token::Arrow => write!(f, "=>"),
         }
     }
+}
+
+#[derive(Copy, Clone, PartialEq, Debug)]
+pub enum CommentType {
+    Line,
+    Block,
 }

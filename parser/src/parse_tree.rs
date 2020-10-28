@@ -117,3 +117,10 @@ pub struct Identifier {
     pub loc: Loc,
     pub name: String,
 }
+
+#[derive(Debug, PartialEq, Clone)]
+pub struct DocComment {
+    pub offset: usize,
+    pub tag: String,
+    pub value: String,
+}

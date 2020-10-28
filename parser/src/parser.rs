@@ -79,7 +79,9 @@ struct IO {}", 0);
     #[test]
     #[rustfmt::skip]
     fn test_comment() {
-
+        let comments = parse_program("// default$main(string name) {}", 0);
+        println!("{:?}", comments);
+        // assert!(comments.is_ok());
     }
 
     #[test]

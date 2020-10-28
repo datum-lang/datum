@@ -5,7 +5,7 @@ use phf::phf_map;
 use unicode_xid::UnicodeXID;
 
 use crate::error::LexicalError;
-use crate::token::Token;
+use crate::token::{Token, CommentType};
 
 pub struct Lexer<'input> {
     input: &'input str,
@@ -26,13 +26,6 @@ static KEYWORDS: phf::Map<&'static str, Token> = phf_map! {
     "return" => Token::Return,
     "$" => Token::Binding,
 };
-
-//
-// #[derive(Copy, Clone, PartialEq, Debug)]
-// pub enum CommentType {
-//     Line,
-//     Block,
-// }
 
 impl<'input> Lexer<'input> {
     pub fn new(input: &'input str) -> Self {
@@ -149,6 +142,84 @@ impl<'input> Lexer<'input> {
                 }
                 Some((start, '"')) => {
                     return self.lex_string(start, start + 1);
+                }
+                Some((start, '/')) => {
+                    match self.chars.peek() {
+                        Some((_, '/')) => {
+                            // line comment
+                            self.chars.next();
+
+                            let doc_comment_start = match self.chars.peek() {
+                                Some((i, '/')) => Some(i + 1),
+                                _ => None,
+                            };
+
+                            let mut last = start + 3;
+
+                            while let Some((i, ch)) = self.chars.next() {
+                                if ch == '\n' || ch == '\r' {
+                                    break;
+                                }
+                                last = i;
+                            }
+
+                            if let Some(doc_start) = doc_comment_start {
+                                if last > doc_start {
+                                    return Some(Ok((
+                                        start + 3,
+                                        Token::DocComment(
+                                            CommentType::Line,
+                                            &self.input[doc_start..=last],
+                                        ),
+                                        last + 1,
+                                    )));
+                                }
+                            }
+                        }
+                        Some((_, '*')) => {
+                            // multiline comment
+                            self.chars.next();
+
+                            let doc_comment_start = match self.chars.peek() {
+                                Some((i, '*')) => Some(i + 1),
+                                _ => None,
+                            };
+
+                            let mut last = start + 3;
+                            let mut seen_star = false;
+
+                            loop {
+                                if let Some((i, ch)) = self.chars.next() {
+                                    if seen_star && ch == '/' {
+                                        break;
+                                    }
+                                    seen_star = ch == '*';
+                                    last = i;
+                                } else {
+                                    return Some(Err(LexicalError::EndOfFileInComment(
+                                        start,
+                                        self.input.len(),
+                                    )));
+                                }
+                            }
+
+                            if let Some(doc_start) = doc_comment_start {
+                                if last > doc_start {
+                                    return Some(Ok((
+                                        start + 3,
+                                        Token::DocComment(
+                                            CommentType::Block,
+                                            &self.input[doc_start..last],
+                                        ),
+                                        last,
+                                    )));
+                                }
+                            }
+                        }
+                        _ => {
+                            return Some(Ok((start, Token::Divide, start + 1)));
+                        }
+                    }
                 }
                 Some((_, ch)) if ch.is_whitespace() => (),
                 Some((i, ';')) => return Some(Ok((i, Token::Semicolon, i + 1))),
