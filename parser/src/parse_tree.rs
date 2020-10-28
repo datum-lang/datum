@@ -58,8 +58,7 @@ pub enum ExpressionType {
     /// An identifier, designating a certain variable or type.
     Identifier {
         name: Identifier,
-    },
-    Variable(Identifier),
+    }
 }
 
 #[derive(Debug, PartialEq)]

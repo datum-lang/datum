@@ -149,7 +149,12 @@ Parameter: Parameter = {
 }
 
 Expression: Expression = {
-//    <Identifier> => ExpressionType::Variable(<>),
+    <l:@L> <name: Identifier> <r:@R> => {
+        Expression {
+            location: Location::new(l, r),
+            node: ExpressionType::Identifier { name }
+        }
+    }
 }
 
 OptParameter: (Loc, Option<Parameter>) = {
