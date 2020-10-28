@@ -65,6 +65,7 @@ VariableDeclaration: VariableDeclaration = {
 };
 
 Suite: Suite = {
+    SimpleStatement,
     "\n" <s:Statement+> => s.into_iter().flatten().collect(),
 };
 
