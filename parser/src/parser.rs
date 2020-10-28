@@ -88,8 +88,10 @@ pkg comment
     #[test]
     #[rustfmt::skip]
     fn test_if_statement() {
-//     if() {}
         let empty_if = parse_program("default$main(string name) {
+if() {
+
+}
 
 }", 0);
         println!("{:?}", empty_if);

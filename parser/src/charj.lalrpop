@@ -49,13 +49,13 @@ FunctionDefinition: Box<FunctionDefinition> = {
 };
 
 StructFunctionDefinition: Box<StructFunctionDefinition> = {
-    <l:@L> <struct_name:Identifier> "$" <name:Identifier> <params:ParameterList?> "{" "}" <r:@R> => {
+    <l:@L> <struct_name:Identifier> "$" <name:Identifier> <params:ParameterList?> "{" <body:Suite> "}" <r:@R> => {
         let params = params.unwrap_or(Vec::new());
         Box::new(StructFunctionDefinition{
             loc: Loc(l, r),
             name, struct_name,
             params,
-            body: Vec::new()
+            body
         })
     }
 }
@@ -76,6 +76,8 @@ Statement: Suite = {
 
 CompoundStatement: Statement = {
     IfStatement,
+    WhileStatement,
+    ForStatement,
 }
 
 SimpleStatement: Suite = {
@@ -131,6 +133,24 @@ ReturnValue: Expression = {
 
 IfStatement: Statement = {
     <l:@L> "if" "(" ")" "{" "}" <r:@R> => {
+        Statement {
+            location: Location::new(l, r),
+            node: StatementType::If
+        }
+    }
+};
+
+WhileStatement: Statement = {
+    <l:@L> "while" "(" ")" "{" "}" <r:@R> => {
+        Statement {
+            location: Location::new(l, r),
+            node: StatementType::If
+        }
+    }
+};
+
+ForStatement: Statement = {
+    <l:@L> "for" "(" ")" "{" "}" <r:@R> => {
         Statement {
             location: Location::new(l, r),
             node: StatementType::If
@@ -215,7 +235,11 @@ extern {
         "pkg" => Token::Package,
         "as" => Token::As,
         "fun" => Token::Fun,
+
+        // statement
         "if" => Token::If,
+        "while" => Token::While,
+        "for" => Token::For,
         "break" => Token::Break,
         "continue" => Token::Continue,
         "return" => Token::Return,

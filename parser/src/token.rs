@@ -16,6 +16,8 @@ pub enum Token<'input> {
     As,
     Fun,
     If,
+    While,
+    For,
     Break,
     Continue,
     Return,
@@ -77,9 +79,11 @@ impl<'input> fmt::Display for Token<'input> {
             Token::Default => write!(f, "default"),
             Token::As => write!(f, "as"),
             Token::Fun => write!(f, "fun"),
-            Token::If => write!(f, "if"),
-            Token::Break => write!(f, "break"),
 
+            Token::If => write!(f, "if"),
+            Token::While => write!(f, "while"),
+            Token::For => write!(f, "for"),
+            Token::Break => write!(f, "break"),
             Token::Continue => write!(f, "continue"),
             Token::Return => write!(f, "return"),
 
