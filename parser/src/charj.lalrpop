@@ -65,8 +65,7 @@ VariableDeclaration: VariableDeclaration = {
 };
 
 Suite: Suite = {
-    SimpleStatement,
-    "\n" <s:Statement+> => s.into_iter().flatten().collect(),
+    <s:Statement+> => s.into_iter().flatten().collect(),
 };
 
 Statement: Suite = {
@@ -144,7 +143,7 @@ WhileStatement: Statement = {
     <l:@L> "while" "(" ")" "{" "}" <r:@R> => {
         Statement {
             location: Location::new(l, r),
-            node: StatementType::If
+            node: StatementType::While
         }
     }
 };
@@ -153,7 +152,7 @@ ForStatement: Statement = {
     <l:@L> "for" "(" ")" "{" "}" <r:@R> => {
         Statement {
             location: Location::new(l, r),
-            node: StatementType::If
+            node: StatementType::For
         }
     }
 };

@@ -18,9 +18,12 @@ static KEYWORDS: phf::Map<&'static str, Token> = phf_map! {
     "package" => Token::Package,
     "pkg" => Token::Package,
     "struct" => Token::Struct,
-    "if" => Token::If,
     "as" => Token::As,
     "fun" => Token::Fun,
+
+    "if" => Token::If,
+    "while" => Token::While,
+    "for" => Token::For,
     "break" => Token::Break,
     "continue" => Token::Continue,
     "return" => Token::Return,

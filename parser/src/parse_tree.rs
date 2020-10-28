@@ -74,13 +74,14 @@ pub enum StatementType {
     Break,
     Continue,
     If,
-    Loop,
+    While,
     For,
+    Loop,
+
     Return { value: Option<Expression> },
     List {
         elements: Vec<Expression>,
     },
-    While
 }
 
 #[derive(Debug, PartialEq)]
