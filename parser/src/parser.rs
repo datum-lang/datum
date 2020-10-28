@@ -98,7 +98,7 @@ while() {}
         let if_with_expr = parse_program("default$main(string name) {
     if( a == true) {}
 }", 0);
-        println!("{:?}", if_with_expr);
+        assert!(if_with_expr.is_ok());
     }
 
     #[test]
