@@ -96,6 +96,36 @@ FlowStatement: Statement = {
             node: StatementType::Break,
         }
     },
+    <l:@L> "continue" <r:@R> => {
+        Statement {
+            location: Location::new(l, r),
+            node: StatementType::Continue,
+        }
+    },
+    <l:@L> "return" <value:ReturnList?> <r:@R> => {
+        Statement {
+            location: Location::new(l, r),
+            node: StatementType::Return { value },
+        }
+    },
+}
+
+ReturnList: Expression = {
+    <l:@L> <elements:OneOrMore<ReturnValue>> <trailing_comma: ","?> <r:@R> => {
+        Expression {
+            location: Location::new(l, r),
+            node: ExpressionType::List { elements },
+        }
+    }
+}
+
+ReturnValue: Expression = {
+    <l:@L><n:Identifier><r:@R> => {
+        Expression {
+            location: Location::new(l, r),
+            node: ExpressionType::Identifier { name: n }
+        }
+    }
 }
 
 IfStatement: Statement = {
@@ -119,7 +149,7 @@ Parameter: Parameter = {
 }
 
 Expression: Expression = {
-    <Identifier> => Expression::Variable(<>),
+//    <Identifier> => ExpressionType::Variable(<>),
 }
 
 OptParameter: (Loc, Option<Parameter>) = {
@@ -150,6 +180,16 @@ CommaTwo<T>: Vec<T> = {
     }
 };
 
+#[inline]
+OneOrMore<T>: Vec<T> = {
+    <i1: T> <i2:("," T)*> => {
+        let mut items = vec![i1];
+        items.extend(i2.into_iter().map(|e| e.1));
+        items
+    }
+};
+
+
 extern {
     type Location = usize;
     type Error = LexicalError;
@@ -170,6 +210,8 @@ extern {
         "fun" => Token::Fun,
         "if" => Token::If,
         "break" => Token::Break,
+        "continue" => Token::Continue,
+        "return" => Token::Return,
 
         // other symbols
         "\n" => Token::NewLine,

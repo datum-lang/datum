@@ -45,8 +45,20 @@ pub struct Parameter {
     pub name: Option<Identifier>,
 }
 
-#[derive(Debug, PartialEq, Clone)]
-pub enum Expression {
+/// An expression at a given location in the sourcecode.
+pub type Expression = Located<ExpressionType>;
+
+/// A certain type of expression.
+#[derive(Debug, PartialEq)]
+pub enum ExpressionType {
+    /// A `list` literal value.
+    List {
+        elements: Vec<Expression>,
+    },
+    /// An identifier, designating a certain variable or type.
+    Identifier {
+        name: Identifier,
+    },
     Variable(Identifier),
 }
 
@@ -66,6 +78,9 @@ pub enum StatementType {
     Loop,
     For,
     Return { value: Option<Expression> },
+    List {
+        elements: Vec<Expression>,
+    },
     While
 }
 
