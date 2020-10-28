@@ -37,7 +37,7 @@ StructDef: Box<StructDef> = {
 }
 
 FuncDef: Box<FuncDef> = {
-    <l:@L> "fun" <name:Identifier> <params:ParameterList?> "{" <body:Statement?> "}" <r:@R> => {
+    <l:@L> "fun" <name:Identifier> <params:ParameterList?> "{" <body:Suite?> "}" <r:@R> => {
         let params = params.unwrap_or(Vec::new());
         let body = body.unwrap_or(Vec::new());
 
@@ -51,7 +51,7 @@ FuncDef: Box<FuncDef> = {
 };
 
 StructFuncDef: Box<StructFuncDef> = {
-    <l:@L> <struct_name:Identifier> "$" <name:Identifier> <params:ParameterList?> "{" <body:Statement?> "}" <r:@R> => {
+    <l:@L> <struct_name:Identifier> "$" <name:Identifier> <params:ParameterList?> "{" <body:Suite?> "}" <r:@R> => {
         let params = params.unwrap_or(Vec::new());
         let body = body.unwrap_or(Vec::new());
 
@@ -66,6 +66,10 @@ StructFuncDef: Box<StructFuncDef> = {
 
 VariableDeclaration: VariableDeclaration = {
 
+};
+
+Suite: Suite = {
+    <s:Statement+> => s.into_iter().flatten().collect(),
 };
 
 Statement: Suite = {
