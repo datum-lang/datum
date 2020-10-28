@@ -20,6 +20,7 @@
        - [ ] assignment
          - [ ] Single assignment
          - [ ] assignment Variant [TBC]
+       - [ ] method call
     - [ ] poet design
  - [ ] compile
     - [ ] LLVM spike
