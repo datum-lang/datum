@@ -18,8 +18,21 @@ static KEYWORDS: phf::Map<&'static str, Token> = phf_map! {
     "package" => Token::Package,
     "pkg" => Token::Package,
     "struct" => Token::Struct,
+    "if" => Token::If,
+    "as" => Token::As,
+    "fun" => Token::Fun,
+    "break" => Token::Break,
+    "continue" => Token::Continue,
+    "return" => Token::Return,
     "$" => Token::Binding,
 };
+
+//
+// #[derive(Copy, Clone, PartialEq, Debug)]
+// pub enum CommentType {
+//     Line,
+//     Block,
+// }
 
 impl<'input> Lexer<'input> {
     pub fn new(input: &'input str) -> Self {
