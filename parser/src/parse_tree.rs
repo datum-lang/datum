@@ -8,15 +8,15 @@ pub enum SourceUnitPart {
     ImportDirective(Import),
     MultipleImportDirective(Vec<Import>),
     PackageDirective(Package),
-    StructFunctionDefinition(Box<StructFunctionDefinition>),
-    FunctionDefinition(Box<FunctionDefinition>),
-    StructDefinition(Box<StructDefinition>),
+    StructFuncDef(Box<StructFuncDef>),
+    FuncDef(Box<FuncDef>),
+    StructDef(Box<StructDef>),
 }
 
 pub type Suite = Vec<Statement>;
 
 #[derive(Debug, PartialEq)]
-pub struct FunctionDefinition {
+pub struct FuncDef {
     pub loc: Loc,
     pub name: Identifier,
     pub params: Vec<(Loc, Option<Parameter>)>,
@@ -24,7 +24,7 @@ pub struct FunctionDefinition {
 }
 
 #[derive(Debug, PartialEq)]
-pub struct StructFunctionDefinition {
+pub struct StructFuncDef {
     pub loc: Loc,
     pub name: Identifier,
     pub struct_name: Identifier,
@@ -52,15 +52,11 @@ pub type Expression = Located<ExpressionType>;
 #[derive(Debug, PartialEq)]
 pub enum ExpressionType {
     /// A `list` literal value.
-    List {
-        elements: Vec<Expression>,
-    },
+    List { elements: Vec<Expression> },
     /// An identifier, designating a certain variable or type.
-    Identifier {
-        name: Identifier,
-    },
+    Identifier { name: Identifier },
     /// A call expression.
-    FunctionCall {
+    FuncCall {
         function: Box<Expression>,
         args: Vec<Expression>,
         keywords: Vec<Keyword>,
@@ -91,13 +87,11 @@ pub enum StatementType {
     Loop,
 
     Return { value: Option<Expression> },
-    List {
-        elements: Vec<Expression>,
-    },
+    List { elements: Vec<Expression> },
 }
 
 #[derive(Debug, PartialEq)]
-pub struct StructDefinition {
+pub struct StructDef {
     pub loc: Loc,
     pub name: Identifier,
     pub fields: Vec<VariableDeclaration>,

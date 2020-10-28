@@ -5,7 +5,7 @@ use phf::phf_map;
 use unicode_xid::UnicodeXID;
 
 use crate::error::LexicalError;
-use crate::token::{Token, CommentType};
+use crate::token::{CommentType, Token};
 
 pub struct Lexer<'input> {
     input: &'input str,

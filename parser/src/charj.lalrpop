@@ -15,9 +15,9 @@ pub Charj: SourceUnit = {
 SourceUnitPart: SourceUnitPart = {
     PackageDirective => SourceUnitPart::PackageDirective(<>),
     ImportDirective => SourceUnitPart::ImportDirective(<>),
-    StructDefinition => SourceUnitPart::StructDefinition(<>),
-    FunctionDefinition => SourceUnitPart::FunctionDefinition(<>),
-    StructFunctionDefinition => SourceUnitPart::StructFunctionDefinition(<>),
+    StructDef => SourceUnitPart::StructDef(<>),
+    FuncDef => SourceUnitPart::FuncDef(<>),
+    StructFuncDef => SourceUnitPart::StructFuncDef(<>),
 }
 
 PackageDirective: Package = {
@@ -30,16 +30,16 @@ ImportDirective: Import = {
     "import" <s:StringLiteral> "as" <id:Identifier> ";" => Import::GlobalSymbol(s, id)
 }
 
-StructDefinition: Box<StructDefinition> = {
+StructDef: Box<StructDef> = {
      <l:@L> "struct" <name:Identifier> "{" <fields:(<VariableDeclaration> ";")*> "}" <r:@R> => {
-        Box::new(StructDefinition{loc: Loc(l, r), name, fields})
+        Box::new(StructDef{loc: Loc(l, r), name, fields})
     }
 }
 
-FunctionDefinition: Box<FunctionDefinition> = {
+FuncDef: Box<FuncDef> = {
     <l:@L> "fun" <name:Identifier> <params:ParameterList?> "{" <body:Suite> "}" <r:@R> => {
         let params = params.unwrap_or(Vec::new());
-        Box::new(FunctionDefinition {
+        Box::new(FuncDef {
             loc: Loc(l, r),
             name,
             params,
@@ -48,10 +48,10 @@ FunctionDefinition: Box<FunctionDefinition> = {
     }
 };
 
-StructFunctionDefinition: Box<StructFunctionDefinition> = {
+StructFuncDef: Box<StructFuncDef> = {
     <l:@L> <struct_name:Identifier> "$" <name:Identifier> <params:ParameterList?> "{" <body:Suite> "}" <r:@R> => {
         let params = params.unwrap_or(Vec::new());
-        Box::new(StructFunctionDefinition{
+        Box::new(StructFuncDef{
             loc: Loc(l, r),
             name, struct_name,
             params,
