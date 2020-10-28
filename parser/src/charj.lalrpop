@@ -206,7 +206,23 @@ Expression: Expression = {
             location: Location::new(l, r),
             node: ExpressionType::Identifier { name }
         }
-    }
+    },
+    CallExpr,
+}
+
+CallExpr: Expression = {
+//    <f:CallExpr> <l:@L> "(" <a:ArgumentList> ")" <r:@R> => {
+//        Expression {
+//            location: Location::new(l, r),
+//            node: ExpressionType::Call { function: Box::new(f), args: a.args, keywords: a.keywords }
+//        }
+//    },
+    <e:CallExpr> <l:@L> "." <name:Identifier> <r:@R> => {
+        Expression {
+            location: Location::new(l, r),
+            node: ExpressionType::Attribute { value: Box::new(e), name }
+        }
+    },
 }
 
 OptParameter: (Loc, Option<Parameter>) = {
@@ -228,6 +244,15 @@ StringLiteral: StringLiteral = {
         StringLiteral{ loc: Loc(l, r), string: s.to_string() }
     }
 }
+
+#[inline]
+Comma<T>: Vec<T> = {
+    <items: (<T> ",")*> <last: T?> => {
+        let mut items = items;
+        items.extend(last);
+        items
+    }
+};
 
 CommaTwo<T>: Vec<T> = {
     <e:T> <v:("," <T>)+>  => {

@@ -237,19 +237,19 @@ impl<'input> Lexer<'input> {
                 Some((i, ':')) => return Some(Ok((i, Token::Colon, i + 1))),
                 Some((i, '?')) => return Some(Ok((i, Token::Question, i + 1))),
                 Some((i, '~')) => return Some(Ok((i, Token::Complement, i + 1))),
-                Some((i, '=')) => return match self.chars.peek() {
-                    Some((_, '=')) => {
-                        self.chars.next();
-                        Some(Ok((i, Token::Equal, i + 2)))
+                Some((i, '=')) => {
+                    return match self.chars.peek() {
+                        Some((_, '=')) => {
+                            self.chars.next();
+                            Some(Ok((i, Token::Equal, i + 2)))
+                        }
+                        Some((_, '>')) => {
+                            self.chars.next();
+                            Some(Ok((i, Token::Arrow, i + 2)))
+                        }
+                        _ => Some(Ok((i, Token::Assign, i + 1))),
                     }
-                    Some((_, '>')) => {
-                        self.chars.next();
-                        Some(Ok((i, Token::Arrow, i + 2)))
-                    }
-                    _ => {
-                        Some(Ok((i, Token::Assign, i + 1)))
-                    }
-                },
+                }
 
                 Some((i, '$')) => return Some(Ok((i, Token::Binding, i + 1))),
 

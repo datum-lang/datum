@@ -55,8 +55,14 @@ pub enum ExpressionType {
     List { elements: Vec<Expression> },
     /// An identifier, designating a certain variable or type.
     Identifier { name: Identifier },
+
+    /// Attribute access in the form of `value.name`.
+    Attribute {
+        value: Box<Expression>,
+        name: Identifier,
+    },
     /// A call expression.
-    FuncCall {
+    Call {
         function: Box<Expression>,
         args: Vec<Expression>,
         keywords: Vec<Keyword>,
