@@ -75,11 +75,7 @@ pub enum ExpressionType {
         ops: Vec<Comparison>,
     },
 }
-//
-// #[derive(Debug, PartialEq)]
-// pub struct ArgumentList {
-//     pub args: Vec<Argument>,
-// }
+
 
 #[derive(Debug, PartialEq)]
 pub struct Argument {
@@ -112,6 +108,8 @@ pub enum StatementType {
 
     Return { value: Option<Expression> },
     List { elements: Vec<Expression> },
+
+    Expression { expression: Expression },
 }
 
 #[derive(Debug, PartialEq)]

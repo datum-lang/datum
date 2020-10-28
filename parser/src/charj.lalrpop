@@ -59,7 +59,7 @@ StructFuncDef: Box<StructFuncDef> = {
             loc: Loc(l, r),
             name, struct_name,
             params,
-            body: body,
+            body,
         })
     }
 }
@@ -92,9 +92,18 @@ SimpleStatement: Suite = {
 }
 
 SmallStatement: Statement = {
+    ExpressionStatement,
     FlowStatement,
 }
 
+ExpressionStatement: Statement = {
+    <l:@L> <e:Expression> <r:@R> => {
+        Statement {
+            location: Location::new(l, r),
+            node: StatementType::Expression { expression: e },
+        }
+    }
+}
 
 Comparison: Expression = {
     <e:Expression> <l:@L> <comparisons:(CompOp Expression)+> <r:@R> => {
@@ -159,8 +168,6 @@ ReturnValue: Expression = {
         }
     }
 }
-
-//ComprehensionIf: Expression = <c:Comparison> => c;
 
 IfStatement: Statement = {
     <l:@L> "if" "(" Comparison ")" "{" "}" <r:@R> => {
