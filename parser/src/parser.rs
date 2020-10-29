@@ -105,7 +105,7 @@ pkg comment
     fn test_return() {
         let if_return = parse_program("default$main(string name) {
     if(a == true) {
-     // return a
+        return
     }
 }", 0);
         println!("{:?}", if_return);

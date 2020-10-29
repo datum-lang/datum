@@ -73,13 +73,13 @@ Suite: Suite = {
 };
 
 Statement: Suite = {
-    SimpleStatement,
+//    SimpleStatement,
     <s:CompoundStatement> => vec![s],
 };
 
 SimpleStatement: Suite = {
     // for examples, for continue;
-    <s1:SmallStatement> <s2:(";" SmallStatement)*> ";"? "\n" => {
+    <s1:SmallStatement> <s2:(";" SmallStatement)*> ";"?  => {
         let mut statements = vec![s1];
         statements.extend(s2.into_iter().map(|e| e.1));
         statements
