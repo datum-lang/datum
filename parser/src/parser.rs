@@ -128,7 +128,6 @@ pkg comment
         return b
     }
 }", 0);
-        println!("{:?}", if_else);
         assert!(if_else.is_ok());
     }
 
