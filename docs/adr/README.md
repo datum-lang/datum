@@ -5,3 +5,4 @@
 * [3. standard-library-package-format](0003-standard-library-package-format.md)
 * [4. dependency-manager](0004-dependency-manager.md)
 * [5. types-system](0005-types-system.md)
+* [6. empty-method](0006-empty-method.md)
