@@ -1,4 +1,5 @@
 use crate::location::{Loc, Location};
+use core::fmt;
 
 #[derive(Debug, PartialEq)]
 pub struct SourceUnit(pub Vec<SourceUnitPart>);
@@ -75,7 +76,6 @@ pub enum ExpressionType {
         ops: Vec<Comparison>,
     },
 }
-
 
 #[derive(Debug, PartialEq)]
 pub struct Argument {
@@ -167,4 +167,27 @@ pub enum Comparison {
     NotIn,
     Is,
     IsNot,
+}
+
+#[derive(Debug, PartialEq, Clone)]
+pub enum Type {
+    Bool,
+    String,
+    Int(u16),
+    Uint(u16),
+    Bytes(u8),
+    DynamicBytes,
+}
+
+impl fmt::Display for Type {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Type::Bool => write!(f, "bool"),
+            Type::String => write!(f, "string"),
+            Type::Int(n) => write!(f, "int{}", n),
+            Type::Uint(n) => write!(f, "uint{}", n),
+            Type::Bytes(n) => write!(f, "bytes{}", n),
+            Type::DynamicBytes => write!(f, "bytes"),
+        }
+    }
 }

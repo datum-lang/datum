@@ -14,6 +14,7 @@ pub struct Lexer<'input> {
 }
 
 static KEYWORDS: phf::Map<&'static str, Token> = phf_map! {
+    // defalut
     "import"  => Token::Import,
     "package" => Token::Package,
     "pkg" => Token::Package,
@@ -21,12 +22,20 @@ static KEYWORDS: phf::Map<&'static str, Token> = phf_map! {
     "as" => Token::As,
     "fun" => Token::Fun,
 
+    // statement
     "if" => Token::If,
     "while" => Token::While,
     "for" => Token::For,
     "break" => Token::Break,
     "continue" => Token::Continue,
     "return" => Token::Return,
+
+    // type
+    "bool" => Token::Bool,
+    "string" => Token::String,
+    "int" => Token::Int(256),
+    "uint" => Token::Uint(256),
+
     "$" => Token::Binding,
 };
 

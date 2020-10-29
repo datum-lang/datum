@@ -197,13 +197,13 @@ ForStatement: Statement = {
 };
 
 Expression: Expression = {
+    CallExpr,
     <l:@L> <name: Identifier> <r:@R> => {
         Expression {
             location: Location::new(l, r),
             node: ExpressionType::Identifier { name }
         }
     },
-    CallExpr,
 }
 
 CallExpr: Expression = {
@@ -224,6 +224,11 @@ CallExpr: Expression = {
 //ArgumentList: ArgumentList = {
 //    <Comma<Argument>> => <>,
 //};
+
+Type: Type = {
+    "bool" => Type::Bool,
+    "string" => Type::String,
+}
 
 Argument: Argument = {
     <l:@L> <p:Expression> <r:@R> =>  {
@@ -316,6 +321,10 @@ extern {
         "break" => Token::Break,
         "continue" => Token::Continue,
         "return" => Token::Return,
+
+        "bool" => Token::Bool,
+        "string" => Token::String,
+        "bytes" => Token::DynamicBytes,
 
         // other symbols
         "\n" => Token::NewLine,

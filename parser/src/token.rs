@@ -22,6 +22,14 @@ pub enum Token<'input> {
     Continue,
     Return,
 
+    // type
+    Bool,
+    String,
+    Uint(u16),
+    Int(u16),
+    Bytes(u8),
+    DynamicBytes,
+
     NewLine,
     Binding,
     OpenParenthesis,
@@ -86,6 +94,14 @@ impl<'input> fmt::Display for Token<'input> {
             Token::Break => write!(f, "break"),
             Token::Continue => write!(f, "continue"),
             Token::Return => write!(f, "return"),
+
+            // type
+            Token::Bool => write!(f, "bool"),
+            Token::String => write!(f, "string"),
+            Token::Uint(w) => write!(f, "uint{}", w),
+            Token::Int(w) => write!(f, "int{}", w),
+            Token::Bytes(w) => write!(f, "bytes{}", w),
+            Token::DynamicBytes => write!(f, "bytes"),
 
             Token::Binding => write!(f, "$"),
             Token::NewLine => write!(f, "NEWLINE"),
