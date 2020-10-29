@@ -120,6 +120,11 @@ pub enum StatementType {
     While,
     For,
     Loop,
+    /// Variable assignment. Note that we can assign to multiple targets.
+    Assign {
+        targets: Vec<Expression>,
+        value: Expression,
+    },
 
     Return {
         value: Option<Expression>,
@@ -127,7 +132,6 @@ pub enum StatementType {
     List {
         elements: Vec<Expression>,
     },
-
     Expression {
         expression: Expression,
     },
