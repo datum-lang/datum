@@ -98,6 +98,21 @@ while() {}
     }
 
     #[test]
+    #[ignore]
+    #[rustfmt::skip]
+    fn test_return() {
+        let if_return = parse_program("default$main(string name) {
+    if( a == true) {
+     // return a
+    }
+
+    return a
+}", 0);
+        println!("{:?}", if_return);
+        assert!(if_return.is_ok());
+    }
+
+    #[test]
     #[rustfmt::skip]
     fn test_parse_import() {
         let parse_ast = parse_program("import io", 0);

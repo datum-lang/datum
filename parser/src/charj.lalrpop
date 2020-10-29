@@ -170,7 +170,7 @@ ReturnValue: Expression = {
 }
 
 IfStatement: Statement = {
-    <l:@L> "if" "(" Comparison ")" "{" "}" <r:@R> => {
+    <l:@L> "if" "(" Comparison ")" "{" <body:Suite> "}" <r:@R> => {
         Statement {
             location: Location::new(l, r),
             node: StatementType::If
