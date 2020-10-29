@@ -34,6 +34,7 @@ static KEYWORDS: phf::Map<&'static str, Token> = phf_map! {
     "bool" => Token::Bool,
     "string" => Token::String,
     "int" => Token::Int(256),
+    // "int256" => Token::Int(256),
     "uint" => Token::Uint(256),
 
     "$" => Token::Binding,

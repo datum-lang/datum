@@ -198,6 +198,13 @@ ForStatement: Statement = {
 
 Expression: Expression = {
     CallExpr,
+
+    <l:@L> <ty:Type> <r:@R> => {
+        Expression {
+            location: Location::new(l, r),
+            node: ExpressionType::Type {ty}
+        }
+    },
     <l:@L> <name: Identifier> <r:@R> => {
         Expression {
             location: Location::new(l, r),

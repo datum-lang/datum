@@ -53,9 +53,17 @@ pub type Expression = Located<ExpressionType>;
 #[derive(Debug, PartialEq)]
 pub enum ExpressionType {
     /// A `list` literal value.
-    List { elements: Vec<Expression> },
+    List {
+        elements: Vec<Expression>,
+    },
     /// An identifier, designating a certain variable or type.
-    Identifier { name: Identifier },
+    Identifier {
+        name: Identifier,
+    },
+
+    Type {
+        ty: Type,
+    },
 
     /// Attribute access in the form of `value.name`.
     Attribute {
@@ -130,7 +138,8 @@ pub enum Package {
 #[derive(Debug, PartialEq)]
 pub enum Import {
     Standard(Identifier),
-    Remote, // for such github.com/phodal/coca
+    Remote,
+    // for such github.com/phodal/coca
     GlobalSymbol(StringLiteral, Identifier),
     Rename(StringLiteral, Vec<(Identifier, Option<Identifier>)>),
 }

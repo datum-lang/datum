@@ -69,6 +69,7 @@ struct IO {}", 0);
         assert!(params.is_ok());
 
         let multi_params = parse_program("default$main(string name, string first, int id) {}", 0);
+        println!("{:?}", multi_params);
         assert!(multi_params.is_ok());
     }
 
