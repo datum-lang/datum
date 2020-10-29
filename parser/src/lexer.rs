@@ -262,6 +262,15 @@ impl<'input> Lexer<'input> {
                 }
                 Some((i, '>')) => {
                     return match self.chars.peek() {
+                        Some((_, '>')) => {
+                            self.chars.next();
+                            if let Some((_, '=')) = self.chars.peek() {
+                                self.chars.next();
+                                Some(Ok((i, Token::ShiftRightAssign, i + 3)))
+                            } else {
+                                Some(Ok((i, Token::ShiftRight, i + 2)))
+                            }
+                        }
                         Some((_, '=')) => {
                             self.chars.next();
                             Some(Ok((i, Token::MoreEqual, i + 2)))

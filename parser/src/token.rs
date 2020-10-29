@@ -50,8 +50,13 @@ pub enum Token<'input> {
     BitwiseOr,
     BitwiseAnd,
     BitwiseXor,
+
     ShiftLeft,
+    ShiftLeftAssign,
+
     ShiftRight,
+    ShiftRightAssign,
+
     Add,
     Subtract,
     Mul,
@@ -129,7 +134,13 @@ impl<'input> fmt::Display for Token<'input> {
             Token::Assign => write!(f, "="),
             Token::NotEqual => write!(f, "!="),
             Token::Not => write!(f, "!"),
+
             Token::ShiftLeft => write!(f, "<<"),
+            Token::ShiftLeftAssign => write!(f, "<<="),
+
+            Token::ShiftRight => write!(f, "<<"),
+            Token::ShiftRightAssign => write!(f, "<<="),
+
             Token::More => write!(f, ">"),
             Token::MoreEqual => write!(f, ">="),
             Token::Member => write!(f, "."),
@@ -138,7 +149,6 @@ impl<'input> fmt::Display for Token<'input> {
             Token::CloseBracket => write!(f, "]"),
             Token::Complement => write!(f, "~"),
             Token::Question => write!(f, "?"),
-            Token::ShiftRight => write!(f, "<<"),
             Token::Less => write!(f, "<"),
             Token::LessEqual => write!(f, "<="),
             Token::Arrow => write!(f, "=>"),
