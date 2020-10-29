@@ -139,13 +139,11 @@ pkg comment
     }
 
     #[test]
-    #[ignore]
     #[rustfmt::skip]
     fn test_function_call() {
         let basic_function_call = parse_program("default$main(string name) {
     fmt.println()
 }", 0);
-        println!("{:?}", basic_function_call);
         assert!(basic_function_call.is_ok());
     }
 }

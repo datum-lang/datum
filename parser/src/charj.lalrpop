@@ -190,11 +190,10 @@ ForStatement: Statement = {
 
 Expression: Expression = {
     CallExpr,
-    // bool, int, string
-    Atom,
 }
 
 Atom: Expression = {
+    // bool, int, string
     <l:@L> <ty:Type> <r:@R> => {
         Expression {
             location: Location::new(l, r),
@@ -216,6 +215,7 @@ Atom: Expression = {
 }
 
 CallExpr: Expression = {
+    Atom,
     <f:CallExpr> <l:@L> "(" <a: Comma<Argument>> ")" <r:@R> => {
         Expression {
             location: Location::new(l, r),
