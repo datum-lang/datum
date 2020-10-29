@@ -126,7 +126,10 @@ pub enum StatementType {
         targets: Vec<Expression>,
         value: Expression,
     },
-
+    Variable {
+        field: Identifier,
+        name: Identifier
+    },
     Return {
         value: Option<Expression>,
     },
@@ -142,11 +145,8 @@ pub enum StatementType {
 pub struct StructDef {
     pub loc: Loc,
     pub name: Identifier,
-    pub fields: Vec<VariableDeclaration>,
+    pub fields: Vec<Statement>,
 }
-
-#[derive(Debug, PartialEq, Clone)]
-pub struct VariableDeclaration {}
 
 #[derive(Debug, PartialEq)]
 pub enum Package {

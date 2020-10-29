@@ -64,8 +64,16 @@ StructFuncDef: Box<StructFuncDef> = {
     }
 }
 
-VariableDeclaration: VariableDeclaration = {
-
+VariableDeclaration: Statement = {
+    <l:@L><field:Identifier> <name:Identifier><r:@R> => {
+        Statement {
+            location: Location::new(l, r),
+            node: StatementType::Variable {
+                field,
+                name
+            }
+        }
+    }
 };
 
 Suite: Suite = {
