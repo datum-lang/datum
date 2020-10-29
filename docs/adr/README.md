@@ -6,3 +6,4 @@
 * [4. dependency-manager](0004-dependency-manager.md)
 * [5. types-system](0005-types-system.md)
 * [6. empty-method](0006-empty-method.md)
+* [7. support-for-newline](0007-support-for-newline.md)
