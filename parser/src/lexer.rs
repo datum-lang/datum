@@ -260,7 +260,15 @@ impl<'input> Lexer<'input> {
                         _ => Some(Ok((i, Token::Assign, i + 1))),
                     }
                 }
-
+                Some((i, '>')) => {
+                    return match self.chars.peek() {
+                        Some((_, '=')) => {
+                            self.chars.next();
+                            Some(Ok((i, Token::MoreEqual, i + 2)))
+                        }
+                        _ => Some(Ok((i, Token::More, i + 1))),
+                    };
+                }
                 Some((i, '$')) => return Some(Ok((i, Token::Binding, i + 1))),
 
                 Some((start, _)) => {

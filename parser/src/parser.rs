@@ -107,8 +107,15 @@ pkg comment
         return a
     }
 }", 0);
-        println!("{:?}", if_return);
         assert!(if_return.is_ok());
+
+        let if_greater = parse_program("default$main(int a, int b) {
+    if(a > b) {
+        return a
+    }
+}", 0);
+        println!("{:?}", if_greater);
+        assert!(if_greater.is_ok());
     }
 
     #[test]
