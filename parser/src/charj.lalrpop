@@ -78,6 +78,7 @@ Statement: Suite = {
 };
 
 SimpleStatement: Suite = {
+    // for examples, for continue;
     <s1:SmallStatement> <s2:(";" SmallStatement)*> ";"? "\n" => {
         let mut statements = vec![s1];
         statements.extend(s2.into_iter().map(|e| e.1));
@@ -198,7 +199,6 @@ ForStatement: Statement = {
 
 Expression: Expression = {
     CallExpr,
-
     <l:@L> <ty:Type> <r:@R> => {
         Expression {
             location: Location::new(l, r),
@@ -210,6 +210,10 @@ Expression: Expression = {
             location: Location::new(l, r),
             node: ExpressionType::Identifier { name }
         }
+    },
+    <l:@L> <value:LexStringLiteral> <r:@R> => Expression {
+        location: Location::new(l, r),
+        node: ExpressionType::String { value: value.to_string() }
     },
 }
 

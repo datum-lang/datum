@@ -52,6 +52,9 @@ pub type Expression = Located<ExpressionType>;
 /// A certain type of expression.
 #[derive(Debug, PartialEq)]
 pub enum ExpressionType {
+    String  {
+        value: String
+    },
     /// A `list` literal value.
     List {
         elements: Vec<Expression>,
