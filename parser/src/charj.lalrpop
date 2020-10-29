@@ -190,18 +190,25 @@ ForStatement: Statement = {
 
 Expression: Expression = {
     CallExpr,
+    // bool, int, string
+    Atom,
+}
+
+Atom: Expression = {
     <l:@L> <ty:Type> <r:@R> => {
         Expression {
             location: Location::new(l, r),
             node: ExpressionType::Type {ty}
         }
     },
+    // name
     <l:@L> <name: Identifier> <r:@R> => {
         Expression {
             location: Location::new(l, r),
             node: ExpressionType::Identifier { name }
         }
     },
+    // "string"
     <l:@L> <value:LexStringLiteral> <r:@R> => Expression {
         location: Location::new(l, r),
         node: ExpressionType::String { value: value.to_string() }
