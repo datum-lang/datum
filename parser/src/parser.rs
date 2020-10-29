@@ -100,12 +100,11 @@ pkg comment
     }
 
     #[test]
-    #[ignore]
     #[rustfmt::skip]
     fn test_return() {
         let if_return = parse_program("default$main(string name) {
     if(a == true) {
-        return
+        return a
     }
 }", 0);
         println!("{:?}", if_return);

@@ -127,12 +127,12 @@ FlowStatement: Statement = {
             node: StatementType::Continue,
         }
     },
-//    <l:@L> "return" <value:ReturnList?> <r:@R> => {
-//        Statement {
-//            location: Location::new(l, r),
-//            node: StatementType::Return { value },
-//        }
-//    },
+    <l:@L> "return" <value:ReturnList?> <r:@R> => {
+        Statement {
+            location: Location::new(l, r),
+            node: StatementType::Return { value },
+        }
+    },
 }
 
 ReturnList: Expression = {
