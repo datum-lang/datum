@@ -114,7 +114,6 @@ pkg comment
         return a
     }
 }", 0);
-        println!("{:?}", if_greater);
         assert!(if_greater.is_ok());
     }
 
@@ -142,7 +141,7 @@ pkg comment
     #[rustfmt::skip]
     fn test_function_call() {
         let basic_function_call = parse_program("default$main(string name) {
-    fmt.println()
+    fmt.println(\"hello,world\")
 }", 0);
         assert!(basic_function_call.is_ok());
     }
