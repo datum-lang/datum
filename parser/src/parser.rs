@@ -49,7 +49,6 @@ mod test {
     fn test_basic_location() {
         let code = parse_program("pkg charj
 struct IO {}", 0);
-        println!("{:?}", code);
         assert!(code.is_ok());
     }
 
@@ -69,7 +68,6 @@ struct IO {}", 0);
         assert!(params.is_ok());
 
         let multi_params = parse_program("default$main(string name, string first, int id) {}", 0);
-        println!("{:?}", multi_params);
         assert!(multi_params.is_ok());
     }
 
