@@ -154,13 +154,17 @@ ReturnValue: Expression = {
 }
 
 IfStatement: Statement = {
-    <l:@L> "if" "(" Comparison ")" "{" <body:Suite?> "}" <r:@R> => {
+    <l:@L> "if" "(" <cond:Comparison> ")" "{" <body:Suite?> "}" <s3:("else" "{" Suite "}")?> <r:@R> => {
+        let mut last = s3.map(|s| s.2);
+
         let body = body.unwrap_or(Vec::new());
 
         Statement {
             location: Location::new(l, r),
             node: StatementType::If {
-                body
+                cond,
+                body,
+                orelse: last
             }
         }
     }
@@ -315,6 +319,7 @@ extern {
 
         // statement
         "if" => Token::If,
+        "else" => Token::Else,
         "while" => Token::While,
         "for" => Token::For,
         "break" => Token::Break,

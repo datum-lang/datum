@@ -112,7 +112,11 @@ pub type Statement = Located<StatementType>;
 pub enum StatementType {
     Break,
     Continue,
-    If { body: Suite },
+    If {
+        cond: Expression,
+        body: Suite,
+        orelse: Option<Suite>,
+    },
     While,
     For,
     Loop,

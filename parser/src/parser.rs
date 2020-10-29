@@ -120,6 +120,20 @@ pkg comment
 
     #[test]
     #[rustfmt::skip]
+    fn test_if_else() {
+        let if_else = parse_program("default$compare(int a, int b) {
+    if(a > b) {
+        return a
+    } else {
+        return b
+    }
+}", 0);
+        println!("{:?}", if_else);
+        assert!(if_else.is_ok());
+    }
+
+    #[test]
+    #[rustfmt::skip]
     fn test_parse_import() {
         let parse_ast = parse_program("import io", 0);
         assert!(parse_ast.is_ok());
