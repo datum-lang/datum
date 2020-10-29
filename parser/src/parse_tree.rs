@@ -121,10 +121,16 @@ pub enum StatementType {
     For,
     Loop,
 
-    Return { value: Option<Expression> },
-    List { elements: Vec<Expression> },
+    Return {
+        value: Option<Expression>,
+    },
+    List {
+        elements: Vec<Expression>,
+    },
 
-    Expression { expression: Expression },
+    Expression {
+        expression: Expression,
+    },
 }
 
 #[derive(Debug, PartialEq)]
