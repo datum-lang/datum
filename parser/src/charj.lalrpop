@@ -235,6 +235,7 @@ CallExpr: Expression = {
 Type: Type = {
     "bool" => Type::Bool,
     "string" => Type::String,
+    Int => Type::Int(<>),
 }
 
 Argument: Argument = {
@@ -332,6 +333,9 @@ extern {
         "bool" => Token::Bool,
         "string" => Token::String,
         "bytes" => Token::DynamicBytes,
+        Int => Token::Int(<u16>),
+        Uint => Token::Uint(<u16>),
+        Bytes => Token::Bytes(<u8>),
 
         // other symbols
         "\n" => Token::NewLine,
