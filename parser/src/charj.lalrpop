@@ -77,18 +77,18 @@ Statement: Suite = {
     <s:CompoundStatement> => vec![s],
 };
 
-CompoundStatement: Statement = {
-    IfStatement,
-    WhileStatement,
-    ForStatement,
-}
-
 SimpleStatement: Suite = {
     <s1:SmallStatement> <s2:(";" SmallStatement)*> ";"? "\n" => {
         let mut statements = vec![s1];
         statements.extend(s2.into_iter().map(|e| e.1));
         statements
     }
+}
+
+CompoundStatement: Statement = {
+    IfStatement,
+    WhileStatement,
+    ForStatement,
 }
 
 SmallStatement: Statement = {
@@ -196,17 +196,6 @@ ForStatement: Statement = {
     }
 };
 
-// A parameter list is used for function arguments, returns, and destructuring statements.
-// In destructuring statements, parameters can be optional. So, we make parameters optional
-// and as an added bonus we can generate error messages about missing parameters/returns
-// to functions
-Parameter: Parameter = {
-    <l:@L> <ty:Expression> <name:Identifier?> <r:@R> => {
-        let loc = Loc(l, r);
-        Parameter{loc, ty, name}
-    }
-}
-
 Expression: Expression = {
     <l:@L> <name: Identifier> <r:@R> => {
         Expression {
@@ -242,14 +231,25 @@ Argument: Argument = {
     },
 }
 
-OptParameter: (Loc, Option<Parameter>) = {
-    <l:@L> <p:Parameter?> <r:@R> => (Loc(l, r), p),
-}
-
 ParameterList: Vec<(Loc, Option<Parameter>)> = {
     "(" ")" => Vec::new(),
     "(" <l:@L> <p:Parameter> <r:@R> ")" => vec!((Loc(l, r), Some(p))),
     "(" <CommaTwo<OptParameter>> ")" => <>,
+}
+
+OptParameter: (Loc, Option<Parameter>) = {
+    <l:@L> <p:Parameter?> <r:@R> => (Loc(l, r), p),
+}
+
+// A parameter list is used for function arguments, returns, and destructuring statements.
+// In destructuring statements, parameters can be optional. So, we make parameters optional
+// and as an added bonus we can generate error messages about missing parameters/returns
+// to functions
+Parameter: Parameter = {
+    <l:@L> <ty:Expression> <name:Identifier?> <r:@R> => {
+        let loc = Loc(l, r);
+        Parameter{loc, ty, name}
+    }
 }
 
 Identifier: Identifier = {
