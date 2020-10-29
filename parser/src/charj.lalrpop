@@ -171,10 +171,14 @@ ReturnValue: Expression = {
 }
 
 IfStatement: Statement = {
-    <l:@L> "if" "(" Comparison ")" "{" <body:Suite> "}" <r:@R> => {
+    <l:@L> "if" "(" Comparison ")" "{" <body:Suite?> "}" <r:@R> => {
+        let body = body.unwrap_or(Vec::new());
+
         Statement {
             location: Location::new(l, r),
-            node: StatementType::If
+            node: StatementType::If {
+                body
+            }
         }
     }
 };

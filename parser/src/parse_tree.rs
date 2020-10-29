@@ -52,8 +52,8 @@ pub type Expression = Located<ExpressionType>;
 /// A certain type of expression.
 #[derive(Debug, PartialEq)]
 pub enum ExpressionType {
-    String  {
-        value: String
+    String {
+        value: String,
     },
     /// A `list` literal value.
     List {
@@ -112,7 +112,7 @@ pub type Statement = Located<StatementType>;
 pub enum StatementType {
     Break,
     Continue,
-    If,
+    If { body: Suite },
     While,
     For,
     Loop,

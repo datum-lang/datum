@@ -107,8 +107,6 @@ pkg comment
     if(a == true) {
      // return a
     }
-
-    return a
 }", 0);
         println!("{:?}", if_return);
         assert!(if_return.is_ok());
