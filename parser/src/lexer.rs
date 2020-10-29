@@ -5,12 +5,15 @@ use phf::phf_map;
 use unicode_xid::UnicodeXID;
 
 use crate::error::LexicalError;
+use crate::location::Location;
 use crate::token::{CommentType, Token};
 
 pub struct Lexer<'input> {
     input: &'input str,
     chars: Peekable<CharIndices<'input>>,
     last_tokens: [Option<Token<'input>>; 2],
+    char0: Option<char>,
+    location: Location,
 }
 
 static KEYWORDS: phf::Map<&'static str, Token> = phf_map! {
@@ -43,11 +46,16 @@ static KEYWORDS: phf::Map<&'static str, Token> = phf_map! {
 
 impl<'input> Lexer<'input> {
     pub fn new(input: &'input str) -> Self {
-        Lexer {
+        let mut lexer = Lexer {
             input,
             chars: input.char_indices().peekable(),
             last_tokens: [None, None],
-        }
+            char0: None,
+            location: Location::new(0, 0),
+        };
+
+        lexer.location.reset();
+        lexer
     }
 
     fn lex_string(
@@ -83,6 +91,17 @@ impl<'input> Lexer<'input> {
             Token::StringLiteral(&self.input[string_start..end]),
             end + 1,
         )))
+    }
+
+    /// Helper function to go to the next character coming up.
+    fn next_char(&mut self) -> Option<char> {
+        let charj = self.char0;
+        if charj == Some('\n') {
+            self.location.newline();
+        } else {
+            self.location.go_right();
+        }
+        charj
     }
 
     fn next(&mut self) -> Option<Result<(usize, Token<'input>, usize), LexicalError>> {
@@ -259,7 +278,7 @@ impl<'input> Lexer<'input> {
                             Some(Ok((i, Token::Arrow, i + 2)))
                         }
                         _ => Some(Ok((i, Token::Assign, i + 1))),
-                    }
+                    };
                 }
                 Some((i, '>')) => {
                     return match self.chars.peek() {
