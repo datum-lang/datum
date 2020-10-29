@@ -20,6 +20,8 @@ pub fn parse_program(source: &str, file_no: usize) -> Result<SourceUnit, Diagnos
 #[cfg(test)]
 mod test {
     use crate::parser::parse_program;
+    use crate::parse_tree::{SourceUnit, SourceUnitPart, Package, Identifier};
+    use crate::location::Loc;
 
     #[test]
     #[rustfmt::skip]
@@ -32,7 +34,12 @@ mod test {
     #[rustfmt::skip]
     fn test_parse_package() {
         let package = parse_program("package charj", 0);
-        assert!(package.is_ok());
+        assert_eq!(package.unwrap(), SourceUnit { 0: vec![SourceUnitPart::PackageDirective(Package::Plain(
+            Identifier {
+                loc: Loc(8, 13),
+                name: "charj".to_string()
+            }
+        ))] });
         let pkg_alias = parse_program("pkg charj", 0);
         assert!(pkg_alias.is_ok());
     }
