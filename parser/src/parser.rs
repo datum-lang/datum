@@ -87,10 +87,9 @@ pkg comment
     fn test_if_statement() {
         let empty_if = parse_program("default$main(string name) {
     if(string == \"name\") {
-        // return;
+        return
     }
 }", 0);
-        println!("{:?}", empty_if);
         assert!(empty_if.is_ok());
 
         let if_with_expr = parse_program("default$main(string name) {
