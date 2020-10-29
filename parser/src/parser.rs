@@ -153,6 +153,19 @@ pkg comment
     #[test]
     #[ignore]
     #[rustfmt::skip]
+    fn test_struct_vars() {
+        let code = parse_program("pkg charj
+struct IO {
+  	Name   string
+	FanIn  int
+	FanOut int
+}", 0);
+        assert!(code.is_ok());
+    }
+
+    #[test]
+    #[ignore]
+    #[rustfmt::skip]
     fn test_assign() {
         let str_assign = parse_program("default$main() {
     let words = \"hello,world\"

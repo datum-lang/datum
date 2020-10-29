@@ -8,6 +8,7 @@ use crate::error::LexicalError;
 use crate::location::Location;
 use crate::token::{CommentType, Token};
 
+#[allow(unused)]
 pub struct Lexer<'input> {
     input: &'input str,
     chars: Peekable<CharIndices<'input>>,
@@ -94,6 +95,7 @@ impl<'input> Lexer<'input> {
     }
 
     /// Helper function to go to the next character coming up.
+    #[allow(unused)]
     fn next_char(&mut self) -> Option<char> {
         let charj = self.char0;
         if charj == Some('\n') {
