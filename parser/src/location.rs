@@ -1,4 +1,6 @@
 //! Datatypes to support source location information.
+use std::fmt;
+
 #[derive(Debug, PartialEq, Eq, Hash, Clone, Copy, Default)]
 pub struct Loc(pub usize, pub usize);
 
@@ -7,8 +9,6 @@ impl Loc {
         Loc(start, end)
     }
 }
-
-use std::fmt;
 
 /// A location somewhere in the sourcecode.
 #[derive(Clone, Copy, Debug, Default, PartialEq)]

@@ -19,9 +19,9 @@ pub fn parse_program(source: &str, file_no: usize) -> Result<SourceUnit, Diagnos
 
 #[cfg(test)]
 mod test {
-    use crate::parser::parse_program;
-    use crate::parse_tree::{SourceUnit, SourceUnitPart, Package, Identifier};
     use crate::location::Loc;
+    use crate::parse_tree::{Identifier, Package, SourceUnit, SourceUnitPart};
+    use crate::parser::parse_program;
 
     #[test]
     #[rustfmt::skip]

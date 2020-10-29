@@ -1,5 +1,6 @@
-use crate::location::{Loc, Location};
 use core::fmt;
+
+use crate::location::{Loc, Location};
 
 #[derive(Debug, PartialEq)]
 pub struct SourceUnit(pub Vec<SourceUnitPart>);
