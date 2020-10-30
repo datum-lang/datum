@@ -1,5 +1,7 @@
 # Charj
 
+![Charj Build](https://github.com/charj-lang/charj-poc/workflows/Charj%20Build/badge.svg)
+
 > a common language as a temp language for transform other languages.
 
 ## Roadmap
