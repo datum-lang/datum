@@ -140,9 +140,6 @@ pub enum StatementType {
     Return {
         value: Option<Expression>,
     },
-    List {
-        elements: Vec<Expression>,
-    },
     Expression {
         expression: Expression,
     },
