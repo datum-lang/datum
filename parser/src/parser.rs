@@ -156,7 +156,7 @@ pkg comment
     #[rustfmt::skip]
     fn test_struct_vars() {
         let code = parse_program("pkg charj
-struct IO {
+struct Summary {
   	Name   : string
 	FanIn  : int
 	FanOut : int
