@@ -77,6 +77,10 @@ VarDecl: Statement = {
 };
 
 Suite: Suite = {
+    <s:Statement+> => s.into_iter().flatten().collect(),
+};
+
+Statement: Suite = {
     <s:CompoundStatement> => vec![s],
 };
 
@@ -145,7 +149,7 @@ FlowStatement: Statement = {
             node: StatementType::Continue,
         }
     },
-    <l:@L> "return" <value:ReturnList?> <r:@R> => {
+    <l:@L> "return" <value:ReturnList?> ";" <r:@R> => {
         Statement {
             location: Location::new(l, r),
             node: StatementType::Return { value },
@@ -233,7 +237,6 @@ CallExpr: Expression = {
 Atom: Expression = {
     // system type & user custom type
     TypeLiteral,
-
     // "string"
     <l:@L> <value:LexStringLiteral> <r:@R> => Expression {
         location: Location::new(l, r),

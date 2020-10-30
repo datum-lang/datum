@@ -135,7 +135,7 @@ pub enum StatementType {
     Assign {
         target: Identifier,
         value: Expression,
-        ty: Expression
+        ty: Expression,
     },
     Variable {
         field: Identifier,

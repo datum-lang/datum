@@ -94,7 +94,7 @@ pkg comment
     fn test_if_statement() {
         let empty_if = parse_program("default$main(string name) {
     if(string == \"name\") {
-        return
+        return;
     }
 }", 0);
         assert!(empty_if.is_ok());
@@ -110,7 +110,7 @@ pkg comment
     fn test_while() {
         let empty_if = parse_program("default$main(string name) {
     while(string == \"name\") {
-        return
+        return;
     }
 }", 0);
         assert!(empty_if.is_ok());
@@ -126,14 +126,14 @@ pkg comment
     fn test_return() {
         let if_return = parse_program("default$main(string name) {
     if(a == true) {
-        return a
+        return a;
     }
 }", 0);
         assert!(if_return.is_ok());
 
         let if_greater = parse_program("default$main(int a, int b) {
     if(a > b) {
-        return a
+        return a;
     }
 }", 0);
         assert!(if_greater.is_ok());
@@ -144,9 +144,9 @@ pkg comment
     fn test_if_else() {
         let if_else = parse_program("default$compare(int a, int b) {
     if(a > b) {
-        return a
+        return a;
     } else {
-        return b
+        return b;
     }
 }", 0);
         assert!(if_else.is_ok());
@@ -196,7 +196,7 @@ struct Summary {
     fn test_assign() {
         let str_assign = parse_program("default$main() {
     let words: string  = \"hello,world\"
-    // fmt.println(words)
+    fmt.println(words)
 }", 0);
         println!("{:?}", str_assign);
         assert!(str_assign.is_ok());
