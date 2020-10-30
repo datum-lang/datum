@@ -65,7 +65,7 @@ StructFuncDef: Box<StructFuncDef> = {
 }
 
 VarDecl: Statement = {
-    <l:@L><field:Identifier> ":" <ty:TypeType><r:@R> => {
+    <l:@L><field:Identifier> ":" <ty:TypeLiteral><r:@R> => {
         Statement {
             location: Location::new(l, r),
             node: StatementType::Variable {
@@ -218,7 +218,7 @@ CallExpr: Expression = {
 
 Atom: Expression = {
     // system type & user custom type
-    TypeType,
+    TypeLiteral,
     // "string"
     <l:@L> <value:LexStringLiteral> <r:@R> => Expression {
         location: Location::new(l, r),
@@ -226,7 +226,7 @@ Atom: Expression = {
     },
 }
 
-TypeType: Expression = {
+TypeLiteral: Expression = {
     // bool, int, string
     <l:@L> <ty:Type> <r:@R> => {
         Expression {
