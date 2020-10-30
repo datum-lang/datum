@@ -224,6 +224,10 @@ Atom: Expression = {
         location: Location::new(l, r),
         node: ExpressionType::String { value: value.to_string() }
     },
+//    <l:@L> <value:Number> <r:@R> => Expression {
+//        location: Location::new(l, r),
+//        node: ExpressionType::Number { value }
+//    },
 }
 
 TypeLiteral: Expression = {

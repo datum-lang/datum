@@ -170,6 +170,7 @@ struct Summary {
         let code = parse_program("pkg charj
 struct Summary {
   	Name   : []string
+  	// Names  : [5]string
 }", 0);
         println!("{:?}", code);
         assert!(code.is_ok());

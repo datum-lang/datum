@@ -1,6 +1,7 @@
 use core::fmt;
 
 use crate::location::{Loc, Location};
+use num_bigint::BigInt;
 
 #[derive(Debug, PartialEq)]
 pub struct SourceUnit(pub Vec<SourceUnitPart>);
@@ -56,6 +57,12 @@ pub enum ExpressionType {
     String {
         value: String,
     },
+
+    /// A numeric literal.
+    Number {
+        value: Number,
+    },
+
     /// A `list` literal value.
     List {
         elements: Vec<Expression>,
@@ -194,6 +201,13 @@ pub enum Comparison {
     NotIn,
     Is,
     IsNot,
+}
+
+/// A numeric literal.
+#[derive(Debug, PartialEq)]
+pub enum Number {
+    Integer { value: BigInt },
+    Float { value: f64 },
 }
 
 #[derive(Debug, PartialEq, Clone)]
