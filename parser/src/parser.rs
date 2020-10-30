@@ -197,7 +197,7 @@ struct Summary {
         let str_assign = parse_program("default$main() {
     let words: string  = \"hello,world\"
     fmt.println(words)
-    // let b: int = 2333
+    let b: int = 2333
     fmt.println(b)
 }", 0);
         println!("{:?}", str_assign);

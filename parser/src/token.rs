@@ -7,6 +7,7 @@ pub enum Token<'input> {
     StringLiteral(&'input str),
     NumberLiteral(&'input str, &'input str),
     HexLiteral(&'input str),
+    HexNumber(&'input str),
 
     DocComment(CommentType, &'input str),
 
@@ -87,6 +88,7 @@ impl<'input> fmt::Display for Token<'input> {
             Token::HexLiteral(hex) => write!(f, "{}", hex),
             Token::NumberLiteral(base, exp) if exp.is_empty() => write!(f, "{}", base),
             Token::NumberLiteral(base, exp) => write!(f, "{}e{}", base, exp),
+            Token::HexNumber(n) => write!(f, "{}", n),
 
             Token::DocComment(CommentType::Line, s) => write!(f, "///{}", s),
             Token::DocComment(CommentType::Block, s) => write!(f, "/**{}\n*/", s),

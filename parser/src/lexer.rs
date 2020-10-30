@@ -107,6 +107,77 @@ impl<'input> Lexer<'input> {
         charj
     }
 
+    fn parse_number(
+        &mut self,
+        start: usize,
+        end: usize,
+        ch: char,
+    ) -> Option<Result<(usize, Token<'input>, usize), LexicalError>> {
+        if ch == '0' {
+            if let Some((_, 'x')) = self.chars.peek() {
+                // hex number
+                self.chars.next();
+
+                let mut end = match self.chars.next() {
+                    Some((end, ch)) if ch.is_ascii_hexdigit() => end,
+                    Some((_, _)) => {
+                        return Some(Err(LexicalError::MissingNumber(start, start + 1)));
+                    }
+                    None => {
+                        return Some(Err(LexicalError::EndOfFileInHex(start, self.input.len())));
+                    }
+                };
+
+                while let Some((i, ch)) = self.chars.peek() {
+                    if !ch.is_ascii_hexdigit() && *ch != '_' {
+                        break;
+                    }
+                    end = *i;
+                    self.chars.next();
+                }
+
+                return Some(Ok((
+                    start,
+                    Token::HexNumber(&self.input[start..=end]),
+                    end + 1,
+                )));
+            }
+        }
+
+        let mut end = end;
+        while let Some((i, ch)) = self.chars.peek() {
+            if !ch.is_ascii_digit() && *ch != '_' {
+                break;
+            }
+            end = *i;
+            self.chars.next();
+        }
+
+        let base = &self.input[start..=end];
+
+        let mut exp_start = end + 1;
+
+        if let Some((i, 'e')) = self.chars.peek() {
+            exp_start = i + 1;
+            self.chars.next();
+            while let Some((i, ch)) = self.chars.peek() {
+                if !ch.is_ascii_digit() && *ch != '_' {
+                    break;
+                }
+                end = *i;
+                self.chars.next();
+            }
+
+            if exp_start > end {
+                return Some(Err(LexicalError::MissingExponent(start, self.input.len())));
+            }
+        }
+
+        let exp = &self.input[exp_start..=end];
+
+        Some(Ok((start, Token::NumberLiteral(base, exp), end + 1)))
+    }
+
     fn next(&mut self) -> Option<Result<(usize, Token<'input>, usize), LexicalError>> {
         loop {
             match self.chars.next() {
@@ -258,6 +329,9 @@ impl<'input> Lexer<'input> {
                     }
                 }
                 Some((_, ch)) if ch.is_whitespace() => (),
+                Some((start, ch)) if ch.is_ascii_digit() => {
+                    return self.parse_number(start, start, ch)
+                }
                 Some((i, ';')) => return Some(Ok((i, Token::Semicolon, i + 1))),
                 Some((i, ',')) => return Some(Ok((i, Token::Comma, i + 1))),
                 Some((i, '(')) => return Some(Ok((i, Token::OpenParenthesis, i + 1))),
