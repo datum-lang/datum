@@ -242,10 +242,10 @@ TypeLiteral: Expression = {
         }
     },
     // list
-    <l:@L> "[" <v:OneOrMore<Expression>> "]" <name: Identifier><r:@R> => {
+    <l:@L> "[" "]" <ty: TypeLiteral><r:@R> => {
         Expression {
             location: Location::new(l, r),
-            node: ExpressionType::List { elements: v },
+            node: ExpressionType::List { elements: vec![] },
         }
     },
 }

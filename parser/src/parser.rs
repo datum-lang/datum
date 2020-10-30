@@ -165,12 +165,11 @@ struct Summary {
     }
 
     #[test]
-    #[ignore]
     #[rustfmt::skip]
     fn test_struct_array_vars() {
         let code = parse_program("pkg charj
 struct Summary {
-  	Name   : [2]string
+  	Name   : []string
 }", 0);
         println!("{:?}", code);
         assert!(code.is_ok());
