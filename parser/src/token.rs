@@ -5,6 +5,7 @@ use std::fmt::{self};
 pub enum Token<'input> {
     Identifier(&'input str),
     StringLiteral(&'input str),
+    NumberLiteral(&'input str, &'input str),
     HexLiteral(&'input str),
 
     DocComment(CommentType, &'input str),
@@ -84,6 +85,8 @@ impl<'input> fmt::Display for Token<'input> {
             Token::Identifier(id) => write!(f, "{}", id),
             Token::StringLiteral(s) => write!(f, "\"{}\"", s),
             Token::HexLiteral(hex) => write!(f, "{}", hex),
+            Token::NumberLiteral(base, exp) if exp.is_empty() => write!(f, "{}", base),
+            Token::NumberLiteral(base, exp) => write!(f, "{}e{}", base, exp),
 
             Token::DocComment(CommentType::Line, s) => write!(f, "///{}", s),
             Token::DocComment(CommentType::Block, s) => write!(f, "/**{}\n*/", s),

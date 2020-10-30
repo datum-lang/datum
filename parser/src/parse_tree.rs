@@ -60,7 +60,7 @@ pub enum ExpressionType {
 
     /// A numeric literal.
     Number {
-        value: Number,
+        value: BigInt,
     },
 
     /// A `list` literal value.

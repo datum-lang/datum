@@ -1,4 +1,8 @@
 use std::str::FromStr;
+use num_bigint::BigInt;
+use num_bigint::BigUint;
+use num_traits::Pow;
+use std::ops::Mul;
 
 use crate::location::{Loc, Location};
 use crate::lexer;
@@ -242,10 +246,24 @@ Atom: Expression = {
         location: Location::new(l, r),
         node: ExpressionType::String { value: value.to_string() }
     },
-//    <l:@L> <value:Number> <r:@R> => Expression {
-//        location: Location::new(l, r),
-//        node: ExpressionType::Number { value }
-//    },
+    <l:@L> <n:LexNumber> <r:@R> => {
+        let base: String = n.0.chars().filter(|v| *v != '_').collect();
+        let exp: String = n.1.chars().filter(|v| *v != '_').collect();
+
+        let n = if exp.is_empty() {
+            BigInt::from_str(&base).unwrap()
+        } else {
+            let base = BigInt::from_str(&base).unwrap();
+            let exp = BigInt::from_str("10").unwrap().pow(BigUint::from_str(&exp).unwrap());
+
+            base.mul(exp)
+        };
+
+        Expression {
+            location: Location::new(l, r),
+            node: ExpressionType::Number { value: n }
+        }
+    },
 }
 
 TypeLiteral: Expression = {
@@ -360,6 +378,7 @@ extern {
     enum Token<'input> {
         LexIdentifier => Token::Identifier(<&'input str>),
         LexStringLiteral => Token::StringLiteral(<&'input str>),
+        LexNumber => Token::NumberLiteral(<&'input str>, <&'input str>),
 
         DocComment => Token::DocComment(<CommentType>, <&'input str>),
         // operators symbol
