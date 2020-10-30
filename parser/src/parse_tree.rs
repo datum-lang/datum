@@ -133,8 +133,9 @@ pub enum StatementType {
     Loop,
     /// Variable assignment. Note that we can assign to multiple targets.
     Assign {
-        targets: Vec<Expression>,
+        target: Identifier,
         value: Expression,
+        ty: Expression
     },
     Variable {
         field: Identifier,

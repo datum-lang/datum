@@ -89,6 +89,16 @@ CompoundStatement: Statement = {
 }
 
 ExpressionStatement: Statement = {
+    <l:@L> "let" <name:Identifier> ":" <typ:TypeLiteral> "=" <e:Expression> <r:@R> => {
+        Statement {
+            location: Location::new(l, r),
+            node: StatementType::Assign {
+                target: name,
+                ty: typ,
+                value: e
+            },
+        }
+    },
     <l:@L> <e:Expression> <r:@R> => {
         Statement {
             location: Location::new(l, r),
@@ -223,6 +233,7 @@ CallExpr: Expression = {
 Atom: Expression = {
     // system type & user custom type
     TypeLiteral,
+
     // "string"
     <l:@L> <value:LexStringLiteral> <r:@R> => Expression {
         location: Location::new(l, r),
@@ -358,6 +369,7 @@ extern {
         "pkg" => Token::Package,
         "as" => Token::As,
         "fun" => Token::Fun,
+        "let" => Token::Let,
 
         // statement
         "if" => Token::If,

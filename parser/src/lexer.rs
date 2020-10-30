@@ -34,6 +34,7 @@ static KEYWORDS: phf::Map<&'static str, Token> = phf_map! {
     "break" => Token::Break,
     "continue" => Token::Continue,
     "return" => Token::Return,
+    "let" => Token::Let,
 
     // type
     "bool" => Token::Bool,

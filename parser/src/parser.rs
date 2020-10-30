@@ -192,12 +192,11 @@ struct Summary {
     }
 
     #[test]
-    #[ignore]
     #[rustfmt::skip]
     fn test_assign() {
         let str_assign = parse_program("default$main() {
-    let words = \"hello,world\"
-    fmt.println(words)
+    let words: string  = \"hello,world\"
+    // fmt.println(words)
 }", 0);
         println!("{:?}", str_assign);
         assert!(str_assign.is_ok());

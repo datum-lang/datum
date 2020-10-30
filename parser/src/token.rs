@@ -22,6 +22,7 @@ pub enum Token<'input> {
     Break,
     Continue,
     Return,
+    Let,
 
     // type
     Bool,
@@ -101,6 +102,7 @@ impl<'input> fmt::Display for Token<'input> {
             Token::Break => write!(f, "break"),
             Token::Continue => write!(f, "continue"),
             Token::Return => write!(f, "return"),
+            Token::Let => write!(f, "let"),
 
             // type
             Token::Bool => write!(f, "bool"),
