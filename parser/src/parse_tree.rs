@@ -128,7 +128,7 @@ pub enum StatementType {
     },
     Variable {
         field: Identifier,
-        name: Identifier
+        ty: Expression  // type
     },
     Return {
         value: Option<Expression>,

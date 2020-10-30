@@ -31,7 +31,7 @@ ImportDirective: Import = {
 }
 
 StructDef: Box<StructDef> = {
-     <l:@L> "struct" <name:Identifier> "{" <fields:(<VariableDeclaration> ";")*> "}" <r:@R> => {
+     <l:@L> "struct" <name:Identifier> "{" <fields:(<VariableDeclaration>)*> "}" <r:@R> => {
         Box::new(StructDef{loc: Loc(l, r), name, fields})
     }
 }
@@ -65,12 +65,12 @@ StructFuncDef: Box<StructFuncDef> = {
 }
 
 VariableDeclaration: Statement = {
-    <l:@L><field:Identifier> <name:Identifier><r:@R> => {
+    <l:@L><field:Identifier> ":" <ty:TypeType><r:@R> => {
         Statement {
             location: Location::new(l, r),
             node: StatementType::Variable {
                 field,
-                name
+                ty
             }
         }
     }
@@ -217,6 +217,16 @@ CallExpr: Expression = {
 }
 
 Atom: Expression = {
+    // system type & user custom type
+    TypeType,
+    // "string"
+    <l:@L> <value:LexStringLiteral> <r:@R> => Expression {
+        location: Location::new(l, r),
+        node: ExpressionType::String { value: value.to_string() }
+    },
+}
+
+TypeType: Expression = {
     // bool, int, string
     <l:@L> <ty:Type> <r:@R> => {
         Expression {
@@ -230,11 +240,6 @@ Atom: Expression = {
             location: Location::new(l, r),
             node: ExpressionType::Identifier { name }
         }
-    },
-    // "string"
-    <l:@L> <value:LexStringLiteral> <r:@R> => Expression {
-        location: Location::new(l, r),
-        node: ExpressionType::String { value: value.to_string() }
     },
 }
 

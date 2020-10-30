@@ -34,12 +34,14 @@ mod test {
     #[rustfmt::skip]
     fn test_parse_package() {
         let package = parse_program("package charj", 0);
-        assert_eq!(package.unwrap(), SourceUnit { 0: vec![SourceUnitPart::PackageDirective(Package::Plain(
-            Identifier {
-                loc: Loc(8, 13),
-                name: "charj".to_string()
-            }
-        ))] });
+        assert_eq!(package.unwrap(), SourceUnit {
+            0: vec![SourceUnitPart::PackageDirective(Package::Plain(
+                Identifier {
+                    loc: Loc(8, 13),
+                    name: "charj".to_string(),
+                }
+            ))]
+        });
         let pkg_alias = parse_program("pkg charj", 0);
         assert!(pkg_alias.is_ok());
     }
@@ -151,15 +153,15 @@ pkg comment
     }
 
     #[test]
-    #[ignore]
     #[rustfmt::skip]
     fn test_struct_vars() {
         let code = parse_program("pkg charj
 struct IO {
-  	Name   string
-	FanIn  int
-	FanOut int
+  	Name   : string
+	FanIn  : int
+	FanOut : int
 }", 0);
+        println!("{:?}", code);
         assert!(code.is_ok());
     }
 
