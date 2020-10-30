@@ -31,7 +31,7 @@ ImportDirective: Import = {
 }
 
 StructDef: Box<StructDef> = {
-     <l:@L> "struct" <name:Identifier> "{" <fields:(<VariableDeclaration>)*> "}" <r:@R> => {
+     <l:@L> "struct" <name:Identifier> "{" <fields:(<VarDecl>)*> "}" <r:@R> => {
         Box::new(StructDef{loc: Loc(l, r), name, fields})
     }
 }
@@ -64,7 +64,7 @@ StructFuncDef: Box<StructFuncDef> = {
     }
 }
 
-VariableDeclaration: Statement = {
+VarDecl: Statement = {
     <l:@L><field:Identifier> ":" <ty:TypeType><r:@R> => {
         Statement {
             location: Location::new(l, r),
