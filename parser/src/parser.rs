@@ -107,6 +107,22 @@ pkg comment
 
     #[test]
     #[rustfmt::skip]
+    fn test_while() {
+        let empty_if = parse_program("default$main(string name) {
+    while(string == \"name\") {
+        return
+    }
+}", 0);
+        assert!(empty_if.is_ok());
+
+        let if_with_expr = parse_program("default$main(string name) {
+    while( a == true) {}
+}", 0);
+        assert!(if_with_expr.is_ok());
+    }
+
+    #[test]
+    #[rustfmt::skip]
     fn test_return() {
         let if_return = parse_program("default$main(string name) {
     if(a == true) {

@@ -125,7 +125,10 @@ pub enum StatementType {
         body: Suite,
         orelse: Option<Suite>,
     },
-    While,
+    While {
+        cond: Expression,
+        body: Suite,
+    },
     For,
     Loop,
     /// Variable assignment. Note that we can assign to multiple targets.

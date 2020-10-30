@@ -179,10 +179,14 @@ IfStatement: Statement = {
 };
 
 WhileStatement: Statement = {
-    <l:@L> "while" "(" ")" "{" "}" <r:@R> => {
+    <l:@L> "while" "(" <cond:Comparison> ")" "{" <body:Suite?> "}" <r:@R> => {
+        let body = body.unwrap_or(Vec::new());
         Statement {
             location: Location::new(l, r),
-            node: StatementType::While
+            node: StatementType::While {
+                cond,
+                body
+            }
         }
     }
 };
