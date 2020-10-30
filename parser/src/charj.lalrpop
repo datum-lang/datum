@@ -241,6 +241,13 @@ TypeLiteral: Expression = {
             node: ExpressionType::Identifier { name }
         }
     },
+    // list
+    <l:@L> "[" <v:OneOrMore<Expression>> "]" <name: Identifier><r:@R> => {
+        Expression {
+            location: Location::new(l, r),
+            node: ExpressionType::List { elements: v },
+        }
+    },
 }
 
 //ArgumentList: ArgumentList = {
@@ -298,14 +305,14 @@ Comma<T>: Vec<T> = {
         items
     }
 };
-
-CommaTwo<T>: Vec<T> = {
-    <e:T> <v:("," <T>)+>  => {
-        let mut v = v;
-        v.insert(0, e);
-        v
-    }
-};
+//
+//CommaOne<T>: Vec<T> = {
+//    <e:T> <v:("," <T>)*>  => {
+//        let mut v = v;
+//        v.insert(0, e);
+//        v
+//    }
+//};
 
 #[inline]
 OneOrMore<T>: Vec<T> = {
@@ -316,6 +323,13 @@ OneOrMore<T>: Vec<T> = {
     }
 };
 
+CommaTwo<T>: Vec<T> = {
+    <e:T> <v:("," <T>)+>  => {
+        let mut v = v;
+        v.insert(0, e);
+        v
+    }
+};
 
 extern {
     type Location = usize;

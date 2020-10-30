@@ -161,6 +161,17 @@ struct Summary {
 	FanIn  : int
 	FanOut : int
 }", 0);
+        assert!(code.is_ok());
+    }
+
+    #[test]
+    #[ignore]
+    #[rustfmt::skip]
+    fn test_struct_array_vars() {
+        let code = parse_program("pkg charj
+struct Summary {
+  	Name   : [2]string
+}", 0);
         println!("{:?}", code);
         assert!(code.is_ok());
     }
