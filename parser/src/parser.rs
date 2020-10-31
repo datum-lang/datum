@@ -200,6 +200,17 @@ struct Summary {
     let b: int = 2333
     fmt.println(b)
 }", 0);
+        assert!(str_assign.is_ok());
+    }
+
+    #[test]
+    #[ignore]
+    #[rustfmt::skip]
+    fn test_assign_with_sum() {
+        let str_assign = parse_program("default$main() {
+    let b: int = 2333 + 5
+    fmt.println(b)
+}", 0);
         println!("{:?}", str_assign);
         assert!(str_assign.is_ok());
     }

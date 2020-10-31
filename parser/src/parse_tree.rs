@@ -211,6 +211,24 @@ pub enum Number {
     Float { value: f64 },
 }
 
+/// An operator for a binary operation (an operation with two operands).
+#[derive(Debug, PartialEq)]
+pub enum Operator {
+    Add,
+    Sub,
+    Mult,
+    MatMult,
+    Div,
+    Mod,
+    Pow,
+    LShift,
+    RShift,
+    BitOr,
+    BitXor,
+    BitAnd,
+    FloorDiv, // from RustPython, thinking in remove
+}
+
 #[derive(Debug, PartialEq, Clone)]
 pub enum Type {
     Bool,
