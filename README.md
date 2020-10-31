@@ -4,6 +4,8 @@
 
 > a common language as a temp language for transform other languages.
 
+basic ide plugin support: [intellij-charj](https://github.com/charj-lang/intellij-charj)
+
 ## Roadmap
 
  - [ ] lexer & parser
