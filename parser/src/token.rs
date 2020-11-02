@@ -44,7 +44,7 @@ pub enum Token<'input> {
     Question,
     Colon,
     Or,
-    And,
+
     NotEqual,
     Less,
     Arrow,
@@ -52,8 +52,11 @@ pub enum Token<'input> {
     More,
     MoreEqual,
     BitwiseOr,
-    BitwiseAnd,
     BitwiseXor,
+
+    And,
+    BitwiseAnd,
+    BitwiseAndAssign,
 
     ShiftLeft,
     ShiftLeftAssign,
@@ -137,8 +140,10 @@ impl<'input> fmt::Display for Token<'input> {
             Token::BitwiseOr => write!(f, "|"),
             Token::Or => write!(f, "||"),
             Token::BitwiseXor => write!(f, "^"),
-            Token::BitwiseAnd => write!(f, "&"),
+
             Token::And => write!(f, "&&"),
+            Token::BitwiseAnd => write!(f, "&"),
+            Token::BitwiseAndAssign => write!(f, "&="),
 
             Token::Add => write!(f, "+"),
             Token::AddAssign => write!(f, "+="),

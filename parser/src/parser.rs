@@ -254,4 +254,15 @@ struct Hello {
 }", 0);
         assert!(mul.is_ok());
     }
+
+    #[test]
+    #[rustfmt::skip]
+    fn test_for_and_symbol() {
+        let and_symbol = parse_program("default$main() {
+    let b: bool = a && b
+    fmt.println(b)
+}", 0);
+        println!("{:?}", and_symbol);
+        assert!(and_symbol.is_ok());
+    }
 }

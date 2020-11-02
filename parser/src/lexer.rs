@@ -361,6 +361,19 @@ impl<'input> Lexer<'input> {
                         _ => Some(Ok((i, Token::Assign, i + 1))),
                     };
                 }
+                Some((i, '&')) => {
+                    return match self.chars.peek() {
+                        Some((_, '=')) => {
+                            self.chars.next();
+                            Some(Ok((i, Token::BitwiseAndAssign, i + 2)))
+                        }
+                        Some((_, '&')) => {
+                            self.chars.next();
+                            Some(Ok((i, Token::And, i + 2)))
+                        }
+                        _ => Some(Ok((i, Token::BitwiseAnd, i + 1))),
+                    };
+                }
                 Some((i, '+')) => {
                     return match self.chars.peek() {
                         Some((_, '=')) => {
@@ -419,7 +432,6 @@ impl<'input> Lexer<'input> {
                     };
                 }
                 Some((i, '$')) => return Some(Ok((i, Token::Binding, i + 1))),
-
                 Some((start, _)) => {
                     let mut end;
 

@@ -219,29 +219,24 @@ ForStatement: Statement = {
 };
 
 Expression: Expression = {
-//    PrimaryExpr,
     UnaryExpr,
 }
 
-PrimaryExpr: Expression = {
-    Atom,
-    <f:PrimaryExpr> <l:@L> "(" <a: Comma<Argument>> ")" <r:@R> => {
-        Expression {
-            location: Location::new(l, r),
-            node: ExpressionType::Call { function: Box::new(f), args: a }
-        }
+UnaryExpr: Expression = {
+    AndExpression
+}
+
+AndExpression: Expression = {
+     <e1:AndExpression> <l:@L> "&&" <e2:ArithmaticExpression> <r:@R> => Expression {
+        location: Location::new(l, r),
+        node: ExpressionType::Binop { a: Box::new(e1), op: Operator::BitAnd, b: Box::new(e2) }
     },
-    <e:PrimaryExpr> <l:@L> "." <name:Identifier> <r:@R> => {
-        Expression {
-            location: Location::new(l, r),
-            node: ExpressionType::Attribute { value: Box::new(e), name }
-        }
-    },
+    ArithmaticExpression
 }
 
 // Unary Expr
-UnaryExpr: Expression = {
-    <a:UnaryExpr> <l:@L> <op:AddOp> <b:Term> <r:@R> => Expression {
+ArithmaticExpression: Expression = {
+    <a:ArithmaticExpression> <l:@L> <op:AddOp> <b:Term> <r:@R> => Expression {
         location: Location::new(l, r),
         node: ExpressionType::Binop { a: Box::new(a), op, b: Box::new(b) }
     },
@@ -261,18 +256,21 @@ Term: Expression = {
     PrimaryExpr,
 };
 
-//Power: Expression = {
-//    <e:Power> <e2:(@L "**" PrimaryExpr)?> => {
-//        match e2 {
-//            None => e,
-//            Some((l, _, b)) => Expression {
-//                location: Location::new(l, r),
-//                node: ExpressionType::Binop { a: Box::new(e), op: Operator::Pow, b: Box::new(b) }
-//            },
-//        }
-//    },
-//    PrimaryExpr,
-//};
+PrimaryExpr: Expression = {
+    Atom,
+    <f:PrimaryExpr> <l:@L> "(" <a: Comma<Argument>> ")" <r:@R> => {
+        Expression {
+            location: Location::new(l, r),
+            node: ExpressionType::Call { function: Box::new(f), args: a }
+        }
+    },
+    <e:PrimaryExpr> <l:@L> "." <name:Identifier> <r:@R> => {
+        Expression {
+            location: Location::new(l, r),
+            node: ExpressionType::Attribute { value: Box::new(e), name }
+        }
+    },
+}
 
 UnOp: UnaryOperator = {
     "+" => UnaryOperator::Pos,
