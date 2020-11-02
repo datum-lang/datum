@@ -260,14 +260,17 @@ struct Hello {
     fn test_for_and_or_symbol() {
         let and_symbol = parse_program("default$main() {
     let b: bool = a && b
-    fmt.println(b)
 }", 0);
         assert!(and_symbol.is_ok());
 
         let or_symbol = parse_program("default$main() {
     let b: bool = a || b
-    fmt.println(b)
 }", 0);
         assert!(or_symbol.is_ok());
+
+        let complex = parse_program("default$main() {
+    let b: bool = a || b && c || d && e || f
+}", 0);
+        assert!(complex.is_ok());
     }
 }
