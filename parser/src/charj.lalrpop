@@ -252,9 +252,14 @@ UnaryExpr: Expression = {
 //}
 
 AndExpression: Expression = {
-     <e1:AndExpression> <l:@L> "&&" <e2:ArithmaticExpression> <r:@R> => Expression {
-        location: Location::new(l, r),
-        node: ExpressionType::Binop { a: Box::new(e1), op: Operator::BitAnd, b: Box::new(e2) }
+    <e1:AndExpression> <l:@L> "&&" <e2:ArithmaticExpression> <r:@R> => {
+        let mut values = vec![e1];
+        values.push(e2);
+
+        Expression {
+            location: Location::new(l, r),
+            node: ExpressionType::BoolOp { op: BooleanOperator::And, values }
+        }
     },
     ArithmaticExpression
 }
