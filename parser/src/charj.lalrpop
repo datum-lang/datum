@@ -243,11 +243,13 @@ UnaryExpr: Expression = {
     ArithmaticExpression
 }
 
+// Unary Expr
 ArithmaticExpression: Expression = {
     <a:ArithmaticExpression> <l:@L> <op:AddOp> <b:Term> <r:@R> => Expression {
         location: Location::new(l, r),
         node: ExpressionType::Binop { a: Box::new(a), op, b: Box::new(b) }
     },
+    Term,
 };
 
 AddOp: Operator = {
@@ -260,6 +262,7 @@ Term: Expression = {
         location: Location::new(l, r),
         node: ExpressionType::Binop { a: Box::new(a), op, b: Box::new(b) }
     },
+    Factor,
 };
 
 MulOp: Operator = {

@@ -63,16 +63,18 @@ pub enum Token<'input> {
 
     Add,
     AddAssign,
+    Increment,
 
     Subtract,
+    SubtractAssign,
+    Decrement,
+
     Mul,
     Divide,
     Modulo,
     Power,
     Not,
     Complement,
-    Increment,
-    Decrement,
     OpenBracket,
     CloseBracket,
     Member,
@@ -133,13 +135,15 @@ impl<'input> fmt::Display for Token<'input> {
             Token::BitwiseXor => write!(f, "^"),
             Token::BitwiseAnd => write!(f, "&"),
             Token::And => write!(f, "&&"),
-            Token::Increment => write!(f, "++"),
 
             Token::Add => write!(f, "+"),
             Token::AddAssign => write!(f, "+="),
+            Token::Increment => write!(f, "++"),
 
-            Token::Decrement => write!(f, "--"),
             Token::Subtract => write!(f, "-"),
+            Token::SubtractAssign => write!(f, "-="),
+            Token::Decrement => write!(f, "--"),
+
             Token::Mul => write!(f, "*"),
             Token::Power => write!(f, "**"),
             Token::Divide => write!(f, "/"),
