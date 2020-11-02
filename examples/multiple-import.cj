@@ -1,7 +1,7 @@
 pkg examples
 
 import (
-  "fmt"
+  fmt
 )
 
 default$main() {
