@@ -62,6 +62,8 @@ pub enum Token<'input> {
     ShiftRightAssign,
 
     Add,
+    AddAssign,
+
     Subtract,
     Mul,
     Divide,
@@ -132,7 +134,10 @@ impl<'input> fmt::Display for Token<'input> {
             Token::BitwiseAnd => write!(f, "&"),
             Token::And => write!(f, "&&"),
             Token::Increment => write!(f, "++"),
+
             Token::Add => write!(f, "+"),
+            Token::AddAssign => write!(f, "+="),
+
             Token::Decrement => write!(f, "--"),
             Token::Subtract => write!(f, "-"),
             Token::Mul => write!(f, "*"),

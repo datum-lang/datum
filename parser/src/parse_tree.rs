@@ -54,6 +54,19 @@ pub type Expression = Located<ExpressionType>;
 /// A certain type of expression.
 #[derive(Debug, PartialEq)]
 pub enum ExpressionType {
+    /// A binary operation on two operands.
+    Binop {
+        a: Box<Expression>,
+        op: Operator,
+        b: Box<Expression>,
+    },
+
+    /// An unary operation.
+    Unop {
+        op: UnaryOperator,
+        a: Box<Expression>,
+    },
+
     String {
         value: String,
     },
@@ -227,6 +240,15 @@ pub enum Operator {
     BitXor,
     BitAnd,
     FloorDiv, // from RustPython, thinking in remove
+}
+
+/// An unary operator. This is an operation with only a single operand.
+#[derive(Debug, PartialEq)]
+pub enum UnaryOperator {
+    Pos,
+    Neg,
+    Not,
+    Inv,
 }
 
 #[derive(Debug, PartialEq, Clone)]
