@@ -244,4 +244,14 @@ struct Hello {
 }", 0);
         assert!(mul.is_ok());
     }
+
+    #[test]
+    #[rustfmt::skip]
+    fn test_basic_mod() {
+        let mul = parse_program("default$main() {
+    let b: int = 2333 * 5 - 10 + 100 / 5
+    fmt.println(b)
+}", 0);
+        assert!(mul.is_ok());
+    }
 }

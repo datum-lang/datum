@@ -74,6 +74,8 @@ pub enum Token<'input> {
     MulAssign,
 
     Divide,
+    DivideAssign,
+
     Modulo,
     Not,
     Complement,
@@ -151,6 +153,8 @@ impl<'input> fmt::Display for Token<'input> {
             Token::MulAssign => write!(f, "*="),
 
             Token::Divide => write!(f, "/"),
+            Token::DivideAssign => write!(f, "/="),
+
             Token::Modulo => write!(f, "%"),
             Token::Equal => write!(f, "=="),
             Token::Assign => write!(f, "="),

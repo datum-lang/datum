@@ -252,6 +252,10 @@ impl<'input> Lexer<'input> {
                 }
                 Some((start, '/')) => {
                     match self.chars.peek() {
+                        Some((_, '=')) => {
+                            self.chars.next();
+                            return Some(Ok((start, Token::DivideAssign, start + 2)));
+                        }
                         Some((_, '/')) => {
                             // line comment
                             self.chars.next();
