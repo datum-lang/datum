@@ -228,5 +228,10 @@ struct Hello {
     fmt.println(b)
 }", 0);
         assert!(str_assign.is_ok());
+
+        let multiple_expr = parse_program("default$main() {
+    let b: int = 2333 + 5 - 10 -10 + 5 + 100
+}", 0);
+        assert!(multiple_expr.is_ok());
     }
 }
