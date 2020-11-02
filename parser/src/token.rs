@@ -69,10 +69,12 @@ pub enum Token<'input> {
     SubtractAssign,
     Decrement,
 
+    Power,
     Mul,
+    MulAssign,
+
     Divide,
     Modulo,
-    Power,
     Not,
     Complement,
     OpenBracket,
@@ -144,8 +146,10 @@ impl<'input> fmt::Display for Token<'input> {
             Token::SubtractAssign => write!(f, "-="),
             Token::Decrement => write!(f, "--"),
 
-            Token::Mul => write!(f, "*"),
             Token::Power => write!(f, "**"),
+            Token::Mul => write!(f, "*"),
+            Token::MulAssign => write!(f, "*="),
+
             Token::Divide => write!(f, "/"),
             Token::Modulo => write!(f, "%"),
             Token::Equal => write!(f, "=="),
