@@ -219,7 +219,7 @@ ForStatement: Statement = {
 };
 
 Expression: Expression = {
-    PrimaryExpr,
+//    PrimaryExpr,
     UnaryExpr,
 }
 
@@ -241,15 +241,49 @@ PrimaryExpr: Expression = {
 
 // Unary Expr
 UnaryExpr: Expression = {
-    <a:PrimaryExpr> <l:@L> <op:AddOp> <b:PrimaryExpr> <r:@R> => Expression {
+    <a:UnaryExpr> <l:@L> <op:AddOp> <b:Term> <r:@R> => Expression {
         location: Location::new(l, r),
         node: ExpressionType::Binop { a: Box::new(a), op, b: Box::new(b) }
-    }
+    },
+    Term
 };
 
 AddOp: Operator = {
     "+" => Operator::Add,
     "-" => Operator::Sub,
+};
+
+Term: Expression = {
+    <a:Term> <l:@L> <op:MulOp> <b:PrimaryExpr> <r:@R> => Expression {
+        location: Location::new(l, r),
+        node: ExpressionType::Binop { a: Box::new(a), op, b: Box::new(b) }
+    },
+    PrimaryExpr,
+};
+
+//Power: Expression = {
+//    <e:Power> <e2:(@L "**" PrimaryExpr)?> => {
+//        match e2 {
+//            None => e,
+//            Some((l, _, b)) => Expression {
+//                location: Location::new(l, r),
+//                node: ExpressionType::Binop { a: Box::new(e), op: Operator::Pow, b: Box::new(b) }
+//            },
+//        }
+//    },
+//    PrimaryExpr,
+//};
+
+UnOp: UnaryOperator = {
+    "+" => UnaryOperator::Pos,
+    "-" => UnaryOperator::Neg,
+    "~" => UnaryOperator::Inv,
+};
+
+MulOp: Operator = {
+    "*" => Operator::Mult,
+    "/" => Operator::Div,
+    "%" => Operator::Mod,
 };
 
 Atom: Expression = {

@@ -227,7 +227,6 @@ struct Hello {
     let c: int = b - 10
     fmt.println(b)
 }", 0);
-        println!("{:?}", str_assign);
         assert!(str_assign.is_ok());
     }
 }
