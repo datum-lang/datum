@@ -187,7 +187,23 @@ struct Summary {
 struct Summary {
   	Name   : []string
 }", 0);
-        println!("{:?}", code);
+        assert!(code.is_ok());
+    }
+
+    #[test]
+    #[rustfmt::skip]
+    fn test_struct_in_struct() {
+        let code = parse_program("pkg charj
+struct Summary {
+  	Name   : string
+	FanIn  : int
+	FanOut : int
+}
+
+struct Hello {
+    summary : Summary
+}
+", 0);
         assert!(code.is_ok());
     }
 

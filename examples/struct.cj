@@ -1,7 +1,11 @@
 pkg charj
 
 struct Summary {
-  	member Name   : string
-	member FanIn  : int
-	member FanOut : int
+  	Name   : string
+	FanIn  : int
+	FanOut : int
+}
+
+struct Hello {
+    summary : Summary
 }
