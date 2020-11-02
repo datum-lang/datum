@@ -54,6 +54,11 @@ pub type Expression = Located<ExpressionType>;
 /// A certain type of expression.
 #[derive(Debug, PartialEq)]
 pub enum ExpressionType {
+    BoolOp {
+        op: BooleanOperator,
+        values: Vec<Expression>,
+    },
+
     /// A binary operation on two operands.
     Binop {
         a: Box<Expression>,
@@ -259,6 +264,13 @@ pub enum Type {
     Uint(u16),
     Bytes(u8),
     DynamicBytes,
+}
+
+/// A boolean operation.
+#[derive(Debug, PartialEq)]
+pub enum BooleanOperator {
+    And,
+    Or,
 }
 
 impl fmt::Display for Type {

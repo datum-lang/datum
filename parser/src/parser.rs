@@ -256,6 +256,7 @@ struct Hello {
     }
 
     #[test]
+    // #[ignore]
     #[rustfmt::skip]
     fn test_for_and_symbol() {
         let and_symbol = parse_program("default$main() {

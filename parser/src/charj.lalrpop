@@ -115,6 +115,23 @@ ExpressionStatement: Statement = {
     }
 }
 
+ExpressionNoCond: Expression = Comparison;
+
+AndTest: Expression = {
+    <e1:Comparison> <l:@L> <e2:("&&" Comparison)*> <r:@R> => {
+        if e2.is_empty() {
+            e1
+        } else {
+            let mut values = vec![e1];
+            values.extend(e2.into_iter().map(|e| e.1));
+            Expression {
+                location: Location::new(l, r),
+                node: ExpressionType::BoolOp { op: BooleanOperator::And, values }
+            }
+        }
+    },
+}
+
 Comparison: Expression = {
     <e:Expression> <l:@L> <comparisons:(CompOp Expression)+> <r:@R> => {
         let mut vals = vec![e];
@@ -180,7 +197,7 @@ ReturnValue: Expression = {
 }
 
 IfStatement: Statement = {
-    <l:@L> "if" "(" <cond:Comparison> ")" "{" <body:Suite?> "}" <s3:("else" "{" Suite "}")?> <r:@R> => {
+    <l:@L> "if" "(" <cond:ExpressionNoCond> ")" "{" <body:Suite?> "}" <s3:("else" "{" Suite "}")?> <r:@R> => {
         let mut last = s3.map(|s| s.2);
 
         let body = body.unwrap_or(Vec::new());
@@ -197,7 +214,7 @@ IfStatement: Statement = {
 };
 
 WhileStatement: Statement = {
-    <l:@L> "while" "(" <cond:Comparison> ")" "{" <body:Suite?> "}" <r:@R> => {
+    <l:@L> "while" "(" <cond:ExpressionNoCond> ")" "{" <body:Suite?> "}" <r:@R> => {
         let body = body.unwrap_or(Vec::new());
         Statement {
             location: Location::new(l, r),
@@ -225,6 +242,14 @@ Expression: Expression = {
 UnaryExpr: Expression = {
     AndExpression
 }
+
+//OrExpression: Expression = {
+//     <e1:OrExpression> <l:@L> || <e2:OrExpression> <r:@R> => Expression {
+//        location: Location::new(l, r),
+//        node: ExpressionType::Binop { a: Box::new(e1), op: Operator::BitAnd, b: Box::new(e2) }
+//    },
+//    OrExpression
+//}
 
 AndExpression: Expression = {
      <e1:AndExpression> <l:@L> "&&" <e2:ArithmaticExpression> <r:@R> => Expression {
