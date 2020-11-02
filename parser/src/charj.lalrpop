@@ -220,7 +220,7 @@ ForStatement: Statement = {
 
 Expression: Expression = {
     PrimaryExpr,
-//    UnaryExpr,
+    UnaryExpr,
 }
 
 PrimaryExpr: Expression = {
@@ -241,59 +241,15 @@ PrimaryExpr: Expression = {
 
 // Unary Expr
 UnaryExpr: Expression = {
-    <a:UnaryExpr> <l:@L> <op:AddOp> <b:Term> <r:@R> => Expression {
+    <a:PrimaryExpr> <l:@L> <op:AddOp> <b:PrimaryExpr> <r:@R> => Expression {
         location: Location::new(l, r),
         node: ExpressionType::Binop { a: Box::new(a), op, b: Box::new(b) }
-    },
-    Term,
+    }
 };
 
 AddOp: Operator = {
     "+" => Operator::Add,
     "-" => Operator::Sub,
-};
-
-Term: Expression = {
-    <a:Term> <l:@L> <op:MulOp>  <b:Factor> <r:@R> => Expression {
-        location: Location::new(l, r),
-        node: ExpressionType::Binop { a: Box::new(a), op, b: Box::new(b) }
-    },
-    Factor,
-};
-
-MulOp: Operator = {
-    "*" => Operator::Mult,
-    "/" => Operator::Div,
-    "%" => Operator::Mod,
-};
-
-Factor: Expression = {
-    <l:@L> <op:UnOp> <e:Factor> <r:@R> => Expression {
-        location: Location::new(l, r),
-        node: ExpressionType::Unop { a: Box::new(e), op }
-    },
-    Power,
-};
-
-Power: Expression = {
-    // todo: merge mr
-    <e:Atom> <e2:(@L "**" Factor)?> => {
-        match e2 {
-            None => e,
-            Some((l, _, b)) => Expression {
-                // todo: check
-                location: Location::new(l, 0),
-                node: ExpressionType::Binop { a: Box::new(e), op: Operator::Pow, b: Box::new(b) }
-            },
-        }
-    }
-};
-
-
-UnOp: UnaryOperator = {
-    "+" => UnaryOperator::Pos,
-    "-" => UnaryOperator::Neg,
-    "~" => UnaryOperator::Inv,
 };
 
 Atom: Expression = {
