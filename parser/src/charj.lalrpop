@@ -219,23 +219,27 @@ ForStatement: Statement = {
 };
 
 Expression: Expression = {
-    CallExpr,
+    PrimaryExpr,
 }
 
-CallExpr: Expression = {
+PrimaryExpr: Expression = {
     Atom,
-    <f:CallExpr> <l:@L> "(" <a: Comma<Argument>> ")" <r:@R> => {
+    <f:PrimaryExpr> <l:@L> "(" <a: Comma<Argument>> ")" <r:@R> => {
         Expression {
             location: Location::new(l, r),
             node: ExpressionType::Call { function: Box::new(f), args: a }
         }
     },
-    <e:CallExpr> <l:@L> "." <name:Identifier> <r:@R> => {
+    <e:PrimaryExpr> <l:@L> "." <name:Identifier> <r:@R> => {
         Expression {
             location: Location::new(l, r),
             node: ExpressionType::Attribute { value: Box::new(e), name }
         }
     },
+}
+
+UnaryExpr: Expression = {
+
 }
 
 Atom: Expression = {
