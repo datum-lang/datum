@@ -224,6 +224,7 @@ struct Hello {
     fn test_assign_with_sum() {
         let str_assign = parse_program("default$main() {
     let b: int = 2333 + 5
+    let c: int = b - 10
     fmt.println(b)
 }", 0);
         println!("{:?}", str_assign);
