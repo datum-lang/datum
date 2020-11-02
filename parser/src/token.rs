@@ -43,7 +43,6 @@ pub enum Token<'input> {
 
     Question,
     Colon,
-    Or,
 
     NotEqual,
     Less,
@@ -51,8 +50,11 @@ pub enum Token<'input> {
     LessEqual,
     More,
     MoreEqual,
-    BitwiseOr,
     BitwiseXor,
+
+    Or,
+    BitwiseOr,
+    BitwiseOrAssign,
 
     And,
     BitwiseAnd,
@@ -137,9 +139,11 @@ impl<'input> fmt::Display for Token<'input> {
             Token::CloseParenthesis => write!(f, ")"),
             Token::OpenCurlyBrace => write!(f, "{{"),
             Token::CloseCurlyBrace => write!(f, "}}"),
-            Token::BitwiseOr => write!(f, "|"),
-            Token::Or => write!(f, "||"),
             Token::BitwiseXor => write!(f, "^"),
+
+            Token::Or => write!(f, "||"),
+            Token::BitwiseOr => write!(f, "|"),
+            Token::BitwiseOrAssign => write!(f, "|="),
 
             Token::And => write!(f, "&&"),
             Token::BitwiseAnd => write!(f, "&"),

@@ -256,14 +256,18 @@ struct Hello {
     }
 
     #[test]
-    // #[ignore]
     #[rustfmt::skip]
-    fn test_for_and_symbol() {
+    fn test_for_and_or_symbol() {
         let and_symbol = parse_program("default$main() {
     let b: bool = a && b
     fmt.println(b)
 }", 0);
-        println!("{:?}", and_symbol);
         assert!(and_symbol.is_ok());
+
+        let or_symbol = parse_program("default$main() {
+    let b: bool = a || b
+    fmt.println(b)
+}", 0);
+        assert!(or_symbol.is_ok());
     }
 }

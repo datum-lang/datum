@@ -240,16 +240,21 @@ Expression: Expression = {
 }
 
 UnaryExpr: Expression = {
-    AndExpression
+    OrExpression
 }
 
-//OrExpression: Expression = {
-//     <e1:OrExpression> <l:@L> || <e2:OrExpression> <r:@R> => Expression {
-//        location: Location::new(l, r),
-//        node: ExpressionType::Binop { a: Box::new(e1), op: Operator::BitAnd, b: Box::new(e2) }
-//    },
-//    OrExpression
-//}
+OrExpression: Expression = {
+    <e1:OrExpression> <l:@L> "||" <e2:AndExpression> <r:@R> => {
+       let mut values = vec![e1];
+       values.push(e2);
+
+       Expression {
+           location: Location::new(l, r),
+           node: ExpressionType::BoolOp { op: BooleanOperator::Or, values }
+       }
+   },
+    AndExpression
+}
 
 AndExpression: Expression = {
     <e1:AndExpression> <l:@L> "&&" <e2:ArithmaticExpression> <r:@R> => {
