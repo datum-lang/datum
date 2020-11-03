@@ -89,6 +89,10 @@ Statement: Suite = {
 };
 
 CompoundStatement: Statement = {
+// todo: add support for open || close statement
+//    OpenStatement,    // support like in one line if (a > b) return a
+//    ClosedStatement,
+//
     IfStatement,
     WhileStatement,
     ForStatement,
