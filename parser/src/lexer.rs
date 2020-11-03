@@ -343,19 +343,6 @@ impl<'input> Lexer<'input> {
                 Some((i, ')')) => return Some(Ok((i, Token::CloseParenthesis, i + 1))),
                 Some((i, '{')) => return Some(Ok((i, Token::OpenCurlyBrace, i + 1))),
                 Some((i, '}')) => return Some(Ok((i, Token::CloseCurlyBrace, i + 1))),
-                Some((i, '.')) => {
-                    return match self.chars.peek() {
-                        Some((_, '.')) => {
-                            self.chars.next();
-                            Some(Ok((i, Token::Range, i + 2)))
-                        }
-                        _ => Some(Ok((i, Token::Member, i + 1))),
-                    };
-                }
-                Some((i, '[')) => return Some(Ok((i, Token::OpenBracket, i + 1))),
-                Some((i, ']')) => return Some(Ok((i, Token::CloseBracket, i + 1))),
-                Some((i, ':')) => return Some(Ok((i, Token::Colon, i + 1))),
-                Some((i, '?')) => return Some(Ok((i, Token::Question, i + 1))),
                 Some((i, '~')) => return Some(Ok((i, Token::Complement, i + 1))),
                 Some((i, '=')) => {
                     return match self.chars.peek() {
@@ -435,6 +422,33 @@ impl<'input> Lexer<'input> {
                         _ => Some(Ok((i, Token::Mul, i + 1))),
                     };
                 }
+                Some((i, '%')) => {
+                    return match self.chars.peek() {
+                        Some((_, '=')) => {
+                            self.chars.next();
+                            Some(Ok((i, Token::ModuloAssign, i + 2)))
+                        }
+                        _ => Some(Ok((i, Token::Modulo, i + 1))),
+                    };
+                }
+                Some((i, '<')) => {
+                    return match self.chars.peek() {
+                        Some((_, '<')) => {
+                            self.chars.next();
+                            if let Some((_, '=')) = self.chars.peek() {
+                                self.chars.next();
+                                Some(Ok((i, Token::ShiftLeftAssign, i + 3)))
+                            } else {
+                                Some(Ok((i, Token::ShiftLeft, i + 2)))
+                            }
+                        }
+                        Some((_, '=')) => {
+                            self.chars.next();
+                            Some(Ok((i, Token::LessEqual, i + 2)))
+                        }
+                        _ => Some(Ok((i, Token::Less, i + 1))),
+                    };
+                }
                 Some((i, '>')) => {
                     return match self.chars.peek() {
                         Some((_, '>')) => {
@@ -453,6 +467,19 @@ impl<'input> Lexer<'input> {
                         _ => Some(Ok((i, Token::More, i + 1))),
                     };
                 }
+                Some((i, '.')) => {
+                    return match self.chars.peek() {
+                        Some((_, '.')) => {
+                            self.chars.next();
+                            Some(Ok((i, Token::Range, i + 2)))
+                        }
+                        _ => Some(Ok((i, Token::Member, i + 1))),
+                    };
+                }
+                Some((i, '[')) => return Some(Ok((i, Token::OpenBracket, i + 1))),
+                Some((i, ']')) => return Some(Ok((i, Token::CloseBracket, i + 1))),
+                Some((i, ':')) => return Some(Ok((i, Token::Colon, i + 1))),
+                Some((i, '?')) => return Some(Ok((i, Token::Question, i + 1))),
                 Some((i, '$')) => return Some(Ok((i, Token::Binding, i + 1))),
                 Some((start, _)) => {
                     let mut end;

@@ -247,12 +247,24 @@ struct Hello {
 
     #[test]
     #[rustfmt::skip]
-    fn test_basic_mod() {
+    fn test_basic_div() {
         let mul = parse_program("default$main() {
     let b: int = 2333 * 5 - 10 + 100 / 5
     fmt.println(b)
 }", 0);
         assert!(mul.is_ok());
+    }
+
+    #[test]
+    #[rustfmt::skip]
+    fn test_basic_mode() {
+        let mod_code = parse_program("default$main() {
+    let b: int = 100 % 5
+    fmt.println(b)
+}", 0);
+
+        println!("{:?}", mod_code);
+        assert!(mod_code.is_ok());
     }
 
     #[test]
@@ -282,7 +294,6 @@ struct Hello {
         fmt.println(x)
     }
 }", 0);
-        println!("{:?}", for_loop);
         assert!(for_loop.is_ok());
     }
 }
