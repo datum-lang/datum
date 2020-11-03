@@ -232,6 +232,7 @@ WhileStatement: Statement = {
 
 ForStatement: Statement = {
     // todo: change target to ExpressionList,
+    // todo: add support for `for (let i: int = 0; i < 100; i ++) { }
     <l:@L> "for" "(" <target:Expression> "in" <iter:Expression> ")" "{" <body:Suite?> "}" <r:@R> => {
         let body = body.unwrap_or(Vec::new());
 
@@ -245,6 +246,11 @@ ForStatement: Statement = {
         }
     }
 };
+
+// todo: add suport for "{" and "}"
+BlockStatement: Statement = {
+
+}
 
 Expression: Expression = {
     UnaryExpr,
