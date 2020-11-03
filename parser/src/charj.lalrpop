@@ -284,7 +284,7 @@ NotExpression: Expression = {
 }
 
 AndExpression: Expression = {
-    <e1:AndExpression> <l:@L> "&&" <e2:ArithmaticExpression> <r:@R> => {
+    <e1:AndExpression> <l:@L> "&&" <e2:ShiftExpression> <r:@R> => {
         let mut values = vec![e1];
         values.push(e2);
 
@@ -293,8 +293,21 @@ AndExpression: Expression = {
             node: ExpressionType::BoolOp { op: BooleanOperator::And, values }
         }
     },
-    ArithmaticExpression
+    ShiftExpression
 }
+
+ShiftExpression: Expression = {
+    <e1:ShiftExpression> <l:@L> <op:ShiftOp> <e2:ArithmaticExpression> <r:@R> => Expression {
+        location: Location::new(l, r),
+        node: ExpressionType::Binop { a: Box::new(e1), op, b: Box::new(e2) }
+    },
+    ArithmaticExpression,
+}
+
+ShiftOp: Operator = {
+    "<<" => Operator::LShift,
+    ">>" => Operator::RShift,
+};
 
 // Unary Expr
 ArithmaticExpression: Expression = {
