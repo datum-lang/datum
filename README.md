@@ -13,9 +13,9 @@ Jetbrains' IDEA support: `Charj` [![Version](https://img.shields.io/jetbrains/pl
        - [x] import
        - [x] package
        - [x] struct
-       - [ ] function
-          - [ ] parameters
-          - [ ] return
+       - [x] function
+          - [x] parameters
+          - [x] return
        - [ ] control flow
           - [x] if
           - [ ] loop
@@ -23,10 +23,10 @@ Jetbrains' IDEA support: `Charj` [![Version](https://img.shields.io/jetbrains/pl
           - [ ] for
           - [ ] break
        - [ ] expression
-          - [ ] assignment
+          - [x] assignment
             - [x] Single assignment
-            - [ ] assignment Variant [TBC]
-          - [ ] method call
+            - [x] assignment Variant
+          - [x] method call
             - [ ] arguments
     - [ ] poet design
  - [ ] compiler
