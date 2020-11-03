@@ -294,4 +294,13 @@ struct Hello {
 }", 0);
         assert!(for_loop.is_ok());
     }
+
+    #[test]
+    #[rustfmt::skip]
+    fn test_for_not() {
+        let not_cond = parse_program("default$main(string name) {
+    if (!true){}
+}", 0);
+        assert!(not_cond.is_ok());
+    }
 }

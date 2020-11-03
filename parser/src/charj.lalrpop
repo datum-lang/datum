@@ -261,7 +261,7 @@ RangeExpression: Expression = {
 }
 
 OrExpression: Expression = {
-    <e1:OrExpression> <l:@L> "||" <e2:AndExpression> <r:@R> => {
+    <e1:OrExpression> <l:@L> "||" <e2:NotExpression> <r:@R> => {
        let mut values = vec![e1];
        values.push(e2);
 
@@ -270,7 +270,17 @@ OrExpression: Expression = {
            node: ExpressionType::BoolOp { op: BooleanOperator::Or, values }
        }
    },
-    AndExpression
+    NotExpression
+}
+
+NotExpression: Expression = {
+    <l:@L> "!" <e:AndExpression> <r:@R> => {
+       Expression {
+           location: Location::new(l, r),
+           node: ExpressionType::Unop { op: UnaryOperator::Not, a: Box::new(e) }
+       }
+   },
+    AndExpression,
 }
 
 AndExpression: Expression = {
