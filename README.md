@@ -4,7 +4,7 @@
 
 > a common language as a temp language for transform other languages.
 
-basic ide plugin support: [intellij-charj](https://github.com/charj-lang/intellij-charj)
+Jetbrains' IDEA support: `Charj` [![Version](https://img.shields.io/jetbrains/plugin/v/15119-charj.svg)](https://plugins.jetbrains.com/plugin/15119-charj)
 
 ## Roadmap
 
@@ -35,6 +35,10 @@ basic ide plugin support: [intellij-charj](https://github.com/charj-lang/intelli
  - [ ] build system
  - [ ] dependency manager
 
+
+## Decisions
+
+ - [ ] Thinking in remove complex assign such as `-=`, `*=` or `--`. It can make things simple.
 
 ## License
 
