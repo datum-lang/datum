@@ -54,6 +54,10 @@ pub type Expression = Located<ExpressionType>;
 /// A certain type of expression.
 #[derive(Debug, PartialEq)]
 pub enum ExpressionType {
+    Range {
+        start: Box<Expression>,
+        end: Box<Expression>,
+    },
     BoolOp {
         op: BooleanOperator,
         values: Vec<Expression>,

@@ -279,7 +279,7 @@ struct Hello {
     #[rustfmt::skip]
     fn test_for_loop() {
         let for_loop = parse_program("default$main(string name) {
-    for x in 1..10 {
+    for(x in 1..10) {
         fmt.println(x)
     }
 }", 0);

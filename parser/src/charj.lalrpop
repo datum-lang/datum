@@ -234,7 +234,6 @@ ForStatement: Statement = {
             location: Location::new(l, r),
             node: StatementType::For {
                 target: Box::new(e),
-                // iter: Box::new(e),
                 body
             }
         }
@@ -246,6 +245,16 @@ Expression: Expression = {
 }
 
 UnaryExpr: Expression = {
+    OrExpression
+}
+
+RangeExpression: Expression = {
+    <e1:RangeExpression> <l:@L> ".." <e2:OrExpression> <r:@R> => {
+        Expression {
+           location: Location::new(l, r),
+           node: ExpressionType::Range { start: Box::new(e1), end: Box::new(e2) }
+       }
+    },
     OrExpression
 }
 
@@ -485,6 +494,8 @@ extern {
         "else" => Token::Else,
         "while" => Token::While,
         "for" => Token::For,
+        "in" => Token::In,
+        ".." => Token::Range,
         "break" => Token::Break,
         "continue" => Token::Continue,
         "return" => Token::Return,

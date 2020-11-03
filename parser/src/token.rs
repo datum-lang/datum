@@ -21,6 +21,8 @@ pub enum Token<'input> {
     Else,
     While,
     For,
+    In,
+    Range,
     Break,
     Continue,
     Return,
@@ -120,6 +122,9 @@ impl<'input> fmt::Display for Token<'input> {
             Token::Else => write!(f, "else"),
             Token::While => write!(f, "while"),
             Token::For => write!(f, "for"),
+            Token::In => write!(f, "in"),
+            Token::Range => write!(f, ".."),
+
             Token::Break => write!(f, "break"),
             Token::Continue => write!(f, "continue"),
             Token::Return => write!(f, "return"),
