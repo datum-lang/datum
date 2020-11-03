@@ -305,6 +305,16 @@ struct Hello {
     }
 
     #[test]
+    #[rustfmt::skip]
+    fn test_for_shift() {
+        let shift = parse_program("default$main(string name) {
+    let a: int = 1000 << 0
+    let b: int = 1000 >> 1
+}", 0);
+        assert!(shift.is_ok());
+    }
+
+    #[test]
     #[ignore]
     #[rustfmt::skip]
     fn test_for_complex_if() {
