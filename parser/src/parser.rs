@@ -286,5 +286,4 @@ struct Hello {
         println!("{:?}", for_loop);
         assert!(for_loop.is_ok());
     }
-
 }
