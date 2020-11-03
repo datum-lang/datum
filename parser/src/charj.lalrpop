@@ -227,10 +227,16 @@ WhileStatement: Statement = {
 };
 
 ForStatement: Statement = {
-    <l:@L> "for" "(" ")" "{" "}" <r:@R> => {
+    <l:@L> "for" "(" <e:Expression> ")" "{" <body:Suite?> "}" <r:@R> => {
+        let body = body.unwrap_or(Vec::new());
+
         Statement {
             location: Location::new(l, r),
-            node: StatementType::For
+            node: StatementType::For {
+                target: Box::new(e),
+                // iter: Box::new(e),
+                body
+            }
         }
     }
 };

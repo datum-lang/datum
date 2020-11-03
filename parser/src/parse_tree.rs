@@ -147,7 +147,11 @@ pub enum StatementType {
         cond: Expression,
         body: Suite,
     },
-    For,
+    For {
+        target: Box<Expression>,
+        // iter: Box<Expression>,
+        body: Suite,
+    },
     Loop,
     /// Variable assignment. Note that we can assign to multiple targets.
     Assign {
