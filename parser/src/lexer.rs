@@ -357,6 +357,14 @@ impl<'input> Lexer<'input> {
                         _ => Some(Ok((i, Token::Assign, i + 1))),
                     };
                 }
+                Some((i, '!')) => {
+                    if let Some((_, '=')) = self.chars.peek() {
+                        self.chars.next();
+                        return Some(Ok((i, Token::NotEqual, i + 2)));
+                    } else {
+                        return Some(Ok((i, Token::Not, i + 1)));
+                    }
+                }
                 Some((i, '|')) => {
                     return match self.chars.peek() {
                         Some((_, '=')) => {

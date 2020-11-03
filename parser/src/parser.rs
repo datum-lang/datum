@@ -262,8 +262,6 @@ struct Hello {
     let b: int = 100 % 5
     fmt.println(b)
 }", 0);
-
-        println!("{:?}", mod_code);
         assert!(mod_code.is_ok());
     }
 
