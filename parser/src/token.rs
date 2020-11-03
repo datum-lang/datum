@@ -74,6 +74,9 @@ pub enum Token<'input> {
     SubtractAssign,
     Decrement,
 
+    BitwiseXorAssign,
+    ModuloAssign,
+
     Power,
     Mul,
     MulAssign,
@@ -175,6 +178,9 @@ impl<'input> fmt::Display for Token<'input> {
 
             Token::ShiftRight => write!(f, "<<"),
             Token::ShiftRightAssign => write!(f, "<<="),
+
+            Token::BitwiseXorAssign => write!(f, "^="),
+            Token::ModuloAssign => write!(f, "%="),
 
             Token::More => write!(f, ">"),
             Token::MoreEqual => write!(f, ">="),
