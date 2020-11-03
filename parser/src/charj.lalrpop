@@ -227,13 +227,15 @@ WhileStatement: Statement = {
 };
 
 ForStatement: Statement = {
-    <l:@L> "for" "(" <e:Expression> ")" "{" <body:Suite?> "}" <r:@R> => {
+    // todo: change target to ExpressionList,
+    <l:@L> "for" "(" <target:Expression> "in" <iter:Expression> ")" "{" <body:Suite?> "}" <r:@R> => {
         let body = body.unwrap_or(Vec::new());
 
         Statement {
             location: Location::new(l, r),
             node: StatementType::For {
-                target: Box::new(e),
+                target: Box::new(target),
+                iter: Box::new(iter),
                 body
             }
         }
@@ -245,7 +247,7 @@ Expression: Expression = {
 }
 
 UnaryExpr: Expression = {
-    OrExpression
+    RangeExpression
 }
 
 RangeExpression: Expression = {

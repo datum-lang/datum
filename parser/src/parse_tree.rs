@@ -153,7 +153,7 @@ pub enum StatementType {
     },
     For {
         target: Box<Expression>,
-        // iter: Box<Expression>,
+        iter: Box<Expression>,
         body: Suite,
     },
     Loop,

@@ -31,6 +31,7 @@ static KEYWORDS: phf::Map<&'static str, Token> = phf_map! {
     "else" => Token::Else,
     "while" => Token::While,
     "for" => Token::For,
+    "in" => Token::In,
     "break" => Token::Break,
     "continue" => Token::Continue,
     "return" => Token::Return,
@@ -342,7 +343,15 @@ impl<'input> Lexer<'input> {
                 Some((i, ')')) => return Some(Ok((i, Token::CloseParenthesis, i + 1))),
                 Some((i, '{')) => return Some(Ok((i, Token::OpenCurlyBrace, i + 1))),
                 Some((i, '}')) => return Some(Ok((i, Token::CloseCurlyBrace, i + 1))),
-                Some((i, '.')) => return Some(Ok((i, Token::Member, i + 1))),
+                Some((i, '.')) => {
+                    return match self.chars.peek() {
+                        Some((_, '.')) => {
+                            self.chars.next();
+                            Some(Ok((i, Token::Range, i + 2)))
+                        }
+                        _ => Some(Ok((i, Token::Member, i + 1))),
+                    };
+                }
                 Some((i, '[')) => return Some(Ok((i, Token::OpenBracket, i + 1))),
                 Some((i, ']')) => return Some(Ok((i, Token::CloseBracket, i + 1))),
                 Some((i, ':')) => return Some(Ok((i, Token::Colon, i + 1))),

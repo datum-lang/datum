@@ -275,7 +275,6 @@ struct Hello {
     }
 
     #[test]
-    #[ignore]
     #[rustfmt::skip]
     fn test_for_loop() {
         let for_loop = parse_program("default$main(string name) {
