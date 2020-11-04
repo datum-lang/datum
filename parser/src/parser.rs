@@ -344,7 +344,8 @@ struct Hello {
     #[rustfmt::skip]
     fn test_for_array() {
         let array = parse_program("default$main(string name) {
-    let i: array = [1, 2, 3]
+    let i: []int = [1, 2, 3]
+    let j: string = [1, 2, 3]
 }", 0);
         assert!(array.is_ok());
     }
