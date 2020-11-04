@@ -337,6 +337,7 @@ struct Hello {
         let complex_not_cond = parse_program("default$main(string name) {
     if (!(1 + 2)){}
 }", 0);
+        println!("{:?}", complex_not_cond);
         assert!(complex_not_cond.is_ok());
     }
 

@@ -119,39 +119,6 @@ ExpressionStatement: Statement = {
     }
 }
 
-ExpressionNoCond: Expression = Comparison;
-
-AndTest: Expression = {
-    <e1:Comparison> <l:@L> <e2:("&&" Comparison)*> <r:@R> => {
-        if e2.is_empty() {
-            e1
-        } else {
-            let mut values = vec![e1];
-            values.extend(e2.into_iter().map(|e| e.1));
-            Expression {
-                location: Location::new(l, r),
-                node: ExpressionType::BoolOp { op: BooleanOperator::And, values }
-            }
-        }
-    },
-}
-
-Comparison: Expression = {
-    <e:Expression> <l:@L> <comparisons:(CompOp Expression)+> <r:@R> => {
-        let mut vals = vec![e];
-        let mut ops = vec![];
-        for x in comparisons {
-            ops.push(x.0);
-            vals.push(x.1);
-        }
-        Expression {
-            location: Location::new(l, r),
-            node: ExpressionType::Compare { vals, ops }
-        }
-    },
-    Expression,
-};
-
 CompOp: Comparison = {
     "==" => Comparison::Equal,
     "!=" => Comparison::NotEqual,
@@ -201,7 +168,7 @@ ReturnValue: Expression = {
 }
 
 IfStatement: Statement = {
-    <l:@L> "if" "(" <cond:ExpressionNoCond> ")" "{" <body:Suite?> "}" <s3:("else" "{" Suite "}")?> <r:@R> => {
+    <l:@L> "if" "(" <cond:Expression> ")" "{" <body:Suite?> "}" <s3:("else" "{" Suite "}")?> <r:@R> => {
         let mut last = s3.map(|s| s.2);
 
         let body = body.unwrap_or(Vec::new());
@@ -218,7 +185,7 @@ IfStatement: Statement = {
 };
 
 WhileStatement: Statement = {
-    <l:@L> "while" "(" <cond:ExpressionNoCond> ")" "{" <body:Suite?> "}" <r:@R> => {
+    <l:@L> "while" "(" <cond:Expression> ")" "{" <body:Suite?> "}" <r:@R> => {
         let body = body.unwrap_or(Vec::new());
         Statement {
             location: Location::new(l, r),
@@ -271,7 +238,7 @@ RangeExpression: Expression = {
 }
 
 OrExpression: Expression = {
-    <e1:OrExpression> <l:@L> "||" <e2:NotExpression> <r:@R> => {
+    <e1:OrExpression> <l:@L> "||" <e2:AndExpression> <r:@R> => {
        let mut values = vec![e1];
        values.push(e2);
 
@@ -280,21 +247,11 @@ OrExpression: Expression = {
            node: ExpressionType::BoolOp { op: BooleanOperator::Or, values }
        }
    },
-    NotExpression
-}
-
-NotExpression: Expression = {
-    <l:@L> "!" <e:AndExpression> <r:@R> => {
-       Expression {
-           location: Location::new(l, r),
-           node: ExpressionType::Unop { op: UnaryOperator::Not, a: Box::new(e) }
-       }
-   },
-   AndExpression,
+    AndExpression
 }
 
 AndExpression: Expression = {
-    <e1:AndExpression> <l:@L> "&&" <e2:ShiftExpression> <r:@R> => {
+    <e1:AndExpression> <l:@L> "&&" <e2:CompareExpression> <r:@R> => {
         let mut values = vec![e1];
         values.push(e2);
 
@@ -303,7 +260,21 @@ AndExpression: Expression = {
             node: ExpressionType::BoolOp { op: BooleanOperator::And, values }
         }
     },
-    ShiftExpression
+    CompareExpression
+}
+
+CompareExpression: Expression = {
+    <e:CompareExpression> <l:@L> <op:CompOp> <comparison:ShiftExpression> <r:@R> => {
+        Expression {
+            location: Location::new(l, r),
+            node: ExpressionType::Compare {
+                op,
+                left: Box::new(e),
+                right: Box::new(comparison)
+            }
+        }
+    },
+    ShiftExpression,
 }
 
 ShiftExpression: Expression = {
@@ -334,12 +305,22 @@ AddOp: Operator = {
 };
 
 Term: Expression = {
-    <a:Term> <l:@L> <op:MulOp> <b:PrimaryExpr> <r:@R> => Expression {
+    <a:Term> <l:@L> <op:MulOp> <b:NotExpression> <r:@R> => Expression {
         location: Location::new(l, r),
         node: ExpressionType::Binop { a: Box::new(a), op, b: Box::new(b) }
     },
-    PrimaryExpr,
+    NotExpression,
 };
+
+NotExpression: Expression = {
+    <l:@L> "!" <e:PrimaryExpr> <r:@R> => {
+       Expression {
+           location: Location::new(l, r),
+           node: ExpressionType::Unop { op: UnaryOperator::Not, a: Box::new(e) }
+       }
+   },
+   PrimaryExpr,
+}
 
 PrimaryExpr: Expression = {
     Atom,

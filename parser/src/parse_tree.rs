@@ -112,9 +112,15 @@ pub enum ExpressionType {
 
     /// A chained comparison. Note that in python you can use
     /// `1 < a < 10` for example.
-    Compare {
+    SimpleCompare {
         vals: Vec<Expression>,
         ops: Vec<Comparison>,
+    },
+
+    Compare {
+        op: Comparison,
+        left: Box<Expression>,
+        right: Box<Expression>,
     },
 }
 
