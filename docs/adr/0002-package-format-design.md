@@ -6,13 +6,15 @@ Date: 2020-10-26
 
 2020-10-26 proposed
 
+2020-11-04 done
+
 ## Context
 
 Context here...
 
 ## Decision
 
-Decision here...
+use `pkg` and `package`
 
 ## Consequences
 

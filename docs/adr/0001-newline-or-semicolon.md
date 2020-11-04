@@ -6,6 +6,8 @@ Date: 2020-10-26
 
 2020-10-26 proposed
 
+2020-11-04 done
+
 ## Context
 
 In order to save packages or file, we need to compatible different languages import styles. Such like go

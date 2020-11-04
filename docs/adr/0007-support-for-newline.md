@@ -6,6 +6,8 @@ Date: 2020-10-29
 
 2020-10-29 proposed
 
+2020-11-04 done
+
 ## Context
 
 [lalrpop](https://github.com/lalrpop/lalrpop) don't have a correct position for code.7
