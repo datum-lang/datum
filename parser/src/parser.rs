@@ -323,4 +323,14 @@ struct Hello {
 }", 0);
         assert!(complex_not_cond.is_ok());
     }
+
+    #[test]
+    #[rustfmt::skip]
+    fn test_for_array() {
+        let array = parse_program("default$main(string name) {
+    [1, 2, 3]
+}", 0);
+        println!("{:?}", array);
+        assert!(array.is_ok());
+    }
 }

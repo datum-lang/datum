@@ -377,6 +377,12 @@ Atom: Expression = {
         location: Location::new(l, r),
         node: ExpressionType::String { value: value.to_string() }
     },
+    <l:@L> "[" <v:OneOrMore<Expression>> "]" <r:@R> => {
+        Expression {
+            location: Location::new(l, r),
+            node: ExpressionType::List { elements: v },
+        }
+    },
     <l:@L> <n:LexNumber> <r:@R> => {
         let base: String = n.0.chars().filter(|v| *v != '_').collect();
         let exp: String = n.1.chars().filter(|v| *v != '_').collect();
@@ -416,6 +422,7 @@ TypeLiteral: Expression = {
     <l:@L> "[" "]" <ty: TypeLiteral><r:@R> => {
         Expression {
             location: Location::new(l, r),
+            // todo: add list value support
             node: ExpressionType::List { elements: vec![] },
         }
     },
