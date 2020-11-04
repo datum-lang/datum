@@ -199,10 +199,9 @@ struct Summary {
   	Name   : string
 }
 
-Summary&constructor(name: string) {
+Summary$constructor(string name) {
 
 }
-
 ", 0);
         assert!(code.is_ok());
     }
