@@ -192,6 +192,23 @@ struct Summary {
 
     #[test]
     #[rustfmt::skip]
+    fn test_struct_with_method_define() {
+        //  todo: make a private ??
+        let code = parse_program("pkg charj
+struct Summary {
+  	Name   : string
+}
+
+Summary&constructor(name: string) {
+
+}
+
+", 0);
+        assert!(code.is_ok());
+    }
+
+    #[test]
+    #[rustfmt::skip]
     fn test_struct_in_struct() {
         let code = parse_program("pkg charj
 struct Summary {

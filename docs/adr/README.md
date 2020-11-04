@@ -7,3 +7,4 @@
 * [5. types-system](0005-types-system.md)
 * [6. empty-method](0006-empty-method.md)
 * [7. support-for-newline](0007-support-for-newline.md)
+* [8. constructor-design](0008-constructor-design.md)
