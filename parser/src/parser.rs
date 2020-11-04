@@ -328,9 +328,8 @@ struct Hello {
     #[rustfmt::skip]
     fn test_for_array() {
         let array = parse_program("default$main(string name) {
-    [1, 2, 3]
+    let i: array = [1, 2, 3]
 }", 0);
-        println!("{:?}", array);
         assert!(array.is_ok());
     }
 }

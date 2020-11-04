@@ -290,7 +290,7 @@ NotExpression: Expression = {
            node: ExpressionType::Unop { op: UnaryOperator::Not, a: Box::new(e) }
        }
    },
-    AndExpression,
+   AndExpression,
 }
 
 AndExpression: Expression = {
