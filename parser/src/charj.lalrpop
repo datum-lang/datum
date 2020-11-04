@@ -324,6 +324,10 @@ NotExpression: Expression = {
 
 PrimaryExpr: Expression = {
     Atom,
+    FunctionCall
+}
+
+FunctionCall: Expression = {
     <f:PrimaryExpr> <l:@L> "(" <a: Comma<Argument>> ")" <r:@R> => {
         Expression {
             location: Location::new(l, r),
