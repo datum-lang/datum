@@ -8,3 +8,4 @@
 * [6. empty-method](0006-empty-method.md)
 * [7. support-for-newline](0007-support-for-newline.md)
 * [8. constructor-design](0008-constructor-design.md)
+* [9. compiler-design](0009-compiler-design.md)
