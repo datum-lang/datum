@@ -3,12 +3,28 @@ name: Charj Build
 on: [push]
 
 jobs:
-  build:
-    name: Linux
-    runs-on: ubuntu-latest
-    container: hyperledgerlabs/solang:ci
+#  build:
+#    name: Linux
+#    runs-on: ubuntu-latest
+#    container: hyperledgerlabs/solang:ci
+#    steps:
+#      - uses: actions/checkout@v1
+#      - uses: icepuma/rust-action@master
+#        with:
+#          args: cargo fmt -- --check && cargo clippy -- -Dwarnings && cargo test --all
+
+  mac:
+    name: Mac
+    runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout sources
+        uses: actions/checkout@v2
+      - name: Download LLVM
+        run: curl -sS -o llvm10.0-mac.tar.gz https://solang.io/download/llvm10.0-mac.tar.gz
+      - name: Extract LLVM
+        run: tar zxf llvm10.0-mac.tar.gz
+      - name: Add LLVM to Path
+        run: echo "$(pwd)/llvm10.0/bin" >> $GITHUB_PATH
       - uses: icepuma/rust-action@master
         with:
           args: cargo fmt -- --check && cargo clippy -- -Dwarnings && cargo test --all
