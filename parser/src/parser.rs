@@ -335,7 +335,7 @@ struct Hello {
     #[rustfmt::skip]
     fn test_for_complex_if() {
         let complex_not_cond = parse_program("default$main(string name) {
-    if (!(1 + 2)){}
+    if ((i % 3) == 0) {}
 }", 0);
         println!("{:?}", complex_not_cond);
         assert!(complex_not_cond.is_ok());

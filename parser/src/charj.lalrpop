@@ -313,7 +313,7 @@ Term: Expression = {
 };
 
 NotExpression: Expression = {
-    <l:@L> "!" <e:PrimaryExpr> <r:@R> => {
+    <l:@L> "!" <e:NotExpression> <r:@R> => {
        Expression {
            location: Location::new(l, r),
            node: ExpressionType::Unop { op: UnaryOperator::Not, a: Box::new(e) }
@@ -324,7 +324,7 @@ NotExpression: Expression = {
 
 PrimaryExpr: Expression = {
     Atom,
-    FunctionCall
+    <FunctionCall> => <>,
 }
 
 FunctionCall: Expression = {
@@ -386,6 +386,16 @@ Atom: Expression = {
             node: ExpressionType::Number { value: n }
         }
     },
+//    <l:@L> <a:ParameterList> <r:@R> => {
+//        if a.len() == 1 {
+//            if let Some(Parameter{ ty, storage: None, name: None, .. }) = &a[0].1 {
+//                // this means "(" Expression ")"
+//                return ty.clone();
+//            }
+//        }
+//
+//        Expression::List(Loc(file_no, l, r), a)
+//    },
 }
 
 TypeLiteral: Expression = {
