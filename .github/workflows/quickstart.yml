@@ -4,8 +4,9 @@ on: [push]
 
 jobs:
   build:
+    name: Linux
     runs-on: ubuntu-latest
-
+    container: hyperledgerlabs/solang:ci
     steps:
       - uses: actions/checkout@v1
       - uses: icepuma/rust-action@master
