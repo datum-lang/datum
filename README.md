@@ -14,8 +14,6 @@ Jetbrains' IDEA support: `Charj` [![Version](https://img.shields.io/jetbrains/pl
        - [x] package
        - [x] struct
        - [x] function
-          - [x] parameters
-          - [x] return
        - [ ] control flow
           - [x] if
           - [ ] loop
@@ -24,13 +22,10 @@ Jetbrains' IDEA support: `Charj` [![Version](https://img.shields.io/jetbrains/pl
           - [ ] break
        - [ ] expression
           - [x] assignment
-            - [x] Single assignment
-            - [x] assignment Variant
           - [x] method call
-            - [ ] arguments
     - [ ] poet design
- - [ ] compiler
-    - [ ] LLVM spike
+ - [x] compiler
+    - [x] LLVM spike
     - [ ] hello, world
  - [ ] build system
  - [ ] dependency manager
