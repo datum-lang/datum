@@ -25,6 +25,7 @@ jobs:
         run: tar zxf llvm10.0-mac.tar.gz
       - name: Add LLVM to Path
         run: echo "$(pwd)/llvm10.0/bin" >> $GITHUB_PATH
-      - uses: icepuma/rust-action@master
-        with:
-          args: cargo fmt -- --check && cargo clippy -- -Dwarnings && cargo test --all
+      - name: Build
+        run: cargo build --verbose --release
+      - name: Run tests
+        run: cargo test --verbose --release
