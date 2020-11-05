@@ -3,16 +3,8 @@ name: Charj Build
 on: [push]
 
 jobs:
-#  build:
-#    name: Linux
-#    runs-on: ubuntu-latest
-#    container: hyperledgerlabs/solang:ci
-#    steps:
-#      - uses: actions/checkout@v1
-#      - uses: icepuma/rust-action@master
-#        with:
-#          args: cargo fmt -- --check && cargo clippy -- -Dwarnings && cargo test --all
-
+# we know how to build a llvm with llvmenv in Ubuntu or macOS server, but it's slowly. So I just copy the solang config
+# But as a open source project, we shouldn't to use others server.
   mac:
     name: Mac
     runs-on: macos-latest
@@ -29,3 +21,21 @@ jobs:
         run: cargo build --verbose --release
       - name: Run tests
         run: cargo test --verbose --release
+
+
+  windows:
+    name: Windows
+    runs-on: windows-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+      - name: Download LLVM
+        run: curl -sS -o c:\llvm.zip https://solang.io/download/llvm10.0.zip
+      - name: Extract LLVM
+        run: unzip c:\llvm.zip -d c:/
+      - name: Add LLVM to Path
+        run: echo "c:\llvm10.0\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8
+      - name: Build
+        run: cargo build --verbose
+      - name: Run tests
+        run: cargo test --verbose

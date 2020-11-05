@@ -30,6 +30,10 @@ Jetbrains' IDEA support: `Charj` [![Version](https://img.shields.io/jetbrains/pl
  - [ ] build system
  - [ ] dependency manager
 
+Others todo:
+
+ - [ ] CI
+    - [ ] replace solang CI container.
 
 ## Development
 
