@@ -7,7 +7,9 @@ use inkwell::passes::PassManager;
 use inkwell::values::{FunctionValue, PointerValue};
 
 use inkwell::types::BasicTypeEnum;
-use parser::parse_tree::{SourceUnit, SourceUnitPart, StructFuncDef};
+use parser::parse_tree::{
+    Located, SourceUnit, SourceUnitPart, Statement, StatementType, StructFuncDef,
+};
 use parser::parser::parse_program;
 
 #[allow(dead_code)]
@@ -51,7 +53,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
                 SourceUnitPart::MultipleImportDirective(_) => {}
                 SourceUnitPart::PackageDirective(_) => {}
                 SourceUnitPart::StructFuncDef(fun) => {
-                    self.compile_struct_fn(fun);
+                    self.compile_fn(fun);
                 }
                 SourceUnitPart::FuncDef(_) => {}
                 SourceUnitPart::StructDef(_) => {}
@@ -59,7 +61,39 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         }
     }
 
-    fn compile_struct_fn(
+    fn compile_fn(
+        &mut self,
+        fun: &Box<StructFuncDef>,
+    ) -> Result<FunctionValue<'ctx>, &'static str> {
+        let func = self.compile_prototype(fun)?;
+        // if let None = fun.body {
+        //     return Ok(func);
+        // }
+
+        self.compile_expr(fun.body.as_ref());
+        return Ok(func);
+    }
+
+    fn compile_expr(&mut self, body: &Vec<Statement>) {
+        for stmt in body {
+            match stmt.node {
+                StatementType::Break => {}
+                StatementType::Continue => {}
+                StatementType::If { .. } => {}
+                StatementType::While { .. } => {}
+                StatementType::For { .. } => {}
+                StatementType::Loop => {}
+                StatementType::Assign { .. } => {}
+                StatementType::Variable { .. } => {}
+                StatementType::Return { .. } => {}
+                StatementType::Expression { ref expression } => {
+                    println!("{:?}", expression);
+                }
+            }
+        }
+    }
+
+    fn compile_prototype(
         &mut self,
         fun: &Box<StructFuncDef>,
     ) -> Result<FunctionValue<'ctx>, &'static str> {
@@ -74,6 +108,11 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         let fn_val = self
             .module
             .add_function(fun.name.name.as_str(), fn_type, None);
+
+        // set arguments names
+        // for (i, arg) in fn_val.get_param_iter().enumerate() {
+        //     arg.into_float_value().set_name(fun.params[i].as_str());
+        // }
 
         println!("{:?}", fn_val);
 
