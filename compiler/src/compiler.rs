@@ -5,10 +5,11 @@ use inkwell::context::Context;
 use inkwell::module::Module;
 use inkwell::passes::PassManager;
 use inkwell::values::{FunctionValue, PointerValue};
-use parser::error::Diagnostic;
+
 use parser::parse_tree::{SourceUnit, SourceUnitPart};
 use parser::parser::parse_program;
 
+#[allow(dead_code)]
 pub struct Compiler<'a, 'ctx> {
     pub context: &'ctx Context,
     pub builder: &'a Builder<'ctx>,
@@ -43,18 +44,20 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
     }
 
     fn compile_fn(&mut self) {
-        // for part in self.source_unit.0 {
-        //     match part {
-        //         SourceUnitPart::ImportDirective(_) => {}
-        //         SourceUnitPart::MultipleImportDirective(_) => {}
-        //         SourceUnitPart::PackageDirective(_) => {}
-        //         SourceUnitPart::StructFuncDef(fun) => {
-        //             // if (fun.body.is_empty())
-        //         }
-        //         SourceUnitPart::FuncDef(fun) => {}
-        //         SourceUnitPart::StructDef(_) => {}
-        //     }
-        // }
+        for part in self.source_unit.0.iter() {
+            match part {
+                SourceUnitPart::ImportDirective(_) => {}
+                SourceUnitPart::MultipleImportDirective(_) => {}
+                SourceUnitPart::PackageDirective(_) => {}
+                SourceUnitPart::StructFuncDef(fun) => {
+                    if !fun.body.is_empty() {
+                        println!("{:?}", fun.body);
+                    }
+                }
+                SourceUnitPart::FuncDef(_) => {}
+                SourceUnitPart::StructDef(_) => {}
+            }
+        }
     }
 }
 
@@ -86,10 +89,11 @@ pub fn create_compiler(input: &str) {
 
 #[cfg(test)]
 mod test {
-    use crate::compiler::{create_compiler, Compiler};
+    use crate::compiler::create_compiler;
 
     #[test]
+    #[rustfmt::skip]
     fn init_parser() {
-        create_compiler("fmt.println(\"hello, world\")");
+        create_compiler("default$main(string name) {fmt.println(\"hello,world\")}");
     }
 }
