@@ -5,6 +5,9 @@ use inkwell::context::Context;
 use inkwell::module::Module;
 use inkwell::passes::PassManager;
 use inkwell::values::{FunctionValue, PointerValue};
+use parser::error::Diagnostic;
+use parser::parse_tree::SourceUnit;
+use parser::parser::parse_program;
 
 pub struct Compiler<'a, 'ctx> {
     pub context: &'ctx Context,
@@ -23,7 +26,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         builder: &'a Builder<'ctx>,
         pass_manager: &'a PassManager<FunctionValue<'ctx>>,
         module: &'a Module<'ctx>,
-        // function: &Function,
+        function: &SourceUnit,
     ) {
         let mut compiler = Compiler {
             context: context,
@@ -39,7 +42,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
     }
 }
 
-pub fn create_compiler() {
+pub fn create_compiler(input: &str) {
     let context = Context::create();
     let module = context.create_module("repl");
     let builder = context.create_builder();
@@ -56,7 +59,13 @@ pub fn create_compiler() {
 
     fpm.initialize();
 
-    Compiler::compile(&context, &builder, &fpm, &module);
+    let parse_ast = parse_program(input);
+    match parse_ast {
+        Ok(unit) => {
+            Compiler::compile(&context, &builder, &fpm, &module, &unit);
+        }
+        Err(_) => {}
+    }
 }
 
 #[cfg(test)]
@@ -65,6 +74,6 @@ mod test {
 
     #[test]
     fn init_parser() {
-        create_compiler();
+        create_compiler("fmt.println(\"hello, world\")");
     }
 }

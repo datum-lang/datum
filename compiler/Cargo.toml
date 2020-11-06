@@ -9,3 +9,6 @@ edition = "2018"
 [dependencies]
 # all support targets for inkwell
 inkwell = { version = "0.1.0-llvm10sample", features = ["target-x86", "target-webassembly", "llvm10-0"] }
+
+[dependencies.parser]
+path = "../parser"
