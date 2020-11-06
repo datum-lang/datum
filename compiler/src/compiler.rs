@@ -43,18 +43,18 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
     }
 
     fn compile_fn(&mut self) {
-        for part in self.source_unit.0 {
-            match part {
-                SourceUnitPart::ImportDirective(_) => {}
-                SourceUnitPart::MultipleImportDirective(_) => {}
-                SourceUnitPart::PackageDirective(_) => {}
-                SourceUnitPart::StructFuncDef(fun) => {
-                    // if (fun.body.is_empty())
-                }
-                SourceUnitPart::FuncDef(fun) => {}
-                SourceUnitPart::StructDef(_) => {}
-            }
-        }
+        // for part in self.source_unit.0 {
+        //     match part {
+        //         SourceUnitPart::ImportDirective(_) => {}
+        //         SourceUnitPart::MultipleImportDirective(_) => {}
+        //         SourceUnitPart::PackageDirective(_) => {}
+        //         SourceUnitPart::StructFuncDef(fun) => {
+        //             // if (fun.body.is_empty())
+        //         }
+        //         SourceUnitPart::FuncDef(fun) => {}
+        //         SourceUnitPart::StructDef(_) => {}
+        //     }
+        // }
     }
 }
 

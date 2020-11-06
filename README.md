@@ -33,7 +33,7 @@ Jetbrains' IDEA support: `Charj` [![Version](https://img.shields.io/jetbrains/pl
 Others todo:
 
  - [ ] CI
-    - [ ] replace solang CI container.
+    - [ ] replace Solang CI container.
 
 ## Development
 
@@ -66,11 +66,7 @@ LLVM_SYS_100_PREFIX=$HOME/llvm/llvm-10.0.1.src/build cargo run
 
 ### Clion Config
 
-add: `LLVM_SYS_100_PREFIX=/Users/fdhuang/llvm/llvm-10.0.1.src/build` to **Run/Debug Configurations**
-
-## Decisions
-
- - [ ] Thinking in remove complex assign such as `-=`, `*=` or `--`. It can make things simple.
+add: `LLVM_SYS_100_PREFIX=/Users/fdhuang/llvm/llvm-10.0.1.src/build` to **Run/Debug Configurations**.
 
 ## License
 
