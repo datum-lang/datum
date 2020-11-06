@@ -6,7 +6,8 @@ use inkwell::module::Module;
 use inkwell::passes::PassManager;
 use inkwell::values::{FunctionValue, PointerValue};
 
-use parser::parse_tree::{SourceUnit, SourceUnitPart};
+use inkwell::types::BasicTypeEnum;
+use parser::parse_tree::{SourceUnit, SourceUnitPart, StructFuncDef};
 use parser::parser::parse_program;
 
 #[allow(dead_code)]
@@ -40,24 +41,43 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             variables: HashMap::new(),
         };
 
-        compiler.compile_fn();
+        compiler.compile_source();
     }
 
-    fn compile_fn(&mut self) {
+    fn compile_source(&mut self) {
         for part in self.source_unit.0.iter() {
             match part {
                 SourceUnitPart::ImportDirective(_) => {}
                 SourceUnitPart::MultipleImportDirective(_) => {}
                 SourceUnitPart::PackageDirective(_) => {}
                 SourceUnitPart::StructFuncDef(fun) => {
-                    if !fun.body.is_empty() {
-                        println!("{:?}", fun.body);
-                    }
+                    self.compile_struct_fn(fun);
                 }
                 SourceUnitPart::FuncDef(_) => {}
                 SourceUnitPart::StructDef(_) => {}
             }
         }
+    }
+
+    fn compile_struct_fn(
+        &mut self,
+        fun: &Box<StructFuncDef>,
+    ) -> Result<FunctionValue<'ctx>, &'static str> {
+        let ret_type = self.context.f64_type();
+        let args_types = std::iter::repeat(ret_type)
+            .take(0)
+            .map(|f| f.into())
+            .collect::<Vec<BasicTypeEnum>>();
+        let args_types = args_types.as_slice();
+
+        let fn_type = self.context.f64_type().fn_type(args_types, false);
+        let fn_val = self
+            .module
+            .add_function(fun.name.name.as_str(), fn_type, None);
+
+        println!("{:?}", fn_val);
+
+        Ok(fn_val)
     }
 }
 
