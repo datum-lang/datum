@@ -10,7 +10,7 @@ use crate::token::{Token, CommentType};
 use crate::error::LexicalError;
 use crate::parse_tree::*;
 
-grammar<'input>(input: &'input str, file_no: usize);
+grammar<'input>(input: &'input str);
 
 pub Charj: SourceUnit = {
     SourceUnitPart+ => SourceUnit(<>)

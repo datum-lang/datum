@@ -4,17 +4,17 @@ use crate::lexer;
 use crate::parse_tree::SourceUnit;
 
 macro_rules! do_lalr_parsing {
-    ($input: expr, $file_no: ident) => {{
+    ($input: expr) => {{
         let lex = lexer::Lexer::new($input);
-        match charj::CharjParser::new().parse($input, $file_no, lex) {
+        match charj::CharjParser::new().parse($input, lex) {
             Err(err) => Err(Diagnostic::handle_error(err)),
             Ok(s) => Ok(s),
         }
     }};
 }
 
-pub fn parse_program(source: &str, file_no: usize) -> Result<SourceUnit, Diagnostic> {
-    do_lalr_parsing!(source, file_no)
+pub fn parse_program(source: &str) -> Result<SourceUnit, Diagnostic> {
+    do_lalr_parsing!(source)
 }
 
 #[cfg(test)]
@@ -26,14 +26,14 @@ mod test {
     #[test]
     #[rustfmt::skip]
     fn test_parse_empty() {
-        let parse_ast = parse_program("", 0);
+        let parse_ast = parse_program("");
         assert!(parse_ast.is_err());
     }
 
     #[test]
     #[rustfmt::skip]
     fn test_parse_package() {
-        let package = parse_program("package charj", 0);
+        let package = parse_program("package charj");
         assert_eq!(package.unwrap(), SourceUnit {
             0: vec![SourceUnitPart::PackageDirective(Package::Plain(
                 Identifier {
@@ -42,14 +42,14 @@ mod test {
                 }
             ))]
         });
-        let pkg_alias = parse_program("pkg charj", 0);
+        let pkg_alias = parse_program("pkg charj");
         assert!(pkg_alias.is_ok());
     }
 
     #[test]
     #[rustfmt::skip]
     fn test_parse_struct() {
-        let package = parse_program("struct IO {}", 0);
+        let package = parse_program("struct IO {}");
         assert!(package.is_ok());
     }
 
@@ -57,26 +57,26 @@ mod test {
     #[rustfmt::skip]
     fn test_basic_location() {
         let code = parse_program("pkg charj
-struct IO {}", 0);
+struct IO {}");
         assert!(code.is_ok());
     }
 
     #[test]
     #[rustfmt::skip]
     fn test_normal_struct_function() {
-        let normal_struct_fun = parse_program("default$main() {}", 0);
+        let normal_struct_fun = parse_program("default$main() {}");
         assert!(normal_struct_fun.is_ok());
-        let with_empty_struct_fun = parse_program("default $ main () {}", 0);
+        let with_empty_struct_fun = parse_program("default $ main () {}");
         assert!(with_empty_struct_fun.is_ok());
     }
 
     #[test]
     #[rustfmt::skip]
     fn test_function_parameters() {
-        let params = parse_program("default$main(string name) {}", 0);
+        let params = parse_program("default$main(string name) {}");
         assert!(params.is_ok());
 
-        let multi_params = parse_program("default$main(string name, string first, int id) {}", 0);
+        let multi_params = parse_program("default$main(string name, string first, int id) {}");
         assert!(multi_params.is_ok());
     }
 
@@ -85,7 +85,7 @@ struct IO {}", 0);
     fn test_comment() {
         let comments = parse_program("// this is a comment
 pkg comment
-", 0);
+");
         assert!(comments.is_ok());
     }
 
@@ -96,12 +96,12 @@ pkg comment
     if(string == \"name\") {
         return;
     }
-}", 0);
+}");
         assert!(empty_if.is_ok());
 
         let if_with_expr = parse_program("default$main(string name) {
     if( a == true) {}
-}", 0);
+}");
         assert!(if_with_expr.is_ok());
     }
 
@@ -112,12 +112,12 @@ pkg comment
     while(string == \"name\") {
         return;
     }
-}", 0);
+}");
         assert!(empty_if.is_ok());
 
         let if_with_expr = parse_program("default$main(string name) {
     while( a == true) {}
-}", 0);
+}");
         assert!(if_with_expr.is_ok());
     }
 
@@ -128,14 +128,14 @@ pkg comment
     if(a == true) {
         return a;
     }
-}", 0);
+}");
         assert!(if_return.is_ok());
 
         let if_greater = parse_program("default$main(int a, int b) {
     if(a > b) {
         return a;
     }
-}", 0);
+}");
         assert!(if_greater.is_ok());
     }
 
@@ -148,14 +148,14 @@ pkg comment
     } else {
         return b;
     }
-}", 0);
+}");
         assert!(if_else.is_ok());
     }
 
     #[test]
     #[rustfmt::skip]
     fn test_parse_import() {
-        let parse_ast = parse_program("import io", 0);
+        let parse_ast = parse_program("import io");
         assert!(parse_ast.is_ok());
     }
 
@@ -164,7 +164,7 @@ pkg comment
     fn test_function_call() {
         let basic_function_call = parse_program("default$main(string name) {
     fmt.println(\"hello,world\")
-}", 0);
+}");
         assert!(basic_function_call.is_ok());
     }
 
@@ -176,7 +176,7 @@ struct Summary {
   	Name   : string
 	FanIn  : int
 	FanOut : int
-}", 0);
+}");
         assert!(code.is_ok());
     }
 
@@ -186,7 +186,7 @@ struct Summary {
         let code = parse_program("pkg charj
 struct Summary {
   	Name   : []string
-}", 0);
+}");
         assert!(code.is_ok());
     }
 
@@ -202,7 +202,7 @@ struct Summary {
 Summary$constructor(string name) {
 
 }
-", 0);
+");
         assert!(code.is_ok());
     }
 
@@ -219,7 +219,7 @@ struct Summary {
 struct Hello {
     summary : Summary
 }
-", 0);
+");
         assert!(code.is_ok());
     }
 
@@ -231,7 +231,7 @@ struct Hello {
     fmt.println(words)
     let b: int = 2333
     fmt.println(b)
-}", 0);
+}");
         assert!(str_assign.is_ok());
     }
 
@@ -242,12 +242,12 @@ struct Hello {
     let b: int = 2333 + 5
     let c: int = b - 10
     fmt.println(b)
-}", 0);
+}");
         assert!(str_assign.is_ok());
 
         let multiple_expr = parse_program("default$main() {
     let b: int = 2333 + 5 - 10 -10 + 5 + 100
-}", 0);
+}");
         assert!(multiple_expr.is_ok());
     }
 
@@ -257,7 +257,7 @@ struct Hello {
         let mul = parse_program("default$main() {
     let b: int = 2333 * 5 - 10 + 100
     fmt.println(b)
-}", 0);
+}");
         assert!(mul.is_ok());
     }
 
@@ -267,7 +267,7 @@ struct Hello {
         let mul = parse_program("default$main() {
     let b: int = 2333 * 5 - 10 + 100 / 5
     fmt.println(b)
-}", 0);
+}");
         assert!(mul.is_ok());
     }
 
@@ -277,7 +277,7 @@ struct Hello {
         let mod_code = parse_program("default$main() {
     let b: int = 100 % 5
     fmt.println(b)
-}", 0);
+}");
         assert!(mod_code.is_ok());
     }
 
@@ -286,17 +286,17 @@ struct Hello {
     fn test_for_and_or_symbol() {
         let and_symbol = parse_program("default$main() {
     let b: bool = a && b
-}", 0);
+}");
         assert!(and_symbol.is_ok());
 
         let or_symbol = parse_program("default$main() {
     let b: bool = a || b
-}", 0);
+}");
         assert!(or_symbol.is_ok());
 
         let complex = parse_program("default$main() {
     let b: bool = a || b && c || d && e || f
-}", 0);
+}");
         assert!(complex.is_ok());
     }
 
@@ -307,7 +307,7 @@ struct Hello {
     for(x in 1..10) {
         fmt.println(x)
     }
-}", 0);
+}");
         assert!(for_loop.is_ok());
     }
 
@@ -316,7 +316,7 @@ struct Hello {
     fn test_for_not() {
         let not_cond = parse_program("default$main(string name) {
     if (!true){}
-}", 0);
+}");
         assert!(not_cond.is_ok());
     }
 
@@ -326,7 +326,7 @@ struct Hello {
         let shift = parse_program("default$main(string name) {
     let a: int = 1000 << 0
     let b: int = 1000 >> 1
-}", 0);
+}");
         assert!(shift.is_ok());
     }
 
@@ -336,7 +336,7 @@ struct Hello {
     fn test_for_complex_if() {
         let complex_not_cond = parse_program("default$main(string name) {
     if ((i % 3) == 0) {}
-}", 0);
+}");
         println!("{:?}", complex_not_cond);
         assert!(complex_not_cond.is_ok());
     }
@@ -347,7 +347,7 @@ struct Hello {
         let array = parse_program("default$main(string name) {
     let i: []int = [1, 2, 3]
     let j: string = [1, 2, 3]
-}", 0);
+}");
         assert!(array.is_ok());
     }
 }
