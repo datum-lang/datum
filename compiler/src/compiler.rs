@@ -6,7 +6,7 @@ use inkwell::module::Module;
 use inkwell::passes::PassManager;
 use inkwell::values::{FunctionValue, PointerValue};
 use parser::error::Diagnostic;
-use parser::parse_tree::SourceUnit;
+use parser::parse_tree::{SourceUnit, SourceUnitPart};
 use parser::parser::parse_program;
 
 pub struct Compiler<'a, 'ctx> {
@@ -14,6 +14,7 @@ pub struct Compiler<'a, 'ctx> {
     pub builder: &'a Builder<'ctx>,
     pub fpm: &'a PassManager<FunctionValue<'ctx>>,
     pub module: &'a Module<'ctx>,
+    pub source_unit: &'a SourceUnit,
 
     variables: HashMap<String, PointerValue<'ctx>>,
     fn_value_opt: Option<FunctionValue<'ctx>>,
@@ -26,19 +27,34 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         builder: &'a Builder<'ctx>,
         pass_manager: &'a PassManager<FunctionValue<'ctx>>,
         module: &'a Module<'ctx>,
-        function: &SourceUnit,
+        source_unit: &SourceUnit,
     ) {
         let mut compiler = Compiler {
             context: context,
             builder: builder,
             fpm: pass_manager,
-            module: module,
-            // function: function,
+            module,
+            source_unit,
             fn_value_opt: None,
             variables: HashMap::new(),
         };
 
-        // compiler.compile_fn()
+        compiler.compile_fn();
+    }
+
+    fn compile_fn(&mut self) {
+        for part in self.source_unit.0 {
+            match part {
+                SourceUnitPart::ImportDirective(_) => {}
+                SourceUnitPart::MultipleImportDirective(_) => {}
+                SourceUnitPart::PackageDirective(_) => {}
+                SourceUnitPart::StructFuncDef(fun) => {
+                    // if (fun.body.is_empty())
+                }
+                SourceUnitPart::FuncDef(fun) => {}
+                SourceUnitPart::StructDef(_) => {}
+            }
+        }
     }
 }
 
