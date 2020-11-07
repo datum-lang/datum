@@ -70,11 +70,11 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         //     return Ok(func);
         // }
 
-        self.compile_expr(fun.body.as_ref());
+        self.scan_statement(fun.body.as_ref());
         return Ok(func);
     }
 
-    fn compile_expr(&mut self, body: &Vec<Statement>) {
+    fn scan_statement(&mut self, body: &Vec<Statement>) {
         for stmt in body {
             match stmt.node {
                 StatementType::Break => {}
