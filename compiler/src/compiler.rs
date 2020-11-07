@@ -8,7 +8,8 @@ use inkwell::values::{FunctionValue, PointerValue};
 
 use inkwell::types::BasicTypeEnum;
 use parser::parse_tree::{
-    Located, SourceUnit, SourceUnitPart, Statement, StatementType, StructFuncDef,
+    Expression, ExpressionType, Located, SourceUnit, SourceUnitPart, Statement, StatementType,
+    StructFuncDef,
 };
 use parser::parser::parse_program;
 
@@ -87,10 +88,28 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
                 StatementType::Variable { .. } => {}
                 StatementType::Return { .. } => {}
                 StatementType::Expression { ref expression } => {
-                    println!("{:?}", expression);
+                    self.scan_expression(expression);
                 }
             }
         }
+    }
+
+    fn scan_expression(&mut self, expression: &Expression) {
+        match &expression.node {
+            ExpressionType::Range { .. } => {}
+            ExpressionType::BoolOp { .. } => {}
+            ExpressionType::Binop { .. } => {}
+            ExpressionType::Unop { .. } => {}
+            ExpressionType::String { .. } => {}
+            ExpressionType::Number { .. } => {}
+            ExpressionType::List { .. } => {}
+            ExpressionType::Identifier { .. } => {}
+            ExpressionType::Type { .. } => {}
+            ExpressionType::Attribute { .. } => {}
+            ExpressionType::Call { .. } => {}
+            ExpressionType::SimpleCompare { .. } => {}
+            ExpressionType::Compare { .. } => {}
+        };
     }
 
     fn compile_prototype(
