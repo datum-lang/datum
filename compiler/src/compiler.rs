@@ -76,18 +76,19 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
     }
 
     fn scan_statement(&mut self, body: &Vec<Statement>) {
+        use StatementType::*;
         for stmt in body {
             match stmt.node {
-                StatementType::Break => {}
-                StatementType::Continue => {}
-                StatementType::If { .. } => {}
-                StatementType::While { .. } => {}
-                StatementType::For { .. } => {}
-                StatementType::Loop => {}
-                StatementType::Assign { .. } => {}
-                StatementType::Variable { .. } => {}
-                StatementType::Return { .. } => {}
-                StatementType::Expression { ref expression } => {
+                Break => {}
+                Continue => {}
+                If { .. } => {}
+                While { .. } => {}
+                For { .. } => {}
+                Loop => {}
+                Assign { .. } => {}
+                Variable { .. } => {}
+                Return { .. } => {}
+                Expression { ref expression } => {
                     self.scan_expression(expression);
                 }
             }
@@ -95,20 +96,23 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
     }
 
     fn scan_expression(&mut self, expression: &Expression) {
+        use ExpressionType::*;
         match &expression.node {
-            ExpressionType::Range { .. } => {}
-            ExpressionType::BoolOp { .. } => {}
-            ExpressionType::Binop { .. } => {}
-            ExpressionType::Unop { .. } => {}
-            ExpressionType::String { .. } => {}
-            ExpressionType::Number { .. } => {}
-            ExpressionType::List { .. } => {}
-            ExpressionType::Identifier { .. } => {}
-            ExpressionType::Type { .. } => {}
-            ExpressionType::Attribute { .. } => {}
-            ExpressionType::Call { .. } => {}
-            ExpressionType::SimpleCompare { .. } => {}
-            ExpressionType::Compare { .. } => {}
+            Range { .. } => {}
+            BoolOp { .. } => {}
+            Binop { .. } => {}
+            Unop { .. } => {}
+            String { .. } => {}
+            Number { .. } => {}
+            List { .. } => {}
+            Identifier { .. } => {}
+            Type { .. } => {}
+            Attribute { .. } => {}
+            Call { function, args, .. } => {
+                println!("{:?} - {:?}", function, args);
+            }
+            SimpleCompare { .. } => {}
+            Compare { .. } => {}
         };
     }
 
