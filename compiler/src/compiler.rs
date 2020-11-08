@@ -8,8 +8,7 @@ use inkwell::values::{FunctionValue, PointerValue};
 
 use inkwell::types::BasicTypeEnum;
 use parser::parse_tree::{
-    Expression, ExpressionType, Located, SourceUnit, SourceUnitPart, Statement, StatementType,
-    StructFuncDef,
+    Expression, ExpressionType, SourceUnit, SourceUnitPart, Statement, StatementType, StructFuncDef,
 };
 use parser::parser::parse_program;
 
@@ -68,9 +67,9 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         fun: &Box<StructFuncDef>,
     ) -> Result<FunctionValue<'ctx>, &'static str> {
         let func = self.compile_prototype(fun)?;
-        // if let None = fun.body {
-        //     return Ok(func);
-        // }
+        if fun.body.len() == 0 {
+            return Ok(func);
+        }
 
         self.scan_statement(fun.body.as_ref());
         return Ok(func);
@@ -137,8 +136,6 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         // for (i, arg) in fn_val.get_param_iter().enumerate() {
         //     arg.into_float_value().set_name(fun.params[i].as_str());
         // }
-
-        println!("{:?}", fn_val);
 
         Ok(fn_val)
     }
