@@ -54,7 +54,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
                 MultipleImportDirective(_) => {}
                 PackageDirective(_) => {}
                 StructFuncDef(fun) => {
-                    self.compile_fn(fun);
+                    self.compile_struct_fn(fun);
                 }
                 FuncDef(_) => {}
                 StructDef(_) => {}
@@ -62,7 +62,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         }
     }
 
-    fn compile_fn(
+    fn compile_struct_fn(
         &mut self,
         fun: &Box<StructFuncDef>,
     ) -> Result<FunctionValue<'ctx>, &'static str> {
