@@ -49,15 +49,16 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
 
     fn compile_source(&mut self) {
         for part in self.source_unit.0.iter() {
+            use SourceUnitPart::*;
             match part {
-                SourceUnitPart::ImportDirective(_) => {}
-                SourceUnitPart::MultipleImportDirective(_) => {}
-                SourceUnitPart::PackageDirective(_) => {}
-                SourceUnitPart::StructFuncDef(fun) => {
+                ImportDirective(_) => {}
+                MultipleImportDirective(_) => {}
+                PackageDirective(_) => {}
+                StructFuncDef(fun) => {
                     self.compile_fn(fun);
                 }
-                SourceUnitPart::FuncDef(_) => {}
-                SourceUnitPart::StructDef(_) => {}
+                FuncDef(_) => {}
+                StructDef(_) => {}
             }
         }
     }
