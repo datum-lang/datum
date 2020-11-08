@@ -4,7 +4,7 @@ use inkwell::builder::Builder;
 use inkwell::context::Context;
 use inkwell::module::Module;
 use inkwell::passes::PassManager;
-use inkwell::values::{FunctionValue, PointerValue};
+use inkwell::values::{FloatValue, FunctionValue, PointerValue};
 
 use inkwell::types::BasicTypeEnum;
 use parser::parse_tree::{
@@ -70,12 +70,29 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         if fun.body.len() == 0 {
             return Ok(func);
         }
+        let entry = self.context.append_basic_block(func, "entry");
 
-        self.scan_statement(fun.body.as_ref());
+        self.builder.position_at_end(entry);
+
+        // update fn field
+        self.fn_value_opt = Some(func);
+
+        // build variables map
+        // self.variables.reserve(proto.args.len());
+
+        // for (i, arg) in function.get_param_iter().enumerate() {
+        //
+        //     }
+
+        self.compile_statement(fun.body.as_ref());
+
+        let fake_return = self.context.f64_type().const_float(0.0);
+        self.builder.build_return(Some(&fake_return));
+
         return Ok(func);
     }
 
-    fn scan_statement(&mut self, body: &Vec<Statement>) {
+    fn compile_statement(&mut self, body: &Vec<Statement>) {
         use StatementType::*;
         for stmt in body {
             match stmt.node {
@@ -89,13 +106,13 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
                 Variable { .. } => {}
                 Return { .. } => {}
                 Expression { ref expression } => {
-                    self.scan_expression(expression);
+                    self.compile_expression(expression);
                 }
             }
         }
     }
 
-    fn scan_expression(&mut self, expression: &Expression) {
+    fn compile_expression(&mut self, expression: &Expression) {
         use ExpressionType::*;
         match &expression.node {
             Range { .. } => {}
