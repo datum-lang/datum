@@ -4,7 +4,7 @@ use inkwell::builder::Builder;
 use inkwell::context::Context;
 use inkwell::module::Module;
 use inkwell::passes::PassManager;
-use inkwell::values::{FloatValue, FunctionValue, PointerValue};
+use inkwell::values::{FunctionValue, PointerValue};
 
 use inkwell::types::BasicTypeEnum;
 use parser::parse_tree::{
@@ -25,6 +25,12 @@ pub struct Compiler<'a, 'ctx> {
 }
 
 impl<'a, 'ctx> Compiler<'a, 'ctx> {
+    /// Gets a defined function given its name.
+    #[inline]
+    fn get_function(&self, name: &str) -> Option<FunctionValue<'ctx>> {
+        self.module.get_function(name)
+    }
+
     /// Compiles the specified `Function` in the given `Context` and using the specified `Builder`, `PassManager`, and `Module`.
     pub fn compile(
         context: &'ctx Context,
@@ -114,19 +120,33 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
 
     fn compile_expression(&mut self, expression: &Expression) {
         use ExpressionType::*;
+        // println!("{:?}", expression.node);
         match &expression.node {
             Range { .. } => {}
             BoolOp { .. } => {}
             Binop { .. } => {}
             Unop { .. } => {}
-            String { .. } => {}
+            String { value } => {
+                println!("String: {:?}", value);
+            }
             Number { .. } => {}
             List { .. } => {}
-            Identifier { .. } => {}
+            Identifier { name } => {
+                println!("Identifier: {:?}", name.name);
+            }
             Type { .. } => {}
-            Attribute { .. } => {}
+            Attribute { value, name } => {
+                self.compile_expression(value);
+                println!("Attribute: {:?}", name.name);
+            }
             Call { function, args, .. } => {
                 println!("{:?} - {:?}", function, args);
+                self.compile_expression(function);
+
+                // let mut compiled_args: Vec<String> = Vec::with_capacity(args.len());
+                for x in args.iter() {
+                    self.compile_expression(&x.expr);
+                }
             }
             SimpleCompare { .. } => {}
             Compare { .. } => {}
