@@ -163,12 +163,25 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         match self.get_function("main") {
             None => {}
             Some(func) => {
-                // let mut compiled_args = Vec::with_capacity(args.len());
                 for x in args.iter() {
                     self.compile_expression(&x.expr);
                 }
 
-                let compiled_args = vec![];
+                let hello_str = self
+                    .builder
+                    .build_global_string_ptr("hello, world", "hello");
+
+                // todo: Create "puts" function
+                match self.module.get_function("puts") {
+                    None => {
+                        println!("none");
+                    }
+                    Some(value) => {
+                        println!("{:?}", value);
+                    }
+                }
+
+                let mut compiled_args = vec![];
                 let tmp = self
                     .builder
                     .build_call(func, &compiled_args, "tmp")
