@@ -11,3 +11,4 @@
 * [9. compiler-design](0009-compiler-design.md)
 * [10. target](0010-target.md)
 * [11. does-syntax-close-to-llvm](0011-does-syntax-close-to-llvm.md)
+* [12. builtin-functions](0012-builtin-functions.md)
