@@ -101,7 +101,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
 
         self.compile_statement(fun.body.as_ref());
 
-        let fake_return = self.context.f64_type().const_float(0.0);
+        let fake_return = self.context.i32_type().const_int(0, false);
         self.builder.build_return(Some(&fake_return));
 
         return Ok(func);
@@ -177,7 +177,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
                 match tmp.left() {
                     None => {}
                     Some(value) => {
-                        println!("{:?}", value.into_float_value());
+                        println!("{:?}", value.into_int_value());
                     }
                 }
             }
@@ -188,14 +188,14 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         &mut self,
         fun: &Box<StructFuncDef>,
     ) -> Result<FunctionValue<'ctx>, &'static str> {
-        let ret_type = self.context.f64_type();
+        let ret_type = self.context.i32_type();
         let args_types = std::iter::repeat(ret_type)
             .take(0)
             .map(|f| f.into())
             .collect::<Vec<BasicTypeEnum>>();
         let args_types = args_types.as_slice();
 
-        let fn_type = self.context.f64_type().fn_type(args_types, false);
+        let fn_type = self.context.i32_type().fn_type(args_types, false);
         let fn_val = self
             .module
             .add_function(fun.name.name.as_str(), fn_type, None);
