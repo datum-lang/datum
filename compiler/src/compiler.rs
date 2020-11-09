@@ -67,6 +67,14 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
                 StructDef(_) => {}
             }
         }
+
+        // debug info
+        match self.get_function("main") {
+            None => {}
+            Some(func) => {
+                func.print_to_stderr();
+            }
+        };
     }
 
     fn compile_struct_fn(
