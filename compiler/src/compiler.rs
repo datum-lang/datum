@@ -61,7 +61,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
                 MultipleImportDirective(_) => {}
                 PackageDirective(_) => {}
                 StructFuncDef(fun) => {
-                    self.compile_struct_fn(fun);
+                    let _result = self.compile_struct_fn(fun);
                 }
                 FuncDef(_) => {}
                 StructDef(_) => {}
@@ -152,10 +152,28 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
     fn function_call_expr(&mut self, expr: &Box<Expression>, args: &Vec<Argument>) {
         self.compile_expression(expr);
 
-        // let mut compiled_args: Vec<String> = Vec::with_capacity(args.len());
-        for x in args.iter() {
-            self.compile_expression(&x.expr);
-        }
+        match self.get_function("main") {
+            None => {}
+            Some(func) => {
+                // let mut compiled_args = Vec::with_capacity(args.len());
+                for x in args.iter() {
+                    self.compile_expression(&x.expr);
+                }
+
+                let compiled_args = vec![];
+                let tmp = self
+                    .builder
+                    .build_call(func, &compiled_args, "tmp")
+                    .try_as_basic_value();
+
+                match tmp.left() {
+                    None => {}
+                    Some(value) => {
+                        println!("{:?}", value.into_float_value());
+                    }
+                }
+            }
+        };
     }
 
     fn compile_prototype(
