@@ -7,7 +7,6 @@ use inkwell::passes::PassManager;
 use inkwell::values::{FunctionValue, PointerValue};
 
 use inkwell::types::BasicTypeEnum;
-use parser::location::Location;
 use parser::parse_tree::{
     Argument, Expression, ExpressionType, SourceUnit, SourceUnitPart, Statement, StatementType,
     StructFuncDef,
@@ -141,14 +140,16 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
                 self.compile_expression(value);
                 println!("Attribute: {:?}", name.name);
             }
-            Call { function, args, .. } => {}
+            Call { function, args, .. } => {
+                // todo: make return
+                self.function_call_expr(function, args)
+            }
             SimpleCompare { .. } => {}
             Compare { .. } => {}
         };
     }
 
     fn function_call_expr(&mut self, expr: &Box<Expression>, args: &Vec<Argument>) {
-        self.function_call_expr(expr, args);
         self.compile_expression(expr);
 
         // let mut compiled_args: Vec<String> = Vec::with_capacity(args.len());
