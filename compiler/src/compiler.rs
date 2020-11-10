@@ -9,6 +9,7 @@ use inkwell::values::{FunctionValue, PointerValue};
 use inkwell::{AddressSpace, OptimizationLevel};
 
 use inkwell::types::{BasicTypeEnum, IntType};
+use parser::location::Location;
 use parser::parse_tree::{
     Argument, Expression, ExpressionType, SourceUnit, SourceUnitPart, Statement, StatementType,
     StructFuncDef,
@@ -26,6 +27,7 @@ pub struct Compiler<'a, 'ctx> {
 
     variables: HashMap<String, PointerValue<'ctx>>,
     fn_value_opt: Option<FunctionValue<'ctx>>,
+    current_source_location: Location,
 }
 
 impl<'a, 'ctx> Compiler<'a, 'ctx> {
@@ -51,6 +53,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             source_unit,
             fn_value_opt: None,
             variables: HashMap::new(),
+            current_source_location: Default::default(),
         };
 
         compiler.compile_source();
