@@ -172,6 +172,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
                     .build_global_string_ptr("hello, world", "hello");
 
                 // todo: Create "puts" function
+                // FunctionTypeRef::get
                 match self.module.get_function("puts") {
                     None => {
                         println!("none");
