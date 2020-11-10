@@ -2,9 +2,11 @@ use std::collections::HashMap;
 
 use inkwell::builder::Builder;
 use inkwell::context::Context;
+use inkwell::module::Linkage;
 use inkwell::module::Module;
 use inkwell::passes::PassManager;
 use inkwell::values::{FunctionValue, PointerValue};
+use inkwell::{AddressSpace, OptimizationLevel};
 
 use inkwell::types::BasicTypeEnum;
 use parser::parse_tree::{
@@ -220,6 +222,31 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         // }
 
         Ok(fn_val)
+    }
+
+    /// Creates global string in the llvm module with initializer
+    ///
+    fn emit_global_string(&self, name: &str, data: &[u8], constant: bool) -> PointerValue<'a> {
+        let ty = self.context.i8_type().array_type(data.len() as u32);
+
+        let gv = self
+            .module
+            .add_global(ty, Some(AddressSpace::Generic), name);
+
+        gv.set_linkage(Linkage::Internal);
+
+        gv.set_initializer(&self.context.const_string(data, false));
+
+        if constant {
+            gv.set_constant(true);
+            gv.set_unnamed_addr(true);
+        }
+
+        self.builder.build_pointer_cast(
+            gv.as_pointer_value(),
+            self.context.i8_type().ptr_type(AddressSpace::Generic),
+            name,
+        )
     }
 }
 
