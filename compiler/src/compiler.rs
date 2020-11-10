@@ -8,7 +8,7 @@ use inkwell::passes::PassManager;
 use inkwell::values::{FunctionValue, PointerValue};
 use inkwell::{AddressSpace, OptimizationLevel};
 
-use inkwell::types::BasicTypeEnum;
+use inkwell::types::{BasicTypeEnum, IntType};
 use parser::parse_tree::{
     Argument, Expression, ExpressionType, SourceUnit, SourceUnitPart, Statement, StatementType,
     StructFuncDef,
@@ -44,8 +44,8 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         source_unit: &SourceUnit,
     ) {
         let mut compiler = Compiler {
-            context: context,
-            builder: builder,
+            context,
+            builder,
             fpm: pass_manager,
             module,
             source_unit,
@@ -54,6 +54,8 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         };
 
         compiler.compile_source();
+        compiler.dump_llvm("demo.ll".as_ref());
+        compiler.run_llvm();
     }
 
     fn compile_source(&mut self) {
@@ -151,10 +153,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
                 self.compile_expression(value);
                 println!("Attribute: {:?}", name.name);
             }
-            Call { function, args, .. } => {
-                // todo: make return
-                self.function_call_expr(function, args)
-            }
+            Call { function, args, .. } => self.function_call_expr(function, args),
             SimpleCompare { .. } => {}
             Compare { .. } => {}
         };
@@ -170,33 +169,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
                     self.compile_expression(&x.expr);
                 }
 
-                let hello_str = self
-                    .builder
-                    .build_global_string_ptr("hello, world", "hello");
-
-                // todo: Create "puts" function
-                // FunctionTypeRef::get
-                match self.module.get_function("puts") {
-                    None => {
-                        println!("none");
-                    }
-                    Some(value) => {
-                        println!("{:?}", value);
-                    }
-                }
-
-                let mut compiled_args = vec![];
-                let tmp = self
-                    .builder
-                    .build_call(func, &compiled_args, "tmp")
-                    .try_as_basic_value();
-
-                match tmp.left() {
-                    None => {}
-                    Some(value) => {
-                        println!("{:?}", value.into_int_value());
-                    }
-                }
+                self.emit_printf_call(&"hello", "hello, world!\n");
             }
         };
     }
@@ -223,6 +196,22 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         // }
 
         Ok(fn_val)
+    }
+
+    fn emit_printf_call(&self, name: &&str, data: &str) -> IntType {
+        let i32_type = self.context.i32_type();
+        let str_type = self.context.i8_type().ptr_type(AddressSpace::Generic);
+        let printf_type = i32_type.fn_type(&[str_type.into()], true);
+
+        // `printf` is same to `puts`
+        let printf = self
+            .module
+            .add_function("puts", printf_type, Some(Linkage::External));
+
+        let pointer_value = self.emit_global_string(name, data.as_ref(), false);
+        self.builder.build_call(printf, &[pointer_value.into()], "");
+
+        i32_type
     }
 
     /// Creates global string in the llvm module with initializer
@@ -260,6 +249,24 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         }
 
         Ok(())
+    }
+    pub fn run_llvm(&self) {
+        let ee = self
+            .module
+            .create_jit_execution_engine(OptimizationLevel::None)
+            .unwrap();
+        let maybe_fn = unsafe { ee.get_function::<unsafe extern "C" fn() -> f64>("main") };
+
+        let compiled_fn = match maybe_fn {
+            Ok(f) => f,
+            Err(err) => {
+                panic!("{:?}", err);
+            }
+        };
+
+        unsafe {
+            compiled_fn.call();
+        }
     }
 }
 
