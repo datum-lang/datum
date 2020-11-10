@@ -14,6 +14,7 @@ use parser::parse_tree::{
     StructFuncDef,
 };
 use parser::parser::parse_program;
+use std::path::Path;
 
 #[allow(dead_code)]
 pub struct Compiler<'a, 'ctx> {
@@ -247,6 +248,18 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             self.context.i8_type().ptr_type(AddressSpace::Generic),
             name,
         )
+    }
+
+    pub fn bitcode(&self, path: &Path) {
+        self.module.write_bitcode_to_path(path);
+    }
+
+    pub fn dump_llvm(&self, path: &Path) -> Result<(), String> {
+        if let Err(s) = self.module.print_to_file(path) {
+            return Err(s.to_string());
+        }
+
+        Ok(())
     }
 }
 
