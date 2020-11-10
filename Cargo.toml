@@ -21,11 +21,15 @@ exclude = [
     ".cargo_vcs_info.json",
 ]
 
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
 [dependencies]
+
 
 
 [workspace]
 members = [
     "parser",
-    "compiler"
+    "compiler",
+    "codegen"
 ]
