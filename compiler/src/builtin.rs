@@ -1,5 +1,5 @@
 use parser::location::Location;
-use parser::parse_tree::{Expression, Type};
+use parser::parse_tree::{Expression, ExpressionType, Type};
 
 #[derive(PartialEq, Clone, Debug)]
 pub enum Builtin {
@@ -56,7 +56,12 @@ pub fn is_builtin_call(namespace: Option<&str>, fname: &str) -> bool {
 /// to handle the special case "fmt.print("hello,world")" where the
 /// second argument is a type list. The generic expression resolver cannot deal with
 /// this. It is only used in for this specific call.
-pub fn resolve_call(name: &str, namespace: Option<&str>, id: &str, args: &[Expression]) {
+pub fn resolve_call(
+    name: &str,
+    namespace: Option<&str>,
+    id: &str,
+    args: &[Expression],
+) -> Result<GenExpression, ()> {
     let matches = BUILTIN_FUNCTIONS
         .iter()
         .filter(|p| p.name == id && p.namespace == namespace)
@@ -67,6 +72,11 @@ pub fn resolve_call(name: &str, namespace: Option<&str>, id: &str, args: &[Expre
         // todo: add parsed express
         resolved_args.push(x);
     }
+    //
+    // let mut cast_args = Vec::new();
+    // for (i, arg) in resolved_args.iter().enumerate() {
+    //     cast_args.push(arg);
+    // }
 
     for func in &matches {
         if func.args.len() != args.len() {
@@ -75,15 +85,25 @@ pub fn resolve_call(name: &str, namespace: Option<&str>, id: &str, args: &[Expre
         let mut matches = true;
 
         if matches {
-            // return Ok(GenExpression::Builtin(
-            //     *loc,
-            //     func.ret.to_vec(),
-            //     func.builtin.clone(),
-            //     cast_args,
-            // ));
+            return Ok(GenExpression::Builtin {
+                types: func.ret.to_vec(),
+                builtin: func.builtin.clone(),
+                // args: resolved_args,
+            });
         }
         println!("{:?}", func);
     }
+
+    Err(())
+}
+
+#[derive(PartialEq, Clone, Debug)]
+pub enum GenExpression {
+    Builtin {
+        types: Vec<Type>,
+        builtin: Builtin,
+        // args: Vec<ExpressionType>,
+    },
 }
 
 #[cfg(test)]
@@ -111,7 +131,7 @@ mod tests {
         };
         let mut exprs = vec![];
         exprs.push(expr);
-        resolve_call("demo", Some("fmt"), "print", &exprs);
-        // assert_eq!(false, no_builtin);
+        let result = resolve_call("demo", Some("fmt"), "print", &exprs);
+        assert_eq!(true, result.is_ok());
     }
 }
