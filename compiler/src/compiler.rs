@@ -59,7 +59,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
 
         compiler.compile_source();
         let _res = compiler.dump_llvm("demo.ll".as_ref());
-        compiler.run_llvm();
+        compiler.run_jit();
     }
 
     fn compile_source(&mut self) {
@@ -265,12 +265,16 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
 
         Ok(())
     }
-    pub fn run_llvm(&self) {
+
+    pub fn run_jit(&self) {
         let ee = self
             .module
             .create_jit_execution_engine(OptimizationLevel::None)
             .unwrap();
-        let maybe_fn = unsafe { ee.get_function::<unsafe extern "C" fn() -> f64>("main") };
+        let maybe_fn = unsafe {
+            // todo: thinking in return of main func
+            ee.get_function::<unsafe extern "C" fn() -> f64>("main")
+        };
 
         let compiled_fn = match maybe_fn {
             Ok(f) => f,
