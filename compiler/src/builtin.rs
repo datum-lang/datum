@@ -1,6 +1,5 @@
 use parser::location::Location;
-use parser::parse_tree::Type;
-use std::collections::HashMap;
+use parser::parse_tree::{Expression, Type};
 
 #[derive(PartialEq, Clone, Debug)]
 pub enum Builtin {
@@ -8,6 +7,7 @@ pub enum Builtin {
     Print,
 }
 
+#[derive(PartialEq, Clone, Debug)]
 pub struct Prototype {
     pub builtin: Builtin,
     pub namespace: Option<&'static str>,
@@ -52,9 +52,45 @@ pub fn is_builtin_call(namespace: Option<&str>, fname: &str) -> bool {
         .any(|p| p.name == fname && p.namespace == namespace)
 }
 
+/// Resolve a builtin method call. The takes the unresolved arguments, since it has
+/// to handle the special case "fmt.print("hello,world")" where the
+/// second argument is a type list. The generic expression resolver cannot deal with
+/// this. It is only used in for this specific call.
+pub fn resolve_call(name: &str, namespace: Option<&str>, id: &str, args: &[Expression]) {
+    let matches = BUILTIN_FUNCTIONS
+        .iter()
+        .filter(|p| p.name == id && p.namespace == namespace)
+        .collect::<Vec<&Prototype>>();
+
+    let mut resolved_args = Vec::new();
+    for x in args {
+        // todo: add parsed express
+        resolved_args.push(x);
+    }
+
+    for func in &matches {
+        if func.args.len() != args.len() {
+            continue;
+        }
+        let mut matches = true;
+
+        if matches {
+            // return Ok(GenExpression::Builtin(
+            //     *loc,
+            //     func.ret.to_vec(),
+            //     func.builtin.clone(),
+            //     cast_args,
+            // ));
+        }
+        println!("{:?}", func);
+    }
+}
+
 #[cfg(test)]
 mod tests {
-    use crate::builtin::is_builtin_call;
+    use crate::builtin::{is_builtin_call, resolve_call};
+    use parser::location::Location;
+    use parser::parse_tree::{Expression, ExpressionType};
 
     #[test]
     fn should_identify_builtin_print() {
@@ -63,5 +99,19 @@ mod tests {
 
         let no_builtin = is_builtin_call(Some("fmt"), "printf");
         assert_eq!(false, no_builtin);
+    }
+
+    #[test]
+    fn should_resolved_call() {
+        let expr = Expression {
+            location: Location::new(0, 0),
+            node: ExpressionType::String {
+                value: "hello,world".to_string(),
+            },
+        };
+        let mut exprs = vec![];
+        exprs.push(expr);
+        resolve_call("demo", Some("fmt"), "print", &exprs);
+        // assert_eq!(false, no_builtin);
     }
 }

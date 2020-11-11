@@ -2,6 +2,7 @@ use inkwell::execution_engine::ExecutionEngine;
 use inkwell::module::Module;
 use inkwell::OptimizationLevel;
 
+#[allow(dead_code)]
 struct CodeGen<'ctx> {
     execution_engine: ExecutionEngine<'ctx>,
 }
