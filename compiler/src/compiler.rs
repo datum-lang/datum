@@ -8,6 +8,7 @@ use inkwell::passes::PassManager;
 use inkwell::values::{FunctionValue, PointerValue};
 use inkwell::{AddressSpace, OptimizationLevel};
 
+use codegen::instruction::{Constant, Instruction};
 use inkwell::types::{BasicTypeEnum, IntType};
 use parser::location::Location;
 use parser::parse_tree::{
@@ -144,7 +145,11 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             Binop { .. } => {}
             Unop { .. } => {}
             String { value } => {
-                println!("String: {:?}", value);
+                self.emit(Instruction::LoadConst {
+                    value: Constant::String {
+                        value: value.to_string(),
+                    },
+                });
             }
             Number { .. } => {}
             List { .. } => {}
@@ -161,6 +166,8 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             Compare { .. } => {}
         };
     }
+
+    fn emit(&mut self, instruction: Instruction) {}
 
     fn function_call_expr(&mut self, expr: &Box<Expression>, args: &Vec<Argument>) {
         self.compile_expression(expr);

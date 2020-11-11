@@ -12,3 +12,6 @@ inkwell = { version = "0.1.0-llvm10sample", features = ["target-x86", "target-we
 
 [dependencies.parser]
 path = "../parser"
+
+[dependencies.codegen]
+path = "../codegen"
