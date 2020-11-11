@@ -1,5 +1,5 @@
 use parser::location::Location;
-use parser::parse_tree::{Expression, ExpressionType, Type};
+use parser::parse_tree::{Expression, Type};
 
 #[derive(PartialEq, Clone, Debug)]
 pub enum Builtin {
@@ -108,9 +108,10 @@ pub enum GenExpression {
 
 #[cfg(test)]
 mod tests {
-    use crate::builtin::{is_builtin_call, resolve_call};
     use parser::location::Location;
     use parser::parse_tree::{Expression, ExpressionType};
+
+    use crate::builtin::{is_builtin_call, resolve_call};
 
     #[test]
     fn should_identify_builtin_print() {
