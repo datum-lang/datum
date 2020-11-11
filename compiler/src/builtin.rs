@@ -1,17 +1,36 @@
-use inkwell::execution_engine::ExecutionEngine;
-use inkwell::module::Module;
-use inkwell::OptimizationLevel;
+use parser::parse_tree::Type;
 
-struct CodeGen<'ctx> {
-    execution_engine: ExecutionEngine<'ctx>,
+#[derive(PartialEq, Clone, Debug)]
+pub enum Builtin {
+    Assert,
+    Print,
 }
 
-impl<'ctx> CodeGen<'ctx> {
-    pub fn new(module: &'ctx Module) -> Self {
-        let execution_engine = module
-            .create_jit_execution_engine(OptimizationLevel::None)
-            .unwrap();
-
-        CodeGen { execution_engine }
-    }
+pub struct Prototype {
+    pub builtin: Builtin,
+    pub namespace: Option<&'static str>,
+    pub name: &'static str,
+    pub args: &'static [Type],
+    pub ret: &'static [Type],
+    pub doc: &'static str,
 }
+
+// A list of all Solidity builtins functions
+static BUILTIN_FUNCTIONS: [Prototype; 2] = [
+    Prototype {
+        builtin: Builtin::Print,
+        namespace: Some("fmt"),
+        name: "print",
+        args: &[Type::String],
+        ret: &[Type::Void],
+        doc: "log string for debugging purposes. Runs on development chain only",
+    },
+    Prototype {
+        builtin: Builtin::Assert,
+        namespace: None,
+        name: "assert",
+        args: &[Type::Bool],
+        ret: &[Type::Void],
+        doc: "abort execution if argument evaluates to false",
+    },
+];

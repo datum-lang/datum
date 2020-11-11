@@ -94,7 +94,9 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         if fun.body.len() == 0 {
             return Ok(func);
         }
-        let entry = self.context.append_basic_block(func, "entry");
+        let entry = self
+            .context
+            .append_basic_block(func, fun.name.name.as_str());
 
         self.builder.position_at_end(entry);
 
@@ -106,7 +108,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
 
         // for (i, arg) in function.get_param_iter().enumerate() {
         //
-        //     }
+        // }
 
         self.compile_statement(fun.body.as_ref());
 
@@ -161,7 +163,10 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
                 self.compile_expression(value);
                 println!("Attribute: {:?}", name.name);
             }
-            Call { function, args, .. } => self.function_call_expr(function, args),
+            Call { function, args, .. } => {
+                // function call
+                self.function_call_expr(function, args)
+            }
             SimpleCompare { .. } => {}
             Compare { .. } => {}
         };
@@ -179,7 +184,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
                     self.compile_expression(&x.expr);
                 }
 
-                self.emit_printf_call(&"hello", "hello, world!\n");
+                self.emit_print(&"hello", "hello, world!\n");
             }
         };
     }
@@ -208,7 +213,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         Ok(fn_val)
     }
 
-    fn emit_printf_call(&self, name: &&str, data: &str) -> IntType {
+    fn emit_print(&self, name: &&str, data: &str) -> IntType {
         let i32_type = self.context.i32_type();
         let str_type = self.context.i8_type().ptr_type(AddressSpace::Generic);
         let printf_type = i32_type.fn_type(&[str_type.into()], true);

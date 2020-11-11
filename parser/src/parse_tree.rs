@@ -278,6 +278,7 @@ pub enum Type {
     Uint(u16),
     Bytes(u8),
     DynamicBytes,
+    Void,
 }
 
 /// A boolean operation.
@@ -296,6 +297,7 @@ impl fmt::Display for Type {
             Type::Uint(n) => write!(f, "uint{}", n),
             Type::Bytes(n) => write!(f, "bytes{}", n),
             Type::DynamicBytes => write!(f, "bytes"),
+            Type::Void => write!(f, "void"),
         }
     }
 }
