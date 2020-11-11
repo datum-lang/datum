@@ -58,7 +58,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         };
 
         compiler.compile_source();
-        compiler.dump_llvm("demo.ll".as_ref());
+        let _res = compiler.dump_llvm("demo.ll".as_ref());
         compiler.run_llvm();
     }
 
@@ -179,7 +179,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
 
         match self.get_function("main") {
             None => {}
-            Some(func) => {
+            Some(_func) => {
                 for x in args.iter() {
                     self.compile_expression(&x.expr);
                 }

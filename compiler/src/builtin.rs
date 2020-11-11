@@ -1,4 +1,6 @@
+use parser::location::Location;
 use parser::parse_tree::Type;
+use std::collections::HashMap;
 
 #[derive(PartialEq, Clone, Debug)]
 pub enum Builtin {
@@ -34,3 +36,32 @@ static BUILTIN_FUNCTIONS: [Prototype; 2] = [
         doc: "abort execution if argument evaluates to false",
     },
 ];
+
+#[derive(Clone, PartialEq)]
+pub enum Symbol {
+    Function(Vec<Location>),
+    Variable(Location, usize, usize),
+    Struct(Location, usize),
+    Import(Location, usize),
+}
+
+/// Does function call match builtin
+pub fn is_builtin_call(namespace: Option<&str>, fname: &str) -> bool {
+    BUILTIN_FUNCTIONS
+        .iter()
+        .any(|p| p.name == fname && p.namespace == namespace)
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::builtin::is_builtin_call;
+
+    #[test]
+    fn should_identify_builtin_print() {
+        let is_builtin = is_builtin_call(Some("fmt"), "print");
+        assert_eq!(true, is_builtin);
+
+        let no_builtin = is_builtin_call(Some("fmt"), "printf");
+        assert_eq!(false, no_builtin);
+    }
+}
