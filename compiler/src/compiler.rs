@@ -44,8 +44,8 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         builder: &'a Builder<'ctx>,
         pass_manager: &'a PassManager<FunctionValue<'ctx>>,
         module: &'a Module<'ctx>,
-        source_unit: &SourceUnit,
-    ) {
+        source_unit: &'a SourceUnit,
+    ) -> Compiler<'a, 'ctx> {
         let mut compiler = Compiler {
             context,
             builder,
@@ -59,7 +59,8 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
 
         compiler.compile_source();
         let _res = compiler.dump_llvm("demo.ll".as_ref());
-        compiler.run_jit();
+        // compiler.run_jit();
+        compiler
     }
 
     fn compile_source(&mut self) {
@@ -308,7 +309,9 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         let parse_ast = parse_program(input);
         match parse_ast {
             Ok(unit) => {
-                Compiler::compile(&context, &builder, &fpm, &module, &unit);
+                let compiler = Compiler::compile(&context, &builder, &fpm, &module, &unit);
+                let _r = compiler.dump_llvm("demo.ll".as_ref());
+                compiler.run_jit();
             }
             Err(_) => {}
         }
