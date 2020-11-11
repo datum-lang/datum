@@ -283,41 +283,41 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             compiled_fn.call();
         }
     }
-}
 
-pub fn create_compiler(input: &str) {
-    let context = Context::create();
-    let module = context.create_module("repl");
-    let builder = context.create_builder();
+    pub fn create(input: &str) {
+        let context = Context::create();
+        let module = context.create_module("repl");
+        let builder = context.create_builder();
 
-    let fpm = PassManager::create(&module);
-    fpm.add_instruction_combining_pass();
-    fpm.add_reassociate_pass();
-    fpm.add_gvn_pass();
-    fpm.add_cfg_simplification_pass();
-    fpm.add_basic_alias_analysis_pass();
-    fpm.add_promote_memory_to_register_pass();
-    fpm.add_instruction_combining_pass();
-    fpm.add_reassociate_pass();
+        let fpm = PassManager::create(&module);
+        fpm.add_instruction_combining_pass();
+        fpm.add_reassociate_pass();
+        fpm.add_gvn_pass();
+        fpm.add_cfg_simplification_pass();
+        fpm.add_basic_alias_analysis_pass();
+        fpm.add_promote_memory_to_register_pass();
+        fpm.add_instruction_combining_pass();
+        fpm.add_reassociate_pass();
 
-    fpm.initialize();
+        fpm.initialize();
 
-    let parse_ast = parse_program(input);
-    match parse_ast {
-        Ok(unit) => {
-            Compiler::compile(&context, &builder, &fpm, &module, &unit);
+        let parse_ast = parse_program(input);
+        match parse_ast {
+            Ok(unit) => {
+                Compiler::compile(&context, &builder, &fpm, &module, &unit);
+            }
+            Err(_) => {}
         }
-        Err(_) => {}
     }
 }
 
 #[cfg(test)]
 mod test {
-    use crate::compiler::create_compiler;
+    use crate::compiler::Compiler;
 
     #[test]
     #[rustfmt::skip]
     fn init_parser() {
-        create_compiler("default$main(string name) {fmt.println(\"hello,world\")}");
+        Compiler::create("default$main(string name) {fmt.println(\"hello,world\")}");
     }
 }
