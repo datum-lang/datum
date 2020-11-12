@@ -9,6 +9,7 @@ use inkwell::values::{BasicValue, FunctionValue, PointerValue};
 use inkwell::{AddressSpace, OptimizationLevel};
 
 use codegen::instruction::{Constant, Instruction};
+use inkwell::targets::TargetTriple;
 use inkwell::types::{BasicTypeEnum, IntType};
 use parser::location::Location;
 use parser::parse_tree::{
@@ -38,6 +39,10 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         self.module.get_function(name)
     }
 
+    pub fn load_stdlib(context: &Context) {
+        // todo: thinking in stdlib
+    }
+
     /// Compiles the specified `Function` in the given `Context` and using the specified `Builder`, `PassManager`, and `Module`.
     pub fn compile(
         context: &'ctx Context,
@@ -46,6 +51,13 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         module: &'a Module<'ctx>,
         source_unit: &'a SourceUnit,
     ) -> Compiler<'a, 'ctx> {
+        // todo: set target
+        // let triple = TargetTriple::create(ns.target.llvm_target_triple());
+
+        // todo: load stdlib
+        let intr = Compiler::load_stdlib(&context);
+        // module.link_in_module(intr).unwrap();
+
         let mut compiler = Compiler {
             context,
             builder,
@@ -312,45 +324,45 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             compiled_fn.call();
         }
     }
+}
 
-    pub fn create(input: &str) -> Result<String, ()> {
-        let context = Context::create();
-        let module = context.create_module("repl");
-        let builder = context.create_builder();
+pub fn compile(input: &str) -> Result<String, ()> {
+    let context = Context::create();
+    let module = context.create_module("repl");
+    let builder = context.create_builder();
 
-        let fpm = PassManager::create(&module);
-        fpm.add_instruction_combining_pass();
-        fpm.add_reassociate_pass();
-        fpm.add_gvn_pass();
-        fpm.add_cfg_simplification_pass();
-        fpm.add_basic_alias_analysis_pass();
-        fpm.add_promote_memory_to_register_pass();
-        fpm.add_instruction_combining_pass();
-        fpm.add_reassociate_pass();
+    let fpm = PassManager::create(&module);
+    fpm.add_instruction_combining_pass();
+    fpm.add_reassociate_pass();
+    fpm.add_gvn_pass();
+    fpm.add_cfg_simplification_pass();
+    fpm.add_basic_alias_analysis_pass();
+    fpm.add_promote_memory_to_register_pass();
+    fpm.add_instruction_combining_pass();
+    fpm.add_reassociate_pass();
 
-        fpm.initialize();
+    fpm.initialize();
 
-        let parse_ast = parse_program(input);
-        match parse_ast {
-            Ok(unit) => {
-                let compiler = Compiler::compile(&context, &builder, &fpm, &module, &unit);
-                let _r = compiler.dump_llvm("demo.ll".as_ref());
-                compiler.run_jit();
-                Ok(compiler.module.print_to_string().to_string())
-            }
-            Err(_) => Err(()),
+    let parse_ast = parse_program(input);
+    match parse_ast {
+        Ok(unit) => {
+            let compiler = Compiler::compile(&context, &builder, &fpm, &module, &unit);
+            let _r = compiler.dump_llvm("demo.ll".as_ref());
+            compiler.run_jit();
+            Ok(compiler.module.print_to_string().to_string())
         }
+        Err(_) => Err(()),
     }
 }
 
 #[cfg(test)]
 mod test {
-    use crate::compiler::Compiler;
+    use crate::compiler::compile;
 
     #[test]
     #[rustfmt::skip]
     fn init_parser() {
-        let result = Compiler::create("default$main() {fmt.println(\"hello,world\")}");
+        let result = compile("default$main() {fmt.println(\"hello,world\")}");
         assert_eq!(, result.unwrap());
     }
 }

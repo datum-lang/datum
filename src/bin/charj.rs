@@ -1,5 +1,5 @@
 use clap::{App, Arg};
-use compiler::compiler::Compiler;
+use compiler::compiler::{compile, Compiler};
 use std::fs::File;
 use std::io::Read;
 use std::path::PathBuf;
@@ -25,7 +25,7 @@ fn main() {
                 panic!("failed to read file ‘{}’: {}", filename, e.to_string())
             }
 
-            Compiler::create(&*contents);
+            compile(&*contents);
         }
     }
 }
