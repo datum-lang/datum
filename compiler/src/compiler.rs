@@ -5,7 +5,7 @@ use inkwell::context::Context;
 use inkwell::module::Linkage;
 use inkwell::module::Module;
 use inkwell::passes::PassManager;
-use inkwell::values::{FunctionValue, PointerValue};
+use inkwell::values::{BasicValue, FunctionValue, PointerValue};
 use inkwell::{AddressSpace, OptimizationLevel};
 
 use codegen::instruction::{Constant, Instruction};
@@ -105,11 +105,14 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         self.fn_value_opt = Some(func);
 
         // build variables map
-        // self.variables.reserve(proto.args.len());
+        self.variables.reserve(fun.params.len());
+        for (i, arg) in func.get_param_iter().enumerate() {
+            let arg_name = fun.params[i].1.as_ref().unwrap().get_name();
+            let alloca = self.create_entry_block_alloca(&*arg_name);
 
-        // for (i, arg) in function.get_param_iter().enumerate() {
-        //
-        // }
+            self.builder.build_store(alloca, arg);
+            // self.variables.insert(fun.params[i].clone(), alloca);
+        }
 
         self.compile_statement(fun.body.as_ref());
 
@@ -196,7 +199,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
     ) -> Result<FunctionValue<'ctx>, &'static str> {
         let ret_type = self.context.i32_type();
         let args_types = std::iter::repeat(ret_type)
-            .take(0)
+            .take(fun.params.len())
             .map(|f| f.into())
             .collect::<Vec<BasicTypeEnum>>();
         let args_types = args_types.as_slice();
@@ -207,9 +210,10 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             .add_function(fun.name.name.as_str(), fn_type, None);
 
         // set arguments names
-        // for (i, arg) in fn_val.get_param_iter().enumerate() {
-        //     arg.into_float_value().set_name(fun.params[i].as_str());
-        // }
+        for (i, arg) in fn_val.get_param_iter().enumerate() {
+            let x = &*fun.params[i].1.as_ref().unwrap().get_name();
+            arg.into_int_value().set_name(x);
+        }
 
         Ok(fn_val)
     }
@@ -228,6 +232,26 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         self.builder.build_call(printf, &[pointer_value.into()], "");
 
         i32_type
+    }
+
+    /// Creates a new stack allocation instruction in the entry block of the function.
+    fn create_entry_block_alloca(&self, name: &str) -> PointerValue<'ctx> {
+        let builder = self.context.create_builder();
+
+        let entry = self.fn_value().get_first_basic_block().unwrap();
+
+        match entry.get_first_instruction() {
+            Some(first_instr) => builder.position_before(&first_instr),
+            None => builder.position_at_end(entry),
+        }
+
+        builder.build_alloca(self.context.f64_type(), name)
+    }
+
+    /// Returns the `FunctionValue` representing the function being compiled.
+    #[inline]
+    fn fn_value(&self) -> FunctionValue<'ctx> {
+        self.fn_value_opt.unwrap()
     }
 
     /// Creates global string in the llvm module with initializer

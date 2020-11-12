@@ -48,6 +48,12 @@ pub struct Parameter {
     pub name: Option<Identifier>,
 }
 
+impl Parameter {
+    pub fn get_name(&self) -> String {
+        self.name.as_ref().unwrap().clone().name
+    }
+}
+
 /// An expression at a given location in the sourcecode.
 pub type Expression = Located<ExpressionType>;
 
