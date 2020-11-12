@@ -304,6 +304,9 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
     }
 
     pub fn run_jit(&self) {
+        // todo: verify
+        self.module.get_function("main").unwrap().verify(true);
+
         let ee = self
             .module
             .create_jit_execution_engine(OptimizationLevel::None)
