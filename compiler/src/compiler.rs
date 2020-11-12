@@ -313,7 +313,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             .unwrap();
         let maybe_fn = unsafe {
             // todo: thinking in return of main func
-            ee.get_function::<unsafe extern "C" fn() -> f64>("main")
+            ee.get_function::<unsafe extern "C" fn() -> i32>("main")
         };
 
         let compiled_fn = match maybe_fn {
