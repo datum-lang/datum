@@ -26,6 +26,15 @@ exclude = [
 clap = "2.33"
 
 
+[dependencies.compiler]
+path = "compiler"
+
+[dependencies.parser]
+path = "parser"
+
+[dependencies.codegen]
+path = "codegen"
+
 [workspace]
 members = [
     "parser",
