@@ -9,7 +9,6 @@ use inkwell::values::{BasicValue, FunctionValue, PointerValue};
 use inkwell::{AddressSpace, OptimizationLevel};
 
 use codegen::instruction::{Constant, Instruction};
-use inkwell::targets::TargetTriple;
 use inkwell::types::{BasicTypeEnum, IntType};
 use parser::location::Location;
 use parser::parse_tree::{
@@ -39,7 +38,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         self.module.get_function(name)
     }
 
-    pub fn load_stdlib(context: &Context) {
+    pub fn load_stdlib(_context: &Context) {
         // todo: thinking in stdlib
     }
 
@@ -55,7 +54,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         // let triple = TargetTriple::create(ns.target.llvm_target_triple());
 
         // todo: load stdlib
-        let intr = Compiler::load_stdlib(&context);
+        // let intr = Compiler::load_stdlib(&context);
         // module.link_in_module(intr).unwrap();
 
         let mut compiler = Compiler {
@@ -188,7 +187,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         };
     }
 
-    fn emit(&mut self, instruction: Instruction) {}
+    fn emit(&mut self, _instruction: Instruction) {}
 
     fn function_call_expr(&mut self, expr: &Box<Expression>, args: &Vec<Argument>) {
         self.compile_expression(expr);
@@ -366,6 +365,6 @@ mod test {
     #[rustfmt::skip]
     fn init_parser() {
         let result = compile("default$main() {fmt.println(\"hello,world\")}");
-        assert_eq!(, result.unwrap());
+        assert!(result.is_ok());
     }
 }

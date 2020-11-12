@@ -82,7 +82,7 @@ pub fn resolve_call(
         if func.args.len() != args.len() {
             continue;
         }
-        let mut matches = true;
+        let matches = true;
 
         if matches {
             return Ok(GenExpression::Builtin {
