@@ -18,14 +18,22 @@ pub struct Prototype {
 }
 
 // A list of all Solidity builtins functions
-static BUILTIN_FUNCTIONS: [Prototype; 2] = [
+static BUILTIN_FUNCTIONS: [Prototype; 3] = [
     Prototype {
         builtin: Builtin::Print,
-        namespace: Some("fmt"),
+        namespace: None,
         name: "print",
         args: &[Type::String],
         ret: &[Type::Void],
-        doc: "log string for debugging purposes. Runs on development chain only",
+        doc: "log string without new line",
+    },
+    Prototype {
+        builtin: Builtin::Print,
+        namespace: None,
+        name: "println",
+        args: &[Type::String],
+        ret: &[Type::Void],
+        doc: "log string with line",
     },
     Prototype {
         builtin: Builtin::Assert,
@@ -57,7 +65,7 @@ pub fn is_builtin_call(namespace: Option<&str>, fname: &str) -> bool {
 /// second argument is a type list. The generic expression resolver cannot deal with
 /// this. It is only used in for this specific call.
 pub fn resolve_call(
-    name: &str,
+    _name: &str,
     namespace: Option<&str>,
     id: &str,
     args: &[Expression],
@@ -115,10 +123,10 @@ mod tests {
 
     #[test]
     fn should_identify_builtin_print() {
-        let is_builtin = is_builtin_call(Some("fmt"), "print");
+        let is_builtin = is_builtin_call(None, "print");
         assert_eq!(true, is_builtin);
 
-        let no_builtin = is_builtin_call(Some("fmt"), "printf");
+        let no_builtin = is_builtin_call(None, "printf");
         assert_eq!(false, no_builtin);
     }
 
@@ -132,7 +140,7 @@ mod tests {
         };
         let mut exprs = vec![];
         exprs.push(expr);
-        let result = resolve_call("demo", Some("fmt"), "print", &exprs);
+        let result = resolve_call("demo", None, "print", &exprs);
         assert_eq!(true, result.is_ok());
     }
 }

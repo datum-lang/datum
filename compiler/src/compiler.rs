@@ -364,7 +364,7 @@ mod test {
     #[test]
     #[rustfmt::skip]
     fn init_parser() {
-        let result = compile("default$main() {fmt.println(\"hello,world\")}");
+        let result = compile("default$main() {println(\"hello,world\")}");
         assert!(result.is_ok());
     }
 }

@@ -6,5 +6,5 @@ import (
 )
 
 default$main() {
-    fmt.println("hello, world")
+    println("hello, world")
 }

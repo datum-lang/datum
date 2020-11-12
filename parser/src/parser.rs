@@ -163,7 +163,7 @@ pkg comment
     #[rustfmt::skip]
     fn test_function_call() {
         let basic_function_call = parse_program("default$main(string name) {
-    fmt.println(\"hello,world\")
+    println(\"hello,world\")
 }");
         assert!(basic_function_call.is_ok());
     }
@@ -228,9 +228,9 @@ struct Hello {
     fn test_assign() {
         let str_assign = parse_program("default$main() {
     let words: string  = \"hello,world\"
-    fmt.println(words)
+    println(words)
     let b: int = 2333
-    fmt.println(b)
+    println(b)
 }");
         assert!(str_assign.is_ok());
     }
@@ -241,7 +241,7 @@ struct Hello {
         let str_assign = parse_program("default$main() {
     let b: int = 2333 + 5
     let c: int = b - 10
-    fmt.println(b)
+    println(b)
 }");
         assert!(str_assign.is_ok());
 
@@ -256,7 +256,7 @@ struct Hello {
     fn test_mul() {
         let mul = parse_program("default$main() {
     let b: int = 2333 * 5 - 10 + 100
-    fmt.println(b)
+    println(b)
 }");
         assert!(mul.is_ok());
     }
@@ -266,7 +266,7 @@ struct Hello {
     fn test_basic_div() {
         let mul = parse_program("default$main() {
     let b: int = 2333 * 5 - 10 + 100 / 5
-    fmt.println(b)
+    println(b)
 }");
         assert!(mul.is_ok());
     }
@@ -276,7 +276,7 @@ struct Hello {
     fn test_basic_mode() {
         let mod_code = parse_program("default$main() {
     let b: int = 100 % 5
-    fmt.println(b)
+    println(b)
 }");
         assert!(mod_code.is_ok());
     }
@@ -305,7 +305,7 @@ struct Hello {
     fn test_for_loop() {
         let for_loop = parse_program("default$main(string name) {
     for(x in 1..10) {
-        fmt.println(x)
+        println(x)
     }
 }");
         assert!(for_loop.is_ok());
