@@ -351,7 +351,6 @@ mod test {
     #[rustfmt::skip]
     fn init_parser() {
         let result = Compiler::create("default$main() {fmt.println(\"hello,world\")}");
-        assert_eq!("; ModuleID = \'repl\'
-source_filename = \"repl\"\ntarget datalayout = \"e-m:o-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128\"\n\n@hello = internal global [14 x i8] c\"hello, world!\\0A\"\n\ndefine i32 @main() {\nmain:\n  %0 = call i32 (i8*, ...) @puts(i8* getelementptr inbounds ([14 x i8], [14 x i8]* @hello, i32 0, i32 0))\n  ret i32 0\n}\n\ndeclare i32 @puts(i8*, ...)\n\n; Function Attrs: nounwind\ndeclare void @llvm.stackprotector(i8*, i8**) #0\n\nattributes #0 = { nounwind }\n", result.unwrap());
+        assert_eq!(, result.unwrap());
     }
 }
