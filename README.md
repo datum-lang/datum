@@ -6,67 +6,13 @@
 
 Jetbrains' IDEA support: `Charj` [![Version](https://img.shields.io/jetbrains/plugin/v/15119-charj.svg)](https://plugins.jetbrains.com/plugin/15119-charj)
 
-## Roadmap
-
- - [ ] lexer & parser
-    - [ ] syntax design
-       - [x] import
-       - [x] package
-       - [x] struct
-       - [x] function
-       - [ ] control flow
-          - [x] if
-          - [ ] loop
-          - [ ] while
-          - [ ] for
-          - [ ] break
-       - [ ] expression
-          - [x] assignment
-          - [x] method call
-    - [ ] poet design
- - [x] compiler
-    - [x] LLVM spike
-    - [ ] hello, world
- - [ ] build system
- - [ ] dependency manager
-
-Others todo:
-
- - [ ] CI
-    - [ ] replace Solang CI container.
-
 ## Development
 
-### Setup LLVM
+see in [DEVELOPMENT.md](DEVELOPMENT.md)
 
-```bash
-cargo install llvmenv
-```
+## Roadmap
 
-usage
-
-```
-llvmenv init
-llvmenv entries
-llvmenv build-entry 10.0.0
-```
-
-or try download and build in local
-
-```
-llvmenv build-entry local-llvm
-```
-
-then export:
-
-```
-LLVM_SYS_100_PREFIX=$HOME/llvm/llvm-10.0.1.src/build cargo build
-LLVM_SYS_100_PREFIX=$HOME/llvm/llvm-10.0.1.src/build cargo run
-```
-
-### Clion Config
-
-add: `LLVM_SYS_100_PREFIX=/Users/fdhuang/llvm/llvm-10.0.1.src/build` to **Run/Debug Configurations**.
+see in [ROADMAP.md](ROADMAP.md)
 
 ## License
 
