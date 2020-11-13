@@ -6,6 +6,11 @@
 
 Jetbrains' IDEA support: `Charj` [![Version](https://img.shields.io/jetbrains/plugin/v/15119-charj.svg)](https://plugins.jetbrains.com/plugin/15119-charj)
 
+Usecases samples:
+
+ - legacy system migration
+ - compile languages.for examples, JavaScript to WASM
+
 ## Development
 
 see in [DEVELOPMENT.md](DEVELOPMENT.md)
