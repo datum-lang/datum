@@ -1,22 +1,22 @@
 use std::collections::HashMap;
+use std::path::Path;
 
 use inkwell::builder::Builder;
 use inkwell::context::Context;
 use inkwell::module::Linkage;
 use inkwell::module::Module;
 use inkwell::passes::PassManager;
+use inkwell::types::{BasicTypeEnum, IntType};
 use inkwell::values::{BasicValue, FunctionValue, PointerValue};
 use inkwell::{AddressSpace, OptimizationLevel};
 
 use codegen::instruction::{Constant, Instruction};
-use inkwell::types::{BasicTypeEnum, IntType};
 use parser::location::Location;
 use parser::parse_tree::{
     Argument, Expression, ExpressionType, SourceUnit, SourceUnitPart, Statement, StatementType,
     StructFuncDef,
 };
 use parser::parser::parse_program;
-use std::path::Path;
 
 #[allow(dead_code)]
 pub struct Compiler<'a, 'ctx> {
@@ -69,8 +69,6 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         };
 
         compiler.compile_source();
-        let _res = compiler.dump_llvm("demo.ll".as_ref());
-        // compiler.run_jit();
         compiler
     }
 
@@ -88,14 +86,6 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
                 StructDef(_) => {}
             }
         }
-
-        // debug info
-        match self.get_function("main") {
-            None => {}
-            Some(func) => {
-                func.print_to_stderr();
-            }
-        };
     }
 
     fn compile_struct_fn(
@@ -122,7 +112,6 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             let alloca = self.create_entry_block_alloca(&*arg_name);
 
             self.builder.build_store(alloca, arg);
-            // self.variables.insert(fun.params[i].clone(), alloca);
         }
 
         self.compile_statement(fun.body.as_ref());
@@ -170,18 +159,14 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             }
             Number { .. } => {}
             List { .. } => {}
-            Identifier { name } => {
-                println!("Identifier: {:?}", name.name);
+            Identifier { name: _ } => {
+                // self.emit();
             }
             Type { .. } => {}
-            Attribute { value, name } => {
+            Attribute { value, name: _ } => {
                 self.compile_expression(value);
-                println!("Attribute: {:?}", name.name);
             }
-            Call { function, args, .. } => {
-                // function call
-                self.function_call_expr(function, args)
-            }
+            Call { function, args, .. } => self.function_call_expr(function, args),
             SimpleCompare { .. } => {}
             Compare { .. } => {}
         };
@@ -330,7 +315,9 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
 
 pub fn compile_program(input: &str, filename: &str) -> Result<String, ()> {
     let context = Context::create();
-    let module = context.create_module(filename);
+    let module_name = filename.replace(".cj", "");
+
+    let module = context.create_module(&module_name);
     let builder = context.create_builder();
 
     let fpm = PassManager::create(&module);
@@ -342,7 +329,6 @@ pub fn compile_program(input: &str, filename: &str) -> Result<String, ()> {
     fpm.add_promote_memory_to_register_pass();
     fpm.add_instruction_combining_pass();
     fpm.add_reassociate_pass();
-
     fpm.initialize();
 
     let parse_ast = parse_program(input);
@@ -368,6 +354,8 @@ mod test {
             "default$main() {println(\"hello,world\")}",
             "hello.cj"
         );
+
         assert!(result.is_ok());
+        println!("{}", result.unwrap());
     }
 }
