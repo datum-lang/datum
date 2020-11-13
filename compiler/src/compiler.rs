@@ -328,9 +328,9 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
     }
 }
 
-pub fn compile(input: &str) -> Result<String, ()> {
+pub fn compile_program(input: &str, filename: &str) -> Result<String, ()> {
     let context = Context::create();
-    let module = context.create_module("repl");
+    let module = context.create_module(filename);
     let builder = context.create_builder();
 
     let fpm = PassManager::create(&module);
@@ -349,7 +349,7 @@ pub fn compile(input: &str) -> Result<String, ()> {
     match parse_ast {
         Ok(unit) => {
             let compiler = Compiler::compile(&context, &builder, &fpm, &module, &unit);
-            let _r = compiler.dump_llvm("demo.ll".as_ref());
+            // let _r = compiler.dump_llvm(filename + ".ll".as_ref());
             compiler.run_jit();
             Ok(compiler.module.print_to_string().to_string())
         }
@@ -359,12 +359,15 @@ pub fn compile(input: &str) -> Result<String, ()> {
 
 #[cfg(test)]
 mod test {
-    use crate::compiler::compile;
+    use crate::compiler::compile_program;
 
     #[test]
     #[rustfmt::skip]
     fn init_parser() {
-        let result = compile("default$main() {println(\"hello,world\")}");
+        let result = compile_program(
+            "default$main() {println(\"hello,world\")}",
+            "hello.cj"
+        );
         assert!(result.is_ok());
     }
 }
