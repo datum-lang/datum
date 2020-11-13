@@ -2,14 +2,17 @@
 
 ![Charj Build](https://github.com/charj-lang/charj-poc/workflows/Charj%20Build/badge.svg)
 
-> a common language as a temp language for transform other languages.
+> A easy maintain(read/write) intermediate language for transform **from**/**to** other languages.
 
 Jetbrains' IDEA support: `Charj` [![Version](https://img.shields.io/jetbrains/plugin/v/15119-charj.svg)](https://plugins.jetbrains.com/plugin/15119-charj)
 
 Usecases samples:
 
- - legacy system migration
- - compile languages.for examples, JavaScript to WASM
+ - legacy system migration.
+ - domain model design for languages.
+ - compile languages. for examples, JavaScript to WASM.
+ - visualize architecture.
+ - a quick DSL maker's infrastructure. (TBD)
 
 ## Development
 
