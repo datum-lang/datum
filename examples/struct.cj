@@ -9,3 +9,7 @@ struct Summary {
 struct Hello {
     summary : Summary
 }
+
+Summary$new(int a) {
+
+}
