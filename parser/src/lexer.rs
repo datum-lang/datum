@@ -410,6 +410,10 @@ impl<'input> Lexer<'input> {
                             self.chars.next();
                             Some(Ok((i, Token::SubtractAssign, i + 2)))
                         }
+                        Some((_, '>')) => {
+                            self.chars.next();
+                            Some(Ok((i, Token::Rarrow, i + 2)))
+                        }
                         Some((_, '-')) => {
                             self.chars.next();
                             Some(Ok((i, Token::Decrement, i + 2)))

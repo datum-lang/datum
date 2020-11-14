@@ -154,6 +154,20 @@ pkg comment
 
     #[test]
     #[rustfmt::skip]
+    fn test_function_return() {
+        let function_return = parse_program("default$compare(int a, int b) -> int {
+    if(a > b) {
+        return a;
+    } else {
+        return b;
+    }
+}");
+
+        assert!(function_return.is_ok());
+    }
+
+    #[test]
+    #[rustfmt::skip]
     fn test_parse_import() {
         let parse_ast = parse_program("import io");
         assert!(parse_ast.is_ok());
