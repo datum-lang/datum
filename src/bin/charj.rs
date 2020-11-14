@@ -1,5 +1,5 @@
 use clap::{App, Arg};
-use compiler::compiler::compile_program;
+use compiler::compile_program;
 use std::fs::File;
 use std::io::Read;
 use std::path::PathBuf;
