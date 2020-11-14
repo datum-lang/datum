@@ -163,7 +163,15 @@ pkg comment
     }
 }");
 
-        assert!(function_return.is_ok());
+        match function_return.unwrap().0.get(0).unwrap() {
+            SourceUnitPart::StructFuncDef(def) => {
+                let string = format!("{:?}", def.returns.as_ref().unwrap().node);
+                assert_eq!("Type { ty: Int(256) }", string);
+            }
+            _ => {
+                assert!(false)
+            }
+        }
     }
 
     #[test]
