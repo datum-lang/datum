@@ -5,7 +5,6 @@ use inkwell::builder::Builder;
 use inkwell::context::Context;
 use inkwell::module::Linkage;
 use inkwell::module::Module;
-use inkwell::passes::PassManager;
 use inkwell::types::{BasicTypeEnum, IntType};
 use inkwell::values::{BasicValue, FunctionValue, PointerValue};
 use inkwell::{AddressSpace, OptimizationLevel};
@@ -16,7 +15,6 @@ use parser::parse_tree::{
     Argument, Expression, ExpressionType, SourceUnit, SourceUnitPart, Statement, StatementType,
     StructFuncDef,
 };
-use parser::parser::parse_program;
 
 #[allow(dead_code)]
 pub struct Compiler<'a, 'ctx> {
@@ -87,15 +85,15 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
 
     fn compile_struct_fn(
         &mut self,
-        fun: &Box<StructFuncDef>,
+        func_def: &Box<StructFuncDef>,
     ) -> Result<FunctionValue<'ctx>, &'static str> {
-        let func = self.compile_prototype(fun)?;
-        if fun.body.len() == 0 {
+        let func = self.compile_prototype(func_def)?;
+        if func_def.body.len() == 0 {
             return Ok(func);
         }
         let entry = self
             .context
-            .append_basic_block(func, fun.name.name.as_str());
+            .append_basic_block(func, func_def.name.name.as_str());
 
         self.builder.position_at_end(entry);
 
@@ -103,15 +101,15 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         self.fn_value_opt = Some(func);
 
         // build variables map
-        self.variables.reserve(fun.params.len());
+        self.variables.reserve(func_def.params.len());
         for (i, arg) in func.get_param_iter().enumerate() {
-            let arg_name = fun.params[i].1.as_ref().unwrap().get_name();
+            let arg_name = func_def.params[i].1.as_ref().unwrap().get_name();
             let alloca = self.create_entry_block_alloca(&*arg_name);
 
             self.builder.build_store(alloca, arg);
         }
 
-        self.compile_statement(fun.body.as_ref());
+        self.compile_statement(func_def.body.as_ref());
 
         self.builder
             .build_return(Some(&self.context.i32_type().const_zero()));
