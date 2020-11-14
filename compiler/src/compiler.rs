@@ -113,8 +113,8 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
 
         self.compile_statement(fun.body.as_ref());
 
-        let fake_return = self.context.i32_type().const_int(0, false);
-        self.builder.build_return(Some(&fake_return));
+        self.builder
+            .build_return(Some(&self.context.i32_type().const_zero()));
 
         return Ok(func);
     }
