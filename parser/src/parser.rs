@@ -169,7 +169,24 @@ pkg comment
                 assert_eq!("Type { ty: Int(256) }", string);
             }
             _ => {
-                assert!(false)
+                panic!("expected get StructFuncDef")
+            }
+        }
+    }
+
+    #[test]
+    #[rustfmt::skip]
+    fn test_function_string_return() {
+        let function_return = parse_program("default$compare(int a, int b) -> string {
+}");
+
+        match function_return.unwrap().0.get(0).unwrap() {
+            SourceUnitPart::StructFuncDef(def) => {
+                let string = format!("{:?}", def.returns.as_ref().unwrap().node);
+                assert_eq!("Type { ty: String }", string);
+            }
+            _ => {
+                panic!("expected get StructFuncDef")
             }
         }
     }
