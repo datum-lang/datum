@@ -22,7 +22,6 @@ use parser::parser::parse_program;
 pub struct Compiler<'a, 'ctx> {
     pub context: &'ctx Context,
     pub builder: &'a Builder<'ctx>,
-    pub fpm: &'a PassManager<FunctionValue<'ctx>>,
     pub module: &'a Module<'ctx>,
     pub source_unit: &'a SourceUnit,
 
@@ -46,7 +45,6 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
     pub fn compile(
         context: &'ctx Context,
         builder: &'a Builder<'ctx>,
-        pass_manager: &'a PassManager<FunctionValue<'ctx>>,
         module: &'a Module<'ctx>,
         source_unit: &'a SourceUnit,
     ) -> Compiler<'a, 'ctx> {
@@ -60,7 +58,6 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         let mut compiler = Compiler {
             context,
             builder,
-            fpm: pass_manager,
             module,
             source_unit,
             fn_value_opt: None,
@@ -320,22 +317,10 @@ pub fn compile_program(input: &str, filename: &str) -> Result<String, ()> {
     let module = context.create_module(&module_name);
     let builder = context.create_builder();
 
-    let fpm = PassManager::create(&module);
-    fpm.add_instruction_combining_pass();
-    fpm.add_reassociate_pass();
-    fpm.add_gvn_pass();
-    fpm.add_cfg_simplification_pass();
-    fpm.add_basic_alias_analysis_pass();
-    fpm.add_promote_memory_to_register_pass();
-    fpm.add_instruction_combining_pass();
-    fpm.add_reassociate_pass();
-    fpm.initialize();
-
     let parse_ast = parse_program(input);
     match parse_ast {
         Ok(unit) => {
-            let compiler = Compiler::compile(&context, &builder, &fpm, &module, &unit);
-            // let _r = compiler.dump_llvm(filename + ".ll".as_ref());
+            let compiler = Compiler::compile(&context, &builder, &module, &unit);
             compiler.run_jit();
             Ok(compiler.module.print_to_string().to_string())
         }
