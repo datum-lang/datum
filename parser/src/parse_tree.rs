@@ -34,6 +34,7 @@ pub struct StructFuncDef {
     pub struct_name: Identifier,
     pub params: Vec<(Loc, Option<Parameter>)>,
     pub body: Suite,
+    pub returns: Option<Expression>,
 }
 
 #[derive(Debug, PartialEq, Default)]

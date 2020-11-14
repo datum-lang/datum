@@ -55,7 +55,7 @@ FuncDef: Box<FuncDef> = {
 };
 
 StructFuncDef: Box<StructFuncDef> = {
-    <l:@L> <struct_name:Identifier> "$" <name:Identifier> <params:ParameterList?> "{" <body:Suite?> "}" <r:@R> => {
+    <l:@L> <struct_name:Identifier> "$" <name:Identifier> <params:ParameterList?> <returns:("->" Expression)?> "{" <body:Suite?> "}" <r:@R> => {
         let params = params.unwrap_or(Vec::new());
         let body = body.unwrap_or(Vec::new());
 
@@ -64,6 +64,7 @@ StructFuncDef: Box<StructFuncDef> = {
             name, struct_name,
             params,
             body,
+            returns: returns.map(|returns| returns.1),
         })
     }
 }
@@ -577,6 +578,7 @@ extern {
         "<=" => Token::LessEqual,
         ">" => Token::More,
         ">=" => Token::MoreEqual,
+        "->" => Token::Rarrow,
         "|" => Token::BitwiseOr,
         "&" => Token::BitwiseAnd,
         "^" => Token::BitwiseXor,
