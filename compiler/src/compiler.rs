@@ -111,8 +111,10 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
 
         self.compile_statement(func_def.body.as_ref());
 
-        self.builder
-            .build_return(Some(&self.context.i32_type().const_zero()));
+        if func_def.returns.is_none() {
+            self.builder
+                .build_return(Some(&self.context.i32_type().const_zero()));
+        }
 
         return Ok(func);
     }
