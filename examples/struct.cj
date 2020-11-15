@@ -13,3 +13,12 @@ struct Hello {
 Summary$new(int a) {
 
 }
+
+Summary$analysis() {
+
+}
+
+Summary$* {
+    new(int a){}
+    analysis(int a){}
+}
