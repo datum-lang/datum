@@ -23,11 +23,13 @@ pub struct Compiler<'a, 'ctx> {
     pub module: &'a Module<'ctx>,
     pub source_unit: &'a SourceUnit,
 
+    output_stack: Vec<Instruction>,
     variables: HashMap<String, PointerValue<'ctx>>,
     fn_value_opt: Option<FunctionValue<'ctx>>,
     current_source_location: Location,
 }
 
+#[allow(dead_code)]
 impl<'a, 'ctx> Compiler<'a, 'ctx> {
     /// Gets a defined function given its name.
     #[inline]
@@ -58,6 +60,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             builder,
             module,
             source_unit,
+            output_stack: vec![],
             fn_value_opt: None,
             variables: HashMap::new(),
             current_source_location: Default::default(),
@@ -173,9 +176,11 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         };
     }
 
-    fn emit(&mut self, _instruction: Instruction) {}
+    fn emit(&mut self, instruction: Instruction) {
+        self.output_stack.push(instruction);
+    }
 
-    fn function_call_expr(&mut self, expr: &Box<Expression>, args: &Vec<Argument>) {
+    fn function_call_expr(&mut self, expr: &Box<Expression>, _args: &Vec<Argument>) {
         self.compile_expression(expr);
 
         // match self.get_function("main") {
@@ -220,7 +225,6 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         let str_type = self.context.i8_type().ptr_type(AddressSpace::Generic);
         let printf_type = i32_type.fn_type(&[str_type.into()], true);
 
-        // `printf` is same to `puts`
         let printf = self
             .module
             .add_function("puts", printf_type, Some(Linkage::External));

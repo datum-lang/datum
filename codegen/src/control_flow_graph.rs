@@ -14,8 +14,9 @@ pub struct BasicBlock {
     pub instructions: Vec<Instruction>,
 }
 
+#[allow(dead_code)]
 impl ControlFlowGraph {
-    fn emit(&mut self, instruction: Instruction, location: Location) {
+    fn emit(&mut self, instruction: Instruction, _location: Location) {
         self.block.instructions.push(instruction);
     }
 }

@@ -1,4 +1,9 @@
 #[derive(PartialEq, Clone, Debug)]
+pub struct StructFuncDecl {
+    pub name: String,
+}
+
+#[derive(PartialEq, Clone, Debug)]
 pub struct StructDecl {
     pub name: String,
 }
