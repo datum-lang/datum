@@ -14,11 +14,11 @@ Summary$new(int a) {
 
 }
 
-Summary$analysis() {
+Summary$analysis() -> int {
 
 }
 
 Summary$* {
-    new(int a){}
-    analysis(int a){}
+    build(int a)  {}
+    init(int a) -> int {}
 }
