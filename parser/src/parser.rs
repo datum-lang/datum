@@ -219,8 +219,7 @@ struct Summary {
 
         match code.unwrap().0.get(1).unwrap() {
             SourceUnitPart::StructDef(def) => {
-                let string = format!("{:?}", def.name.name);
-                assert_eq!("Summary", string);
+                assert_eq!("Summary", def.name.name);
             }
             _ => {
                 panic!("expected get StructDef")
@@ -241,14 +240,12 @@ struct Summary {
     #[test]
     #[rustfmt::skip]
     fn test_struct_with_method_define() {
-        //  todo: make a private ??
         let code = parse_program("pkg charj
 struct Summary {
   	Name   : string
 }
 
 Summary$constructor(string name) {
-
 }
 ");
 
