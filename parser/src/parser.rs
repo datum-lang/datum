@@ -216,7 +216,16 @@ struct Summary {
 	FanIn  : int
 	FanOut : int
 }");
-        assert!(code.is_ok());
+
+        match code.unwrap().0.get(1).unwrap() {
+            SourceUnitPart::StructDef(def) => {
+                let string = format!("{:?}", def.name.name);
+                assert_eq!("Summary", string);
+            }
+            _ => {
+                panic!("expected get StructDef")
+            }
+        }
     }
 
     #[test]
@@ -242,7 +251,15 @@ Summary$constructor(string name) {
 
 }
 ");
-        assert!(code.is_ok());
+
+        match code.unwrap().0.get(2).unwrap() {
+            SourceUnitPart::StructFuncDef(def) => {
+                assert_eq!("Summary", def.struct_name.name);
+            }
+            _ => {
+                panic!("expected get StructDef")
+            }
+        }
     }
 
     #[test]
