@@ -112,11 +112,15 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         self.compile_statement(func_def.body.as_ref());
 
         if func_def.returns.is_none() {
-            self.builder
-                .build_return(Some(&self.context.i32_type().const_zero()));
+            self.emit_void();
         }
 
         return Ok(func);
+    }
+
+    fn emit_void(&mut self) {
+        self.builder
+            .build_return(Some(&self.context.i32_type().const_zero()));
     }
 
     fn compile_statement(&mut self, body: &Vec<Statement>) {
