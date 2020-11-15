@@ -178,16 +178,16 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
     fn function_call_expr(&mut self, expr: &Box<Expression>, args: &Vec<Argument>) {
         self.compile_expression(expr);
 
-        match self.get_function("main") {
-            None => {}
-            Some(_func) => {
-                for x in args.iter() {
-                    self.compile_expression(&x.expr);
-                }
-
-                self.emit_print(&"hello", "hello, world!\n");
-            }
-        };
+        // match self.get_function("main") {
+        //     None => {}
+        //     Some(_func) => {
+        //         for x in args.iter() {
+        //             self.compile_expression(&x.expr);
+        //         }
+        //
+        //         self.emit_print(&"hello", "hello, world!\n");
+        //     }
+        // };
     }
 
     fn compile_prototype(
