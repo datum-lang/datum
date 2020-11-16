@@ -13,3 +13,4 @@
 * [11. does-syntax-close-to-llvm](0011-does-syntax-close-to-llvm.md)
 * [12. builtin-functions](0012-builtin-functions.md)
 * [13. irbuilder](0013-irbuilder.md)
+* [14. ir-design](0014-ir-design.md)
