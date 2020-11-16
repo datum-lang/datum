@@ -1,4 +1,3 @@
-use cjc_lexer;
 use cjc_lexer::Diagnostic;
 
 use crate::charj;
@@ -6,7 +5,7 @@ use crate::parse_tree::SourceUnit;
 
 macro_rules! do_lalr_parsing {
     ($input: expr) => {{
-        let lex = cjc_lexer::lexer::new($input);
+        let lex = cjc_lexer::Lexer::new($input);
         match charj::CharjParser::new().parse($input, lex) {
             Err(err) => Err(Diagnostic::handle_error(err)),
             Ok(s) => Ok(s),
@@ -20,9 +19,9 @@ pub fn parse_program(source: &str) -> Result<SourceUnit, Diagnostic> {
 
 #[cfg(test)]
 mod test {
-    use crate::location::Loc;
     use crate::parse_tree::{Identifier, Package, SourceUnit, SourceUnitPart};
     use crate::parser::parse_program;
+    use cjc_lexer::Loc;
 
     #[test]
     #[rustfmt::skip]

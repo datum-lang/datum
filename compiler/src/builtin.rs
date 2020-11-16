@@ -1,4 +1,4 @@
-use cjc_parser::location::Location;
+use cjc_lexer::Location;
 use cjc_parser::parse_tree::{Expression, Type};
 
 #[derive(PartialEq, Clone, Debug)]
@@ -116,7 +116,7 @@ pub enum GenExpression {
 
 #[cfg(test)]
 mod tests {
-    use cjc_parser::location::Location;
+    use cjc_lexer::Location;
     use cjc_parser::parse_tree::{Expression, ExpressionType};
 
     use crate::builtin::{is_builtin_call, resolve_call};

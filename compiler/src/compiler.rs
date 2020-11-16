@@ -10,7 +10,7 @@ use inkwell::values::{BasicValue, FunctionValue, PointerValue};
 use inkwell::{AddressSpace, OptimizationLevel};
 
 use cjc_codegen::instruction::{Constant, Instruction};
-use cjc_parser::location::Location;
+use cjc_lexer::Location;
 use cjc_parser::parse_tree::{
     Argument, Expression, ExpressionType, SourceUnit, SourceUnitPart, Statement, StatementType,
     StructFuncDef,
