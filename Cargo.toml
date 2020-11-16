@@ -29,17 +29,17 @@ clap = "2.33"
 [dependencies.compiler]
 path = "compiler"
 
-[dependencies.parser]
-path = "parser"
+[dependencies.cjc_parser]
+path = "cjc_parser"
 
-[dependencies.codegen]
-path = "codegen"
+[dependencies.cjc_codegen]
+path = "cjc_codegen"
 
 [workspace]
 members = [
-    "parser",
     "compiler",
-    "codegen",
+    "cjc_parser",
+    "cjc_codegen",
     "cjc_hir",
     "cjc_mir",
 ]

@@ -12,8 +12,8 @@ indexmap = "1.0"
 # all support targets for inkwell
 inkwell = { version = "0.1.0-llvm10sample", features = ["target-x86", "target-webassembly", "llvm10-0"] }
 
-[dependencies.parser]
-path = "../parser"
+[dependencies.cjc_parser]
+path = "../cjc_parser"
 
-[dependencies.codegen]
-path = "../codegen"
+[dependencies.cjc_codegen]
+path = "../cjc_codegen"

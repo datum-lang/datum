@@ -1,9 +1,9 @@
 use inkwell::context::Context;
 
-use parser::parser::parse_program;
+use cjc_parser::parser::parse_program;
 
 use crate::compiler::Compiler;
-use codegen::ControlFlowGraph;
+use cjc_codegen::ControlFlowGraph;
 
 pub mod builtin;
 pub mod compiler;
