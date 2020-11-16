@@ -8,15 +8,9 @@ edition = "2018"
 
 [dependencies]
 indexmap = "1.0"
-
-# all support targets for inkwell
+# todo: update targets
 inkwell = { version = "0.1.0-llvm10sample", features = ["target-x86", "target-webassembly", "llvm10-0"] }
 
-[dependencies.cjc_lexer]
-path = "../cjc_lexer"
-
-[dependencies.cjc_parser]
-path = "../cjc_parser"
-
-[dependencies.cjc_codegen]
-path = "../cjc_codegen"
+cjc_lexer = { path = "../cjc_lexer" }
+cjc_parser = { path = "../cjc_parser" }
+cjc_codegen = { path = "../cjc_codegen" }
