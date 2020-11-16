@@ -39,5 +39,7 @@ path = "codegen"
 members = [
     "parser",
     "compiler",
-    "codegen"
+    "codegen",
+    "cjc_hir",
+    "cjc_mir",
 ]
