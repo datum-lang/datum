@@ -48,13 +48,6 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         module: &'a Module<'ctx>,
         source_unit: &'a SourceUnit,
     ) -> Compiler<'a, 'ctx> {
-        // todo: set target
-        // let triple = TargetTriple::create(ns.target.llvm_target_triple());
-
-        // todo: load stdlib
-        // let intr = Compiler::load_stdlib(&context);
-        // module.link_in_module(intr).unwrap();
-
         let mut compiler = Compiler {
             context,
             builder,
