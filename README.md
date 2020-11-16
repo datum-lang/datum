@@ -4,8 +4,6 @@
 
 > A easy maintain(read/write) language for transform **from**/**to** other languages.
 
-Jetbrains' IDEA support: `Charj` [![Version](https://img.shields.io/jetbrains/plugin/v/15119-charj.svg)](https://plugins.jetbrains.com/plugin/15119-charj)
-
 Usecases samples:
 
  - legacy system migration.
