@@ -1,11 +1,12 @@
+use cjc_lexer;
+use cjc_lexer::Diagnostic;
+
 use crate::charj;
-use crate::error::Diagnostic;
-use crate::lexer;
 use crate::parse_tree::SourceUnit;
 
 macro_rules! do_lalr_parsing {
     ($input: expr) => {{
-        let lex = lexer::Lexer::new($input);
+        let lex = cjc_lexer::lexer::new($input);
         match charj::CharjParser::new().parse($input, lex) {
             Err(err) => Err(Diagnostic::handle_error(err)),
             Ok(s) => Ok(s),

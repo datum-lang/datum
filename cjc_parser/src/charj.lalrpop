@@ -4,10 +4,10 @@ use num_bigint::BigUint;
 use num_traits::Pow;
 use std::ops::Mul;
 
-use crate::location::{Loc, Location};
-use crate::lexer;
-use crate::token::{Token, CommentType};
-use crate::error::LexicalError;
+use cjc_lexer::location::{Loc, Location};
+use cjc_lexer::lexer;
+use cjc_lexer::token::{Token, CommentType};
+use cjc_lexer::error::LexicalError;
 use crate::parse_tree::*;
 
 grammar<'input>(input: &'input str);

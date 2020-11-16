@@ -38,6 +38,7 @@ path = "cjc_codegen"
 [workspace]
 members = [
     "compiler",
+    "cjc_lexer",
     "cjc_parser",
     "cjc_codegen",
     "cjc_hir",

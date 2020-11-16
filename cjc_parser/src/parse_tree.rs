@@ -2,7 +2,7 @@ use core::fmt;
 
 use num_bigint::BigInt;
 
-use crate::location::{Loc, Location};
+use cjc_lexer::{Loc, Location};
 
 #[derive(Debug, PartialEq)]
 pub struct SourceUnit(pub Vec<SourceUnitPart>);

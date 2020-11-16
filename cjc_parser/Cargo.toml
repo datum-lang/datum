@@ -17,6 +17,9 @@ num-derive = "0.3"
 
 regex = "1"
 
+[dependencies.cjc_lexer]
+path = "../cjc_lexer"
+
 # Add a build-time dependency on the lalrpop library:
 [build-dependencies.lalrpop]
 version = "0.19.1"

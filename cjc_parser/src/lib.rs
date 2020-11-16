@@ -8,9 +8,5 @@ lalrpop_mod!(
     pub charj
 ); // synthesized by LALRPOP
 
-pub mod error;
-pub mod lexer;
-pub mod location;
 pub mod parse_tree;
 pub mod parser;
-pub mod token;

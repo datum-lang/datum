@@ -2,7 +2,8 @@
 pub struct Expr<'hir> {
     pub kind: ExprKind<'hir>,
 }
-#[derive(Copy, Clone, PartialEq, Encodable, Debug, HashStable_Generic)]
+
+#[derive(Copy, Clone, PartialEq, Debug)]
 pub enum BinOpKind {
     /// The `+` operator (addition).
     Add,
