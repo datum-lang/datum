@@ -148,7 +148,6 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
 
     fn compile_expression(&mut self, expression: &Expression) {
         use ExpressionType::*;
-        // println!("{:?}", expression.node);
         match &expression.node {
             Range { .. } => {}
             BoolOp { .. } => {}
@@ -180,19 +179,25 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         self.output_stack.push(instruction);
     }
 
-    fn function_call_expr(&mut self, expr: &Box<Expression>, _args: &Vec<Argument>) {
+    fn function_call_expr(&mut self, expr: &Box<Expression>, args: &Vec<Argument>) {
         self.compile_expression(expr);
 
-        // match self.get_function("main") {
-        //     None => {}
-        //     Some(_func) => {
-        //         for x in args.iter() {
-        //             self.compile_expression(&x.expr);
-        //         }
-        //
-        //         self.emit_print(&"hello", "hello, world!\n");
-        //     }
-        // };
+        // todo: refactor to better patterns
+        let mut callee = "".to_string();
+        if let ExpressionType::Identifier { name } = &expr.node {
+            callee = name.to_owned().name;
+        };
+
+        match self.get_function(callee.as_str()) {
+            None => {}
+            Some(_func) => {
+                for x in args.iter() {
+                    self.compile_expression(&x.expr);
+                }
+
+                self.emit_print(&"hello", "hello, world!\n");
+            }
+        };
     }
 
     fn compile_prototype(
