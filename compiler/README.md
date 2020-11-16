@@ -1,5 +1,18 @@
 # Charj compiler: Zao
 
+## Compiler
+
+in Rust design:
+
+```rust
+pub struct Compiler {
+    pub(crate) input: Input,
+    pub(crate) input_path: Option<PathBuf>,
+    pub(crate) output_dir: Option<PathBuf>,
+    pub(crate) output_file: Option<PathBuf>,
+    pub(crate) crate_name: Option<String>,
+}
+```
 
 We should name our compiler in Chinese way, so use some like `Zao` will be more easily to think.
 
