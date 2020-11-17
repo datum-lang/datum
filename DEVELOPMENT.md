@@ -1,5 +1,11 @@
-
 ## Development
+
+ - cjc_lexer, aka lexer
+ - cjc_parser (outputs: AST)
+ - cjc_hir (define: CFG)
+ - cjc_mir (define: MIR)
+ - compiler (outputs: LLVM IR)
+ - cjc_codegen (done)
 
 ### Setup LLVM
 
