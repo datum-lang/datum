@@ -1,3 +1,3 @@
-pub mod hir;
-
 pub use hir::*;
+
+pub mod hir;

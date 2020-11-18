@@ -42,4 +42,12 @@ pub enum Instruction {
         name: String,
         scope: NameScope,
     },
+    Call {
+        res: Vec<usize>,
+        // call: Expression,
+        // args: Vec<Expression>,
+    },
+    Return {
+        // value: Vec<Expression>,
+    },
 }

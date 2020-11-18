@@ -1,9 +1,12 @@
 use inkwell::context::Context;
 
+use cjc_codegen::ControlFlowGraph;
 use cjc_parser::parser::parse_program;
 
 use crate::compiler::Compiler;
-use cjc_codegen::ControlFlowGraph;
+use inkwell::memory_buffer::MemoryBuffer;
+use inkwell::module::Module;
+use inkwell::targets::TargetTriple;
 
 pub mod builtin;
 pub mod compiler;
