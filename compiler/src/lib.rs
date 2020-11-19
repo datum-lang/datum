@@ -7,6 +7,7 @@ use crate::compiler::Compiler;
 use inkwell::memory_buffer::MemoryBuffer;
 use inkwell::module::Module;
 use inkwell::targets::TargetTriple;
+use crate::namespace::Namespace;
 
 pub mod builtin;
 pub mod compiler;
@@ -14,13 +15,16 @@ pub mod namespace;
 pub mod symbol_table;
 
 pub fn compile_program(input: &str, filename: &str) -> Result<String, ()> {
+    let mut namespace = Namespace::new();
+
     let context = Context::create();
     let module_name = filename.replace(".cj", "");
 
     let module = context.create_module(&module_name);
     let builder = context.create_builder();
 
-    let mut all_cfg: Vec<ControlFlowGraph> = Vec::new();
+    namespace.files.push(filename.to_string());
+
     let parse_ast = parse_program(input);
     match parse_ast {
         Ok(unit) => {
@@ -31,7 +35,7 @@ pub fn compile_program(input: &str, filename: &str) -> Result<String, ()> {
             // let intr = Compiler::load_stdlib(&context);
             // module.link_in_module(intr).unwrap();
 
-            let compiler = Compiler::compile(&context, &builder, &module, &unit);
+            let compiler = Compiler::compile(&context, &builder, &module, &unit, &namespace);
             compiler.run_jit();
             Ok(compiler.module.print_to_string().to_string())
         }

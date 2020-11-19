@@ -1,13 +1,13 @@
 use std::collections::HashMap;
 use std::path::Path;
 
+use inkwell::{AddressSpace, OptimizationLevel};
 use inkwell::builder::Builder;
 use inkwell::context::Context;
 use inkwell::module::Linkage;
 use inkwell::module::Module;
 use inkwell::types::{BasicTypeEnum, IntType};
 use inkwell::values::{BasicValue, FunctionValue, PointerValue};
-use inkwell::{AddressSpace, OptimizationLevel};
 
 use cjc_codegen::instruction::{Constant, Instruction};
 use cjc_lexer::Location;
@@ -16,12 +16,15 @@ use cjc_parser::parse_tree::{
     StructFuncDef,
 };
 
+use crate::namespace::Namespace;
+
 #[allow(dead_code)]
 pub struct Compiler<'a, 'ctx> {
     pub context: &'ctx Context,
     pub builder: &'a Builder<'ctx>,
     pub module: &'a Module<'ctx>,
     pub source_unit: &'a SourceUnit,
+    pub namespace: &'a Namespace,
 
     output_stack: Vec<Instruction>,
     variables: HashMap<String, PointerValue<'ctx>>,
@@ -47,12 +50,14 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         builder: &'a Builder<'ctx>,
         module: &'a Module<'ctx>,
         source_unit: &'a SourceUnit,
+        namespace: &'a NameSpace,
     ) -> Compiler<'a, 'ctx> {
         let mut compiler = Compiler {
             context,
             builder,
             module,
             source_unit,
+            namespace,
             output_stack: vec![],
             fn_value_opt: None,
             variables: HashMap::new(),
@@ -64,6 +69,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
     }
 
     fn compile_source(&mut self) {
+        // todo: make to resolver?
         for part in self.source_unit.0.iter() {
             use SourceUnitPart::*;
             match part {
