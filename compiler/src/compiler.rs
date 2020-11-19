@@ -72,10 +72,8 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         // todo: make to resolver?
 
         // todo: add all structs
-        let _structs = self
-            .source_unit
-            .0
-            .iter()
+        #[rustfmt::skip]
+        let _structs = self.source_unit.0.iter()
             .filter_map(|part| {
                 if let SourceUnitPart::StructDef(def) = part {
                     Some(def)
@@ -88,10 +86,8 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             .collect::<Vec<(usize, &cjc_parser::StructDef)>>();
 
         // todo: resolve struct function
-        let struct_funcs = self
-            .source_unit
-            .0
-            .iter()
+        #[rustfmt::skip]
+        let struct_funcs = self.source_unit.0.iter()
             .filter_map(|part| {
                 if let SourceUnitPart::StructFuncDef(def) = part {
                     Some(def)
@@ -102,6 +98,16 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             .enumerate()
             .map(|(no, def)| (no, def.as_ref()))
             .collect::<Vec<(usize, &cjc_parser::StructFuncDef)>>();
+
+
+        // todo: add import support
+        #[rustfmt::skip]
+        for part in &self.source_unit.0 {
+            match part {
+                SourceUnitPart::ImportDirective(_) => {}
+                _ => {}
+            }
+        }
 
         for (_index, func) in struct_funcs {
             let _result = self.compile_struct_fn(func);
