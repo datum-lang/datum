@@ -73,7 +73,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
 
         // todo: add all structs
         #[rustfmt::skip]
-        let _structs = self.source_unit.0.iter()
+            let _structs = self.source_unit.0.iter()
             .filter_map(|part| {
                 if let SourceUnitPart::StructDef(def) = part {
                     Some(def)
@@ -87,7 +87,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
 
         // todo: resolve struct function
         #[rustfmt::skip]
-        let struct_funcs = self.source_unit.0.iter()
+            let struct_funcs = self.source_unit.0.iter()
             .filter_map(|part| {
                 if let SourceUnitPart::StructFuncDef(def) = part {
                     Some(def)
@@ -109,25 +109,19 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             }
         }
 
+        let _has_broken = self.resolve(struct_funcs);
+    }
+
+    fn resolve(&mut self, struct_funcs: Vec<(usize, &StructFuncDef)>) -> bool {
+        let mut broken = false;
         for (_index, func) in struct_funcs {
             let _result = self.compile_struct_fn(func);
         }
 
-        // for part in self.source_unit.0.iter() {
-        //     use SourceUnitPart::*;
-        //     match part {
-        //         ImportDirective(_) => {}
-        //         MultipleImportDirective(_) => {}
-        //         PackageDirective(_) => {}
-        //         StructFuncDef(fun) => {
-        //             let _result = self.compile_struct_fn(fun);
-        //         }
-        //         FuncDef(_) => {}
-        //         StructDef(_) => {}
-        //     }
-        // }
+        broken
     }
 
+    // todo: change to convert hir
     fn compile_struct_fn(
         &mut self,
         func_def: &StructFuncDef,
