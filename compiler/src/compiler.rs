@@ -1,13 +1,13 @@
 use std::collections::HashMap;
 use std::path::Path;
 
-use inkwell::{AddressSpace, OptimizationLevel};
 use inkwell::builder::Builder;
 use inkwell::context::Context;
 use inkwell::module::Linkage;
 use inkwell::module::Module;
 use inkwell::types::{BasicTypeEnum, IntType};
 use inkwell::values::{BasicValue, FunctionValue, PointerValue};
+use inkwell::{AddressSpace, OptimizationLevel};
 
 use cjc_codegen::instruction::{Constant, Instruction};
 use cjc_lexer::Location;
@@ -50,7 +50,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         builder: &'a Builder<'ctx>,
         module: &'a Module<'ctx>,
         source_unit: &'a SourceUnit,
-        namespace: &'a NameSpace,
+        namespace: &'a Namespace,
     ) -> Compiler<'a, 'ctx> {
         let mut compiler = Compiler {
             context,
@@ -70,6 +70,10 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
 
     fn compile_source(&mut self) {
         // todo: make to resolver?
+
+        // todo: add resolve struct def
+
+        // todo: resolve struct function
         for part in self.source_unit.0.iter() {
             use SourceUnitPart::*;
             match part {

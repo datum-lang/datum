@@ -54,7 +54,7 @@ impl Namespace {
     pub fn new() -> Self {
         Namespace {
             files: vec![],
-            structs: vec![]
+            structs: vec![],
         }
     }
 }
