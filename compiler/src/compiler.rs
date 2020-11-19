@@ -11,7 +11,10 @@ use inkwell::{AddressSpace, OptimizationLevel};
 
 use cjc_codegen::instruction::{Constant, Instruction};
 use cjc_lexer::Location;
-use cjc_parser::parse_tree::{Argument, Expression, ExpressionType, SourceUnit, SourceUnitPart, Statement, StatementType, StructFuncDef, StructDef};
+use cjc_parser::parse_tree::{
+    Argument, Expression, ExpressionType, SourceUnit, SourceUnitPart, Statement, StatementType,
+    StructFuncDef,
+};
 
 use crate::namespace::Namespace;
 
@@ -69,34 +72,38 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         // todo: make to resolver?
 
         // todo: add all structs
-        let _structs =
-            self.source_unit.0.iter()
-                .filter_map(|part| {
-                    if let SourceUnitPart::StructDef(def) = part {
-                        Some(def)
-                    } else {
-                        None
-                    }
-                })
-                .enumerate()
-                .map(|(no, def)| (no, def.as_ref()))
-                .collect::<Vec<(usize, &cjc_parser::StructDef)>>();
+        let _structs = self
+            .source_unit
+            .0
+            .iter()
+            .filter_map(|part| {
+                if let SourceUnitPart::StructDef(def) = part {
+                    Some(def)
+                } else {
+                    None
+                }
+            })
+            .enumerate()
+            .map(|(no, def)| (no, def.as_ref()))
+            .collect::<Vec<(usize, &cjc_parser::StructDef)>>();
 
         // todo: resolve struct function
-        let structFuncs =
-            self.source_unit.0.iter()
-                .filter_map(|part| {
-                    if let SourceUnitPart::StructFuncDef(def) = part {
-                        Some(def)
-                    } else {
-                        None
-                    }
-                })
-                .enumerate()
-                .map(|(no, def)| (no, def.as_ref()))
-                .collect::<Vec<(usize, &cjc_parser::StructFuncDef)>>();
+        let struct_funcs = self
+            .source_unit
+            .0
+            .iter()
+            .filter_map(|part| {
+                if let SourceUnitPart::StructFuncDef(def) = part {
+                    Some(def)
+                } else {
+                    None
+                }
+            })
+            .enumerate()
+            .map(|(no, def)| (no, def.as_ref()))
+            .collect::<Vec<(usize, &cjc_parser::StructFuncDef)>>();
 
-        for (index, func) in structFuncs {
+        for (_index, func) in struct_funcs {
             let _result = self.compile_struct_fn(func);
         }
 
