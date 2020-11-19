@@ -11,10 +11,7 @@ use inkwell::{AddressSpace, OptimizationLevel};
 
 use cjc_codegen::instruction::{Constant, Instruction};
 use cjc_lexer::Location;
-use cjc_parser::parse_tree::{
-    Argument, Expression, ExpressionType, SourceUnit, SourceUnitPart, Statement, StatementType,
-    StructFuncDef,
-};
+use cjc_parser::parse_tree::{Argument, Expression, ExpressionType, SourceUnit, SourceUnitPart, Statement, StatementType, StructFuncDef, StructDef};
 
 use crate::namespace::Namespace;
 
@@ -71,27 +68,56 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
     fn compile_source(&mut self) {
         // todo: make to resolver?
 
-        // todo: add resolve struct def
+        // todo: add all structs
+        let _structs =
+            self.source_unit.0.iter()
+                .filter_map(|part| {
+                    if let SourceUnitPart::StructDef(def) = part {
+                        Some(def)
+                    } else {
+                        None
+                    }
+                })
+                .enumerate()
+                .map(|(no, def)| (no, def.as_ref()))
+                .collect::<Vec<(usize, &cjc_parser::StructDef)>>();
 
         // todo: resolve struct function
-        for part in self.source_unit.0.iter() {
-            use SourceUnitPart::*;
-            match part {
-                ImportDirective(_) => {}
-                MultipleImportDirective(_) => {}
-                PackageDirective(_) => {}
-                StructFuncDef(fun) => {
-                    let _result = self.compile_struct_fn(fun);
-                }
-                FuncDef(_) => {}
-                StructDef(_) => {}
-            }
+        let structFuncs =
+            self.source_unit.0.iter()
+                .filter_map(|part| {
+                    if let SourceUnitPart::StructFuncDef(def) = part {
+                        Some(def)
+                    } else {
+                        None
+                    }
+                })
+                .enumerate()
+                .map(|(no, def)| (no, def.as_ref()))
+                .collect::<Vec<(usize, &cjc_parser::StructFuncDef)>>();
+
+        for (index, func) in structFuncs {
+            let _result = self.compile_struct_fn(func);
         }
+
+        // for part in self.source_unit.0.iter() {
+        //     use SourceUnitPart::*;
+        //     match part {
+        //         ImportDirective(_) => {}
+        //         MultipleImportDirective(_) => {}
+        //         PackageDirective(_) => {}
+        //         StructFuncDef(fun) => {
+        //             let _result = self.compile_struct_fn(fun);
+        //         }
+        //         FuncDef(_) => {}
+        //         StructDef(_) => {}
+        //     }
+        // }
     }
 
     fn compile_struct_fn(
         &mut self,
-        func_def: &Box<StructFuncDef>,
+        func_def: &StructFuncDef,
     ) -> Result<FunctionValue<'ctx>, &'static str> {
         let func = self.compile_prototype(func_def)?;
         if func_def.body.len() == 0 {
@@ -205,7 +231,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
 
     fn compile_prototype(
         &mut self,
-        fun: &Box<StructFuncDef>,
+        fun: &StructFuncDef,
     ) -> Result<FunctionValue<'ctx>, &'static str> {
         let ret_type = self.context.i32_type();
         let args_types = std::iter::repeat(ret_type)

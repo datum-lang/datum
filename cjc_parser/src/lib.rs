@@ -10,3 +10,5 @@ lalrpop_mod!(
 
 pub mod parse_tree;
 pub mod parser;
+
+pub use parse_tree::*;
