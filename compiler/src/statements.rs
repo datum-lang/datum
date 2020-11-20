@@ -19,7 +19,9 @@ pub fn statement(
             StatementType::Assign { .. } => {}
             StatementType::Variable { .. } => {}
             StatementType::Return { .. } => {}
-            StatementType::Expression { expr } => expression(&expr, ns, symbol_table),
+            StatementType::Expression { expr } => {
+                expression(&expr, ns, symbol_table);
+            }
         }
     }
 }

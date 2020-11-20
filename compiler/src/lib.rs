@@ -7,9 +7,9 @@ use crate::compiler::Compiler;
 
 pub mod builtin;
 pub mod compiler;
-pub mod symbol_table;
-pub mod statements;
 pub mod expression;
+pub mod statements;
+pub mod symbol_table;
 
 pub fn compile_program(input: &str, filename: &str) -> Result<String, ()> {
     let mut namespace = Namespace::new();

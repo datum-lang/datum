@@ -16,9 +16,9 @@ use cjc_parser::parse_tree::{
     StructFuncDef,
 };
 
-use cjc_hir::Namespace;
 use crate::statements::statement;
 use crate::symbol_table::SymbolTable;
+use cjc_hir::Namespace;
 
 #[allow(dead_code)]
 pub struct Compiler<'a, 'ctx> {
