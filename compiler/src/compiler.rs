@@ -211,6 +211,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             }
             Number { .. } => {}
             List { .. } => {}
+            Bool { .. } => {}
             Identifier { name: _ } => {
                 // self.emit();
             }

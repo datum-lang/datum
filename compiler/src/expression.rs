@@ -13,6 +13,7 @@ pub fn expression(
         ExpressionType::Binop { .. } => {}
         ExpressionType::Unop { .. } => {}
         ExpressionType::String { .. } => {}
+        ExpressionType::Bool { .. } => {}
         ExpressionType::Number { .. } => {}
         ExpressionType::List { .. } => {}
         ExpressionType::Identifier { .. } => {}

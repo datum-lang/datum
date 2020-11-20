@@ -88,6 +88,10 @@ pub enum ExpressionType {
         value: String,
     },
 
+    Bool {
+        value: bool,
+    },
+
     /// A numeric literal.
     Number {
         value: BigInt,
