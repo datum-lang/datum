@@ -99,9 +99,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             .map(|(no, def)| (no, def.as_ref()))
             .collect::<Vec<(usize, &cjc_parser::StructFuncDef)>>();
 
-
         // todo: add import support
-        #[rustfmt::skip]
         for part in &self.source_unit.0 {
             match part {
                 SourceUnitPart::ImportDirective(_) => {}
@@ -113,12 +111,12 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
     }
 
     fn resolve(&mut self, struct_funcs: Vec<(usize, &StructFuncDef)>) -> bool {
-        let mut broken = false;
+        let mut _broken = false;
         for (_index, func) in struct_funcs {
             let _result = self.compile_struct_fn(func);
         }
 
-        broken
+        _broken
     }
 
     // todo: change to convert hir
