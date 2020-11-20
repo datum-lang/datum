@@ -37,7 +37,7 @@ pub fn compile_program(input: &str, filename: &str) -> Result<String, ()> {
             // let intr = Compiler::load_stdlib(&context);
             // module.link_in_module(intr).unwrap();
 
-            let compiler = Compiler::compile(&context, &builder, &module, &unit, &namespace);
+            let compiler = Compiler::compile(&context, &builder, &module, &unit, &mut namespace);
             compiler.run_jit();
             Ok(compiler.module.print_to_string().to_string())
         }

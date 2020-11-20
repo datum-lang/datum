@@ -43,6 +43,19 @@ pub struct SymbolTable {
     pub sub_tables: Vec<SymbolTable>,
 }
 
+impl SymbolTable {
+    pub fn new() -> Self {
+        SymbolTable {
+            name: "".to_string(),
+            typ: SymbolTableType::Module,
+            line_number: 0,
+            is_nested: false,
+            symbols: Default::default(),
+            sub_tables: vec![],
+        }
+    }
+}
+
 /// Indicator for a single symbol what the scope of this symbol is.
 /// The scope can be unknown, which is unfortunate, but not impossible.
 #[derive(Debug, Clone)]

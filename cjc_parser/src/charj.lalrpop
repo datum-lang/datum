@@ -115,7 +115,7 @@ ExpressionStatement: Statement = {
     <l:@L> <e:Expression> <r:@R> => {
         Statement {
             location: Location::new(l, r),
-            node: StatementType::Expression { expression: e },
+            node: StatementType::Expression { expr: e },
         }
     }
 }

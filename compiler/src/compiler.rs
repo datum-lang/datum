@@ -17,6 +17,8 @@ use cjc_parser::parse_tree::{
 };
 
 use crate::namespace::Namespace;
+use crate::statements::statement;
+use crate::symbol_table::SymbolTable;
 
 #[allow(dead_code)]
 pub struct Compiler<'a, 'ctx> {
@@ -24,7 +26,7 @@ pub struct Compiler<'a, 'ctx> {
     pub builder: &'a Builder<'ctx>,
     pub module: &'a Module<'ctx>,
     pub source_unit: &'a SourceUnit,
-    pub namespace: &'a Namespace,
+    pub namespace: &'a mut Namespace,
 
     output_stack: Vec<Instruction>,
     variables: HashMap<String, PointerValue<'ctx>>,
@@ -50,7 +52,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         builder: &'a Builder<'ctx>,
         module: &'a Module<'ctx>,
         source_unit: &'a SourceUnit,
-        namespace: &'a Namespace,
+        namespace: &'a mut Namespace,
     ) -> Compiler<'a, 'ctx> {
         let mut compiler = Compiler {
             context,
@@ -128,6 +130,17 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         if func_def.body.len() == 0 {
             return Ok(func);
         }
+
+        let mut res = Vec::new();
+        let mut symtable = SymbolTable::new();
+
+        statement(
+            func_def.body.as_ref(),
+            &mut res,
+            &mut self.namespace,
+            &mut symtable,
+        );
+
         let entry = self
             .context
             .append_basic_block(func, func_def.name.name.as_str());
@@ -173,7 +186,9 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
                 Assign { .. } => {}
                 Variable { .. } => {}
                 Return { .. } => {}
-                Expression { ref expression } => {
+                Expression {
+                    expr: ref expression,
+                } => {
                     self.compile_expression(expression);
                 }
             }

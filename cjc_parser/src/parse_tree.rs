@@ -185,7 +185,7 @@ pub enum StatementType {
         value: Option<Expression>,
     },
     Expression {
-        expression: Expression,
+        expr: Expression,
     },
 }
 
