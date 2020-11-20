@@ -7,6 +7,12 @@
  - compiler (outputs: LLVM IR)
  - cjc_codegen (done)
 
+## Process
+
+-----> parser ----> AST ------------compiler------------------> LLVM IR
+lexer -----> parser -----> hir -----> mir -----> codegen -----> LLVM IR
+     lalrpop         AST
+
 ### Setup LLVM
 
 ```bash
