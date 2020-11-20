@@ -10,6 +10,12 @@ pub mod compiler;
 pub mod namespace;
 pub mod symbol_table;
 
+pub mod expression;
+pub mod functions;
+pub mod statements;
+pub mod types;
+pub mod variables;
+
 pub fn compile_program(input: &str, filename: &str) -> Result<String, ()> {
     let mut namespace = Namespace::new();
 
@@ -48,7 +54,7 @@ mod test {
     fn init_parser() {
         let result = compile_program(
             "default$main() {println(\"hello,world\")}",
-            "hello.cj"
+            "hello.cj",
         );
 
         assert!(result.is_ok());
