@@ -1,20 +1,15 @@
 use inkwell::context::Context;
 
+use cjc_hir::Namespace;
 use cjc_parser::parser::parse_program;
 
 use crate::compiler::Compiler;
-use crate::namespace::Namespace;
 
 pub mod builtin;
 pub mod compiler;
-pub mod namespace;
 pub mod symbol_table;
-
-pub mod expression;
-pub mod functions;
 pub mod statements;
-pub mod types;
-pub mod variables;
+pub mod expression;
 
 pub fn compile_program(input: &str, filename: &str) -> Result<String, ()> {
     let mut namespace = Namespace::new();

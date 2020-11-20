@@ -1,12 +1,11 @@
 use crate::expression::expression;
-use crate::namespace::{Namespace, Statement};
 use crate::symbol_table::SymbolTable;
 use cjc_parser::StatementType;
 
 pub fn statement(
     stmts: &Vec<cjc_parser::Statement>,
-    res: &mut Vec<Statement>,
-    ns: &mut Namespace,
+    res: &mut Vec<cjc_hir::Statement>,
+    ns: &mut cjc_hir::Namespace,
     symbol_table: &mut SymbolTable,
 ) {
     for stmt in stmts {

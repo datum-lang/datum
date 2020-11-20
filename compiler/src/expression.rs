@@ -1,6 +1,6 @@
-use crate::namespace::{Expression, Namespace};
 use crate::symbol_table::SymbolTable;
 use cjc_parser::{Argument, ExpressionType};
+use cjc_hir::Namespace;
 
 pub fn expression(
     expr: &cjc_parser::Expression,

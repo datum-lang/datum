@@ -16,7 +16,7 @@ use cjc_parser::parse_tree::{
     StructFuncDef,
 };
 
-use crate::namespace::Namespace;
+use cjc_hir::Namespace;
 use crate::statements::statement;
 use crate::symbol_table::SymbolTable;
 
