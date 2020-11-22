@@ -42,10 +42,6 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         self.module.get_function(name)
     }
 
-    pub fn load_stdlib(_context: &Context) {
-        // todo: thinking in stdlib
-    }
-
     /// Compiles the specified `Function` in the given `Context` and using the specified `Builder`, `PassManager`, and `Module`.
     pub fn compile(
         context: &'ctx Context,
@@ -70,12 +66,10 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         compiler
     }
 
+    #[rustfmt::skip]
     fn compile_source(&mut self) {
-        // todo: make to resolver?
-
         // todo: add all structs
-        #[rustfmt::skip]
-            let _structs = self.source_unit.0.iter()
+        let _structs = self.source_unit.0.iter()
             .filter_map(|part| {
                 if let SourceUnitPart::StructDef(def) = part {
                     Some(def)
@@ -88,8 +82,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             .collect::<Vec<(usize, &cjc_parser::StructDef)>>();
 
         // todo: resolve struct function
-        #[rustfmt::skip]
-            let struct_funcs = self.source_unit.0.iter()
+        let struct_funcs = self.source_unit.0.iter()
             .filter_map(|part| {
                 if let SourceUnitPart::StructFuncDef(def) = part {
                     Some(def)
