@@ -5,6 +5,8 @@ use crate::neat::Namespace;
 
 pub fn program(input: &str, filename: &str) {
     let mut namespace = Namespace::new();
+    namespace.files.push(filename.to_string());
+
     let parse_ast = parse_program(input);
     match parse_ast {
         Ok(unit) => {

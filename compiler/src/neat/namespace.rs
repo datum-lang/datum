@@ -1,4 +1,5 @@
 use cjc_hir::StructDecl;
+use cjc_parser::ExpressionType;
 
 pub struct Namespace {
     // todo: add diagnostics
@@ -15,6 +16,16 @@ impl Namespace {
     }
 
     pub fn resolve_type(&mut self, id: &cjc_parser::Expression) {
+        self.expr_to_type(&id);
+    }
 
+    pub fn expr_to_type<'a>(&mut self, expr: &'a cjc_parser::Expression,) {
+        let mut expr = expr;
+        match expr.node {
+            ExpressionType::Call { .. } => {}
+            _ => {
+                println!("{:?}", expr.node);
+            }
+        }
     }
 }

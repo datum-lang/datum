@@ -4,6 +4,7 @@ pub use hir::*;
 pub use statement::*;
 pub use struct_def::*;
 pub use types::*;
+use cjc_lexer::Loc;
 
 pub mod expression;
 pub mod function;
@@ -14,5 +15,6 @@ pub mod types;
 
 #[derive(Clone, Debug)]
 pub struct Parameter {
+    pub location: Loc,
     pub name: String,
 }
