@@ -1,9 +1,9 @@
 use inkwell::context::Context;
 
-use cjc_hir::Namespace;
 use cjc_parser::parser::parse_program;
 
 use crate::compiler::Compiler;
+use crate::neat::Namespace;
 
 pub mod builtin;
 pub mod compiler;

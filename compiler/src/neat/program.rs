@@ -1,8 +1,7 @@
-use cjc_hir::Namespace;
 use cjc_parser::parser::parse_program;
-use cjc_lexer::Diagnostic;
 use cjc_parser::SourceUnit;
 use crate::neat::unit::resolve_unit;
+use crate::neat::Namespace;
 
 pub fn program(input: &str, filename: &str) {
     let mut namespace = Namespace::new();

@@ -5,7 +5,7 @@ use cjc_parser::StatementType;
 pub fn statement(
     stmts: &Vec<cjc_parser::Statement>,
     res: &mut Vec<cjc_hir::Statement>,
-    ns: &mut cjc_hir::Namespace,
+    ns: &mut crate::neat::Namespace,
     symbol_table: &mut SymbolTable,
 ) {
     for stmt in stmts {

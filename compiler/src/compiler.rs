@@ -18,7 +18,7 @@ use cjc_parser::parse_tree::{
 
 use crate::statements::statement;
 use crate::symbol_table::SymbolTable;
-use cjc_hir::Namespace;
+use crate::neat::Namespace;
 
 #[allow(dead_code)]
 pub struct Compiler<'a, 'ctx> {

@@ -1,4 +1,4 @@
-use crate::StructDecl;
+use cjc_hir::StructDecl;
 
 pub struct Namespace {
     // todo: add diagnostics
@@ -12,5 +12,9 @@ impl Namespace {
             files: vec![],
             structs: vec![],
         }
+    }
+
+    pub fn resolve_type(&mut self, id: &cjc_parser::Expression) {
+
     }
 }
