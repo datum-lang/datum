@@ -10,6 +10,7 @@ pub mod compiler;
 pub mod expression;
 pub mod statements;
 pub mod symbol_table;
+pub mod neat;
 
 pub fn compile_program(input: &str, filename: &str) -> Result<String, ()> {
     let mut namespace = Namespace::new();
