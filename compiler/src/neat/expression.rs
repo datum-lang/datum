@@ -1,6 +1,7 @@
 use crate::builtin;
 use crate::neat::Namespace;
 use crate::symbol_table::SymbolTable;
+use cjc_hir::Expression;
 use cjc_parser::{Argument, ExpressionType};
 
 pub fn expression(
@@ -21,8 +22,8 @@ pub fn expression(
         ExpressionType::Type { .. } => Ok(cjc_hir::Expression::Placeholder),
         ExpressionType::Attribute { .. } => Ok(cjc_hir::Expression::Placeholder),
         ExpressionType::Call { function, args } => {
-            function_call_expr(function, args, ns, symbol_table);
-            Ok(cjc_hir::Expression::Placeholder)
+            let result = function_call_expr(function, args, ns, symbol_table);
+            return result;
         }
         ExpressionType::SimpleCompare { .. } => Ok(cjc_hir::Expression::Placeholder),
         ExpressionType::Compare { .. } => Ok(cjc_hir::Expression::Placeholder),
@@ -34,8 +35,8 @@ fn function_call_expr(
     args: &Vec<Argument>,
     ns: &mut Namespace,
     symtable: &SymbolTable,
-) {
-    method_call(function, args, ns, symtable);
+) -> Result<Expression, ()> {
+    method_call(function, args, ns, symtable)
 }
 
 fn method_call(
@@ -43,15 +44,17 @@ fn method_call(
     args: &Vec<Argument>,
     _ns: &mut Namespace,
     _symtable: &SymbolTable,
-) {
+) -> Result<Expression, ()> {
     match &var.node {
         ExpressionType::Identifier { name } => {
             let is_builtin = builtin::is_builtin_call(None, &*name.name);
             if is_builtin {
                 let result = builtin::resolve_call(&*name.name, None, &*name.name, args);
-                println!("{:?}", result.unwrap());
+                return result;
             }
         }
         _ => {}
     }
+
+    return Err(());
 }

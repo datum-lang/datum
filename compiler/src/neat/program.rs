@@ -14,13 +14,3 @@ pub fn program(input: &str, filename: &str) {
         Err(_) => {}
     }
 }
-
-#[cfg(test)]
-mod test {
-    use crate::neat::program::program;
-
-    #[test]
-    fn init() {
-        let _result = program("default$main() {println(\"hello,world\")}", "hello.cj");
-    }
-}

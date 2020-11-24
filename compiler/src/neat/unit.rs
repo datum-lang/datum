@@ -61,7 +61,11 @@ pub fn resolve_struct_functions(
         }
     }
 
-    resolve_bodies(function_bodies, namespace);
+    for def in function_bodies {
+        statements::resolve_function_body(def, namespace);
+    }
+
+    // resolve_bodies(function_bodies, namespace);
 
     _broken
 }
