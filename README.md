@@ -24,6 +24,4 @@ see in [ROADMAP.md](ROADMAP.md)
 
 lexer based on & inspired by [solang](https://github.com/hyperledger-labs/solang) & [RustPython](https://github.com/RustPython/RustPython)
 
-[![Phodal's Idea](http://brand.phodal.com/shields/idea-small.svg)](http://ideas.phodal.com/)
-
-@ 2020 A [Phodal Huang](https://www.phodal.com)'s [Idea](http://github.com/phodal/ideas). This code is distributed under the Apache license. See `LICENSE` in this directory.
+This code is distributed under the MIT license. See `LICENSE` in this directory.
