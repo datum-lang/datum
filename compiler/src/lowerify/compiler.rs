@@ -11,17 +11,13 @@ use inkwell::{AddressSpace, OptimizationLevel};
 
 use cjc_codegen::instruction::Instruction;
 use cjc_lexer::Location;
-use cjc_parser::parse_tree::{SourceUnit, StructFuncDef};
-
-use crate::neat::Namespace;
+use cjc_parser::parse_tree::{StructFuncDef};
 
 #[allow(dead_code)]
 pub struct Compiler<'a, 'ctx> {
     pub context: &'ctx Context,
     pub builder: &'a Builder<'ctx>,
     pub module: &'a Module<'ctx>,
-    pub source_unit: &'a SourceUnit,
-    pub namespace: &'a mut Namespace,
 
     output_stack: Vec<Instruction>,
     variables: HashMap<String, PointerValue<'ctx>>,
@@ -42,15 +38,11 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         context: &'ctx Context,
         builder: &'a Builder<'ctx>,
         module: &'a Module<'ctx>,
-        source_unit: &'a SourceUnit,
-        namespace: &'a mut Namespace,
     ) -> Compiler<'a, 'ctx> {
         let compiler = Compiler {
             context,
             builder,
             module,
-            source_unit,
-            namespace,
             output_stack: vec![],
             fn_value_opt: None,
             variables: HashMap::new(),
@@ -69,6 +61,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         self.output_stack.push(instruction);
     }
 
+    // todo: change to mir or hir
     fn compile_prototype(
         &mut self,
         fun: &StructFuncDef,

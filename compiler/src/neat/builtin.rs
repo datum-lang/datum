@@ -118,7 +118,6 @@ pub enum GenExpression {
 mod tests {
     use cjc_lexer::Location;
     use cjc_parser::parse_tree::{Expression, ExpressionType};
-
     use crate::builtin::is_builtin_call;
 
     #[test]
