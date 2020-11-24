@@ -1,5 +1,11 @@
 # Charj compiler: Zao
 
+## Workflow
+
+ - Neat mod for transform AST -> HIR
+ - Medium mod for transform HIR -> MIR
+ - Lowerify mod for transform MIR -> LLVM IR
+
 ## Compiler
 
 in Rust design:
