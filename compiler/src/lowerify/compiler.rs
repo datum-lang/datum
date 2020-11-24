@@ -11,7 +11,7 @@ use inkwell::{AddressSpace, OptimizationLevel};
 
 use cjc_codegen::instruction::Instruction;
 use cjc_lexer::Location;
-use cjc_parser::parse_tree::{StructFuncDef};
+use cjc_parser::parse_tree::StructFuncDef;
 
 #[allow(dead_code)]
 pub struct Compiler<'a, 'ctx> {

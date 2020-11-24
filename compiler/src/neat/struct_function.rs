@@ -8,8 +8,6 @@ pub fn struct_function_decl(
     let success = true;
 
     let params = resolve_params(&struct_func_def.params, namespace);
-    // println!("{:?}", params);
-
     let (returns, _return_success) = resolve_returns(&struct_func_def.returns, namespace);
 
     let name = struct_func_def.name.name.to_owned();

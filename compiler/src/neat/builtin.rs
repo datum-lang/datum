@@ -1,11 +1,5 @@
+use cjc_hir::{Builtin, Expression, Type};
 use cjc_lexer::Location;
-use cjc_parser::parse_tree::Type;
-
-#[derive(PartialEq, Clone, Debug)]
-pub enum Builtin {
-    Assert,
-    Print,
-}
 
 #[derive(PartialEq, Clone, Debug)]
 pub struct Prototype {
@@ -69,7 +63,7 @@ pub fn resolve_call(
     namespace: Option<&str>,
     id: &str,
     args: &Vec<cjc_parser::Argument>, // args: &[Expression],
-) -> Result<GenExpression, ()> {
+) -> Result<Expression, ()> {
     let matches = BUILTIN_FUNCTIONS
         .iter()
         .filter(|p| p.name == id && p.namespace == namespace)
@@ -80,11 +74,6 @@ pub fn resolve_call(
         // todo: add parsed express
         resolved_args.push(x);
     }
-    //
-    // let mut cast_args = Vec::new();
-    // for (i, arg) in resolved_args.iter().enumerate() {
-    //     cast_args.push(arg);
-    // }
 
     for func in &matches {
         if func.args.len() != args.len() {
@@ -93,32 +82,21 @@ pub fn resolve_call(
         let matches = true;
 
         if matches {
-            return Ok(GenExpression::Builtin {
+            return Ok(Expression::Builtin {
                 types: func.ret.to_vec(),
                 builtin: func.builtin.clone(),
-                // args: resolved_args,
             });
         }
-        println!("{:?}", func);
     }
 
     Err(())
 }
 
-#[derive(PartialEq, Clone, Debug)]
-pub enum GenExpression {
-    Builtin {
-        types: Vec<Type>,
-        builtin: Builtin,
-        // args: Vec<ExpressionType>,
-    },
-}
-
 #[cfg(test)]
 mod tests {
+    use crate::builtin::is_builtin_call;
     use cjc_lexer::Location;
     use cjc_parser::parse_tree::{Expression, ExpressionType};
-    use crate::builtin::is_builtin_call;
 
     #[test]
     fn should_identify_builtin_print() {

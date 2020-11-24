@@ -35,7 +35,6 @@ fn function_call_expr(
     ns: &mut Namespace,
     symtable: &SymbolTable,
 ) {
-    // todo: add more function call
     method_call(function, args, ns, symtable);
 }
 
