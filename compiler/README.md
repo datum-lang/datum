@@ -3,7 +3,7 @@
 ## Workflow
 
  - Neat mod for transform AST -> HIR
- - Medium mod for transform HIR -> MIR
+ - Medium mod for transform HIR -> MIR (TBD)
  - Lowerify mod for transform MIR -> LLVM IR
 
 ## Compiler

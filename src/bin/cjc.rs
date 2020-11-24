@@ -3,6 +3,7 @@ use compiler::lowerify::compile_program;
 use std::fs::File;
 use std::io::Read;
 use std::path::PathBuf;
+use compiler::parse_and_resolve;
 
 fn main() {
     let matches = App::new("solang")
@@ -25,7 +26,9 @@ fn main() {
                 panic!("failed to read file ‘{}’: {}", filename, e.to_string())
             }
 
-            let _r = compile_program(&*contents, filename);
+            // todo: generate code
+            let namespace = parse_and_resolve(&*contents, filename);
+            // let _r = compile_program(&*contents, filename);
         }
     }
 }
