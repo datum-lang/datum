@@ -16,7 +16,6 @@ use cjc_parser::parse_tree::{
     StructFuncDef,
 };
 
-use crate::statements::statement;
 use crate::symbol_table::SymbolTable;
 use crate::neat::Namespace;
 
@@ -62,103 +61,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             current_source_location: Default::default(),
         };
 
-        compiler.compile_source();
         compiler
-    }
-
-    #[rustfmt::skip]
-    fn compile_source(&mut self) {
-        // todo: add all structs
-        let _structs = self.source_unit.0.iter()
-            .filter_map(|part| {
-                if let SourceUnitPart::StructDef(def) = part {
-                    Some(def)
-                } else {
-                    None
-                }
-            })
-            .enumerate()
-            .map(|(no, def)| (no, def.as_ref()))
-            .collect::<Vec<(usize, &cjc_parser::StructDef)>>();
-
-        // todo: resolve struct function
-        let struct_funcs = self.source_unit.0.iter()
-            .filter_map(|part| {
-                if let SourceUnitPart::StructFuncDef(def) = part {
-                    Some(def)
-                } else {
-                    None
-                }
-            })
-            .enumerate()
-            .map(|(no, def)| (no, def.as_ref()))
-            .collect::<Vec<(usize, &cjc_parser::StructFuncDef)>>();
-
-        // todo: add import support
-        for part in &self.source_unit.0 {
-            match part {
-                SourceUnitPart::ImportDirective(_) => {}
-                _ => {}
-            }
-        }
-
-        let _has_broken = self.resolve(struct_funcs);
-    }
-
-    fn resolve(&mut self, struct_funcs: Vec<(usize, &StructFuncDef)>) -> bool {
-        let mut _broken = false;
-        for (_index, func) in struct_funcs {
-            let _result = self.compile_struct_fn(func);
-        }
-
-        _broken
-    }
-
-    // todo: change to convert hir
-    fn compile_struct_fn(
-        &mut self,
-        func_def: &StructFuncDef,
-    ) -> Result<FunctionValue<'ctx>, &'static str> {
-        let func = self.compile_prototype(func_def)?;
-        if func_def.body.len() == 0 {
-            return Ok(func);
-        }
-
-        let mut res = Vec::new();
-        let mut symtable = SymbolTable::new();
-
-        statement(
-            func_def.body.as_ref(),
-            &mut res,
-            &mut self.namespace,
-            &mut symtable,
-        );
-
-        let entry = self
-            .context
-            .append_basic_block(func, func_def.name.name.as_str());
-
-        self.builder.position_at_end(entry);
-
-        // update fn field
-        self.fn_value_opt = Some(func);
-
-        // build variables map
-        self.variables.reserve(func_def.params.len());
-        for (i, arg) in func.get_param_iter().enumerate() {
-            let arg_name = func_def.params[i].1.as_ref().unwrap().get_name();
-            let alloca = self.create_entry_block_alloca(&*arg_name);
-
-            self.builder.build_store(alloca, arg);
-        }
-
-        self.compile_statement(func_def.body.as_ref());
-
-        if func_def.returns.is_none() {
-            self.emit_void();
-        }
-
-        return Ok(func);
     }
 
     fn emit_void(&mut self) {
@@ -166,81 +69,8 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             .build_return(Some(&self.context.i32_type().const_zero()));
     }
 
-    fn compile_statement(&mut self, body: &Vec<Statement>) {
-        use StatementType::*;
-        for stmt in body {
-            match stmt.node {
-                Break => {}
-                Continue => {}
-                If { .. } => {}
-                While { .. } => {}
-                For { .. } => {}
-                Loop => {}
-                Assign { .. } => {}
-                Variable { .. } => {}
-                Return { .. } => {}
-                Expression {
-                    expr: ref expression,
-                } => {
-                    self.compile_expression(expression);
-                }
-            }
-        }
-    }
-
-    fn compile_expression(&mut self, expression: &Expression) {
-        use ExpressionType::*;
-        match &expression.node {
-            Range { .. } => {}
-            BoolOp { .. } => {}
-            Binop { .. } => {}
-            Unop { .. } => {}
-            String { value } => {
-                self.emit(Instruction::LoadConst {
-                    value: Constant::String {
-                        value: value.to_string(),
-                    },
-                });
-            }
-            Number { .. } => {}
-            List { .. } => {}
-            Bool { .. } => {}
-            Identifier { name: _ } => {
-                // self.emit();
-            }
-            Type { .. } => {}
-            Attribute { value, name: _ } => {
-                self.compile_expression(value);
-            }
-            Call { function, args, .. } => self.function_call_expr(function, args),
-            SimpleCompare { .. } => {}
-            Compare { .. } => {}
-        };
-    }
-
     fn emit(&mut self, instruction: Instruction) {
         self.output_stack.push(instruction);
-    }
-
-    fn function_call_expr(&mut self, expr: &Box<Expression>, args: &Vec<Argument>) {
-        self.compile_expression(expr);
-
-        // todo: refactor to better patterns
-        let mut callee = "".to_string();
-        if let ExpressionType::Identifier { name } = &expr.node {
-            callee = name.to_owned().name;
-        };
-
-        match self.get_function(callee.as_str()) {
-            None => {}
-            Some(_func) => {
-                for x in args.iter() {
-                    self.compile_expression(&x.expr);
-                }
-
-                self.emit_print(&"hello", "hello, world!\n");
-            }
-        };
     }
 
     fn compile_prototype(

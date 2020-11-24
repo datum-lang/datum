@@ -1,8 +1,9 @@
 use clap::{App, Arg};
-use compiler::compile_program;
+use compiler::lowerify;
 use std::fs::File;
 use std::io::Read;
 use std::path::PathBuf;
+use compiler::lowerify::compile_program;
 
 fn main() {
     let matches = App::new("solang")
