@@ -14,13 +14,3 @@ pub mod statements;
 pub mod struct_function;
 pub mod symbol_table;
 pub mod unit;
-
-#[cfg(test)]
-mod test {
-    use crate::neat::program::program;
-
-    #[test]
-    fn init() {
-        let _result = program("default$main() {println(\"hello,world\")}", "hello.cj");
-    }
-}

@@ -65,14 +65,5 @@ pub fn resolve_struct_functions(
         statements::resolve_function_body(def, namespace, index);
     }
 
-    // resolve_bodies(function_bodies, namespace);
-    println!("{:?}", namespace);
-
     _broken
 }
-//
-// pub fn resolve_bodies(bodies: Vec<&StructFuncDef>, namespace: &mut Namespace) {
-//     for def in bodies {
-//         statements::resolve_function_body(def, namespace, 0);
-//     }
-// }

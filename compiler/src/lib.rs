@@ -3,3 +3,40 @@ pub use neat::*;
 pub mod lowerify;
 pub mod medium;
 pub mod neat;
+
+pub fn parse_and_resolve(input: &str, filename: &str) -> Namespace {
+    let mut namespace = Namespace::new();
+    namespace.files.push(filename.to_string());
+
+    program(input, filename, &mut namespace);
+    namespace
+}
+
+#[cfg(test)]
+mod test {
+    use crate::parse_and_resolve;
+    use cjc_hir::{Expression, Statement};
+
+    #[test]
+    #[rustfmt::skip]
+    fn should_build_print_builtin() {
+        let ns = parse_and_resolve("default$main() {println(\"hello,world\")}", "hello.cj");
+        assert_eq!(1, ns.functions.len());
+        assert_eq!(1, ns.functions[0].body.len());
+
+        let mut is_print_builtin = false;
+        let statement = &ns.functions[0].body[0];
+        if let Statement::Expression { location: _, expression } = statement {
+            match expression {
+                Expression::Builtin { types: _, builtin, args: _ } => {
+                    if *builtin == cjc_hir::Builtin::Print {
+                        is_print_builtin = true;
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        assert_eq!(true, is_print_builtin);
+    }
+}
