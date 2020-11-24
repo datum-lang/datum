@@ -1,10 +1,11 @@
-use cjc_hir::StructDecl;
+use cjc_hir::{StructDecl, Function};
 use cjc_parser::ExpressionType;
 
 pub struct Namespace {
     // todo: add diagnostics
     pub files: Vec<String>,
     pub structs: Vec<StructDecl>,
+    pub functions: Vec<Function>,
 }
 
 impl Namespace {
@@ -12,6 +13,7 @@ impl Namespace {
         Namespace {
             files: vec![],
             structs: vec![],
+            functions: vec![]
         }
     }
 

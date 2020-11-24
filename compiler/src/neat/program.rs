@@ -1,5 +1,4 @@
 use cjc_parser::parser::parse_program;
-use cjc_parser::SourceUnit;
 use crate::neat::unit::resolve_unit;
 use crate::neat::Namespace;
 

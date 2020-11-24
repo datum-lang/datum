@@ -1,6 +1,7 @@
 use cjc_parser::{SourceUnit, SourceUnitPart, StructFuncDef};
-use crate::neat::struct_function::struct_function;
-use crate::neat::Namespace;
+
+use crate::neat::{Namespace, statements};
+use crate::neat::struct_function::struct_function_decl;
 
 pub fn resolve_unit(unit: SourceUnit, namespace: &mut Namespace) {
     let _structs = unit.0.iter()
@@ -41,9 +42,29 @@ pub fn resolve_unit(unit: SourceUnit, namespace: &mut Namespace) {
 
 pub fn resolve_struct_functions(struct_funcs: Vec<(usize, &StructFuncDef)>, namespace: &mut Namespace) -> bool {
     let mut _broken = false;
+
+    // let mut function_no_bodies = Vec::new();
+    let mut function_bodies = Vec::new();
+
     for (_index, func) in struct_funcs {
-        let _result = struct_function(func, namespace);
+        struct_function_decl(func, namespace);
+        if func.body.is_empty() {
+
+        } else {
+            function_bodies.push(func);
+        }
     }
 
+    resolve_bodies(function_bodies, namespace);
+
     _broken
+}
+
+pub fn resolve_bodies(
+    bodies: Vec<&StructFuncDef>,
+    namespace: &mut Namespace,
+) {
+    for def in bodies {
+        statements::resolve_function_body(def, namespace);
+    }
 }

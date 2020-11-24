@@ -1,7 +1,7 @@
 use crate::neat::Namespace;
 use cjc_hir::{Parameter, Function};
 
-pub fn struct_function(struct_func_def: &cjc_parser::StructFuncDef, namespace: &mut Namespace) -> bool {
+pub fn struct_function_decl(struct_func_def: &cjc_parser::StructFuncDef, namespace: &mut Namespace) -> bool {
     let mut success = true;
 
     let params = resolve_params(&struct_func_def.params, namespace);
@@ -12,7 +12,8 @@ pub fn struct_function(struct_func_def: &cjc_parser::StructFuncDef, namespace: &
     let name = struct_func_def.name.name.to_owned();
 
     let function = Function::new(name, params, returns);
-    println!("{:?}", function);
+
+    namespace.functions.push(function);
 
     success
 }
