@@ -39,7 +39,7 @@ mod test {
     #[test]
     #[rustfmt::skip]
     fn init_parser() {
-        let result = compile_program(
+        let _result = compile_program(
             "default$main() {println(\"hello,world\")}",
             "hello.cj",
         );

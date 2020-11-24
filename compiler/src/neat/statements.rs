@@ -25,7 +25,7 @@ pub fn statement(
             cjc_parser::StatementType::Variable { .. } => {}
             cjc_parser::StatementType::Return { .. } => {}
             cjc_parser::StatementType::Expression { expr } => {
-                expression(&expr, namespace, symbol_table);
+                let _r = expression(&expr, namespace, symbol_table);
             }
         }
     }

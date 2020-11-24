@@ -9,14 +9,10 @@ use inkwell::types::{BasicTypeEnum, IntType};
 use inkwell::values::{BasicValue, FunctionValue, PointerValue};
 use inkwell::{AddressSpace, OptimizationLevel};
 
-use cjc_codegen::instruction::{Constant, Instruction};
+use cjc_codegen::instruction::{Instruction};
 use cjc_lexer::Location;
-use cjc_parser::parse_tree::{
-    Argument, Expression, ExpressionType, SourceUnit, SourceUnitPart, Statement, StatementType,
-    StructFuncDef,
-};
+use cjc_parser::parse_tree::{SourceUnit, StructFuncDef};
 
-use crate::symbol_table::SymbolTable;
 use crate::neat::Namespace;
 
 #[allow(dead_code)]
@@ -49,7 +45,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
         source_unit: &'a SourceUnit,
         namespace: &'a mut Namespace,
     ) -> Compiler<'a, 'ctx> {
-        let mut compiler = Compiler {
+        let compiler = Compiler {
             context,
             builder,
             module,

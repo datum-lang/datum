@@ -22,7 +22,7 @@ impl Namespace {
     }
 
     pub fn expr_to_type<'a>(&mut self, expr: &'a cjc_parser::Expression,) {
-        let mut expr = expr;
+        let expr = expr;
         match expr.node {
             ExpressionType::Call { .. } => {}
             _ => {

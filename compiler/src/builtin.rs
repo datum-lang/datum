@@ -1,5 +1,5 @@
 use cjc_lexer::Location;
-use cjc_parser::parse_tree::{Expression, Type};
+use cjc_parser::parse_tree::{Type};
 
 #[derive(PartialEq, Clone, Debug)]
 pub enum Builtin {
@@ -120,7 +120,7 @@ mod tests {
     use cjc_lexer::Location;
     use cjc_parser::parse_tree::{Expression, ExpressionType};
 
-    use crate::builtin::{is_builtin_call, resolve_call};
+    use crate::builtin::{is_builtin_call};
 
     #[test]
     fn should_identify_builtin_print() {

@@ -2,12 +2,12 @@ use crate::neat::Namespace;
 use cjc_hir::{Parameter, Function};
 
 pub fn struct_function_decl(struct_func_def: &cjc_parser::StructFuncDef, namespace: &mut Namespace) -> bool {
-    let mut success = true;
+    let success = true;
 
     let params = resolve_params(&struct_func_def.params, namespace);
     // println!("{:?}", params);
 
-    let (returns, return_success) = resolve_returns(&struct_func_def.returns, namespace);
+    let (returns, _return_success) = resolve_returns(&struct_func_def.returns, namespace);
 
     let name = struct_func_def.name.name.to_owned();
 
@@ -18,9 +18,9 @@ pub fn struct_function_decl(struct_func_def: &cjc_parser::StructFuncDef, namespa
     success
 }
 
-pub fn resolve_returns(_returns: &Option<cjc_parser::Expression>, namespace: &mut Namespace) -> (Vec<Parameter>, bool) {
-    let mut resolved_returns = Vec::new();
-    let mut success = true;
+pub fn resolve_returns(_returns: &Option<cjc_parser::Expression>, _namespace: &mut Namespace) -> (Vec<Parameter>, bool) {
+    let resolved_returns = Vec::new();
+    let success = true;
 
     (resolved_returns, success)
 }

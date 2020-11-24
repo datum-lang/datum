@@ -21,7 +21,7 @@ mod test {
 
     #[test]
     fn init() {
-        let result = program(
+        let _result = program(
             "default$main() {println(\"hello,world\")}",
             "hello.cj",
         );

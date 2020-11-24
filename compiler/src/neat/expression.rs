@@ -42,8 +42,8 @@ fn function_call_expr(
 fn method_call(
     var: &Box<cjc_parser::Expression>,
     args: &Vec<Argument>,
-    ns: &mut Namespace,
-    symtable: &SymbolTable,
+    _ns: &mut Namespace,
+    _symtable: &SymbolTable,
 ) {
     match &var.node {
         ExpressionType::Identifier { name } => {
