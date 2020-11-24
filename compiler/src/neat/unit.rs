@@ -53,25 +53,26 @@ pub fn resolve_struct_functions(
     // let mut function_no_bodies = Vec::new();
     let mut function_bodies = Vec::new();
 
-    for (_index, func) in struct_funcs {
+    for (index, func) in struct_funcs {
         struct_function_decl(func, namespace);
         if func.body.is_empty() {
         } else {
-            function_bodies.push(func);
+            function_bodies.push((index, func));
         }
     }
 
-    for def in function_bodies {
-        statements::resolve_function_body(def, namespace);
+    for (index, def) in function_bodies {
+        statements::resolve_function_body(def, namespace, index);
     }
 
     // resolve_bodies(function_bodies, namespace);
+    println!("{:?}", namespace);
 
     _broken
 }
-
-pub fn resolve_bodies(bodies: Vec<&StructFuncDef>, namespace: &mut Namespace) {
-    for def in bodies {
-        statements::resolve_function_body(def, namespace);
-    }
-}
+//
+// pub fn resolve_bodies(bodies: Vec<&StructFuncDef>, namespace: &mut Namespace) {
+//     for def in bodies {
+//         statements::resolve_function_body(def, namespace, 0);
+//     }
+// }

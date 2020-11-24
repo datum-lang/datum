@@ -14,7 +14,10 @@ pub fn expression(
         ExpressionType::BoolOp { .. } => Ok(cjc_hir::Expression::Placeholder),
         ExpressionType::Binop { .. } => Ok(cjc_hir::Expression::Placeholder),
         ExpressionType::Unop { .. } => Ok(cjc_hir::Expression::Placeholder),
-        ExpressionType::String { .. } => Ok(cjc_hir::Expression::Placeholder),
+        ExpressionType::String { value } => Ok(cjc_hir::Expression::StringLiteral {
+            location: *&expr.location,
+            value: value.to_string(),
+        }),
         ExpressionType::Bool { .. } => Ok(cjc_hir::Expression::Placeholder),
         ExpressionType::Number { .. } => Ok(cjc_hir::Expression::Placeholder),
         ExpressionType::List { .. } => Ok(cjc_hir::Expression::Placeholder),
@@ -34,7 +37,7 @@ fn function_call_expr(
     function: &Box<cjc_parser::Expression>,
     args: &Vec<Argument>,
     ns: &mut Namespace,
-    symtable: &SymbolTable,
+    symtable: &mut SymbolTable,
 ) -> Result<Expression, ()> {
     method_call(function, args, ns, symtable)
 }
@@ -42,14 +45,15 @@ fn function_call_expr(
 fn method_call(
     var: &Box<cjc_parser::Expression>,
     args: &Vec<Argument>,
-    _ns: &mut Namespace,
-    _symtable: &SymbolTable,
+    ns: &mut Namespace,
+    symbol_table: &mut SymbolTable,
 ) -> Result<Expression, ()> {
     match &var.node {
         ExpressionType::Identifier { name } => {
             let is_builtin = builtin::is_builtin_call(None, &*name.name);
             if is_builtin {
-                let result = builtin::resolve_call(&*name.name, None, &*name.name, args);
+                let result =
+                    builtin::resolve_call(&*name.name, None, ns, &*name.name, args, symbol_table);
                 return result;
             }
         }

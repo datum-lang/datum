@@ -1,6 +1,7 @@
 use cjc_hir::{Function, StructDecl};
 use cjc_parser::ExpressionType;
 
+#[derive(Debug)]
 pub struct Namespace {
     // todo: add diagnostics
     pub files: Vec<String>,

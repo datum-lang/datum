@@ -10,6 +10,11 @@ pub enum Builtin {
 #[derive(Clone, Debug)]
 pub enum Expression {
     Placeholder,
+    // todo: thinking in change to bytes
+    StringLiteral {
+        location: Location,
+        value: String,
+    },
     BytesLiteral {
         location: Location,
         ty: Type,
@@ -23,5 +28,6 @@ pub enum Expression {
     Builtin {
         types: Vec<Type>,
         builtin: Builtin,
+        args: Vec<Expression>,
     },
 }

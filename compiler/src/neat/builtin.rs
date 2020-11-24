@@ -1,3 +1,5 @@
+use crate::symbol_table::SymbolTable;
+use crate::{expression, Namespace};
 use cjc_hir::{Builtin, Expression, Type};
 use cjc_lexer::Location;
 
@@ -61,8 +63,10 @@ pub fn is_builtin_call(namespace: Option<&str>, fname: &str) -> bool {
 pub fn resolve_call(
     _name: &str,
     namespace: Option<&str>,
+    ns: &mut Namespace,
     id: &str,
     args: &Vec<cjc_parser::Argument>, // args: &[Expression],
+    symbol_table: &mut SymbolTable,
 ) -> Result<Expression, ()> {
     let matches = BUILTIN_FUNCTIONS
         .iter()
@@ -70,9 +74,9 @@ pub fn resolve_call(
         .collect::<Vec<&Prototype>>();
 
     let mut resolved_args = Vec::new();
-    for x in args {
-        // todo: add parsed express
-        resolved_args.push(x);
+    for arg in args {
+        let expr = expression::expression(&arg.expr, ns, symbol_table)?;
+        resolved_args.push(expr);
     }
 
     for func in &matches {
@@ -85,6 +89,7 @@ pub fn resolve_call(
             return Ok(Expression::Builtin {
                 types: func.ret.to_vec(),
                 builtin: func.builtin.clone(),
+                args: resolved_args,
             });
         }
     }

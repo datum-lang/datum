@@ -4,11 +4,17 @@ use crate::symbol_table::SymbolTable;
 use cjc_hir::Statement;
 use cjc_parser::StructFuncDef;
 
-pub fn resolve_function_body(func_def: &StructFuncDef, namespace: &mut Namespace) {
+pub fn resolve_function_body(
+    func_def: &StructFuncDef,
+    namespace: &mut Namespace,
+    function_no: usize,
+) {
     let mut res = Vec::new();
     let mut symbol_table = SymbolTable::new();
 
     statement(&func_def.body, &mut res, namespace, &mut symbol_table);
+
+    namespace.functions[function_no].body = res;
 }
 
 pub fn statement(
