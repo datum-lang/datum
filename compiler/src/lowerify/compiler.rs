@@ -9,7 +9,7 @@ use inkwell::types::{BasicTypeEnum, IntType};
 use inkwell::values::{BasicValue, FunctionValue, PointerValue};
 use inkwell::{AddressSpace, OptimizationLevel};
 
-use cjc_codegen::instruction::{Instruction};
+use cjc_codegen::instruction::Instruction;
 use cjc_lexer::Location;
 use cjc_parser::parse_tree::{SourceUnit, StructFuncDef};
 

@@ -1,6 +1,6 @@
-use cjc_parser::parser::parse_program;
 use crate::neat::unit::resolve_unit;
 use crate::neat::Namespace;
+use cjc_parser::parser::parse_program;
 
 pub fn program(input: &str, filename: &str) {
     let mut namespace = Namespace::new();
@@ -21,9 +21,6 @@ mod test {
 
     #[test]
     fn init() {
-        let _result = program(
-            "default$main() {println(\"hello,world\")}",
-            "hello.cj",
-        );
+        let _result = program("default$main() {println(\"hello,world\")}", "hello.cj");
     }
 }

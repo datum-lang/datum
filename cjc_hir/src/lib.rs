@@ -1,10 +1,10 @@
+use cjc_lexer::Loc;
 pub use expression::*;
 pub use function::*;
 pub use hir::*;
 pub use statement::*;
 pub use struct_def::*;
 pub use types::*;
-use cjc_lexer::Loc;
 
 pub mod expression;
 pub mod function;

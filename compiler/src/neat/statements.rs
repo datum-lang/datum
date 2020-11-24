@@ -1,7 +1,7 @@
-use cjc_parser::{StructFuncDef};
-use crate::neat::Namespace;
 use crate::neat::expression::expression;
+use crate::neat::Namespace;
 use crate::symbol_table::SymbolTable;
+use cjc_parser::StructFuncDef;
 
 pub fn resolve_function_body(func_def: &StructFuncDef, namespace: &mut Namespace) {
     let mut symbol_table = SymbolTable::new();

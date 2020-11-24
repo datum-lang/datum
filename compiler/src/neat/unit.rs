@@ -1,10 +1,12 @@
 use cjc_parser::{SourceUnit, SourceUnitPart, StructFuncDef};
 
-use crate::neat::{Namespace, statements};
 use crate::neat::struct_function::struct_function_decl;
+use crate::neat::{statements, Namespace};
 
 pub fn resolve_unit(unit: SourceUnit, namespace: &mut Namespace) {
-    let _structs = unit.0.iter()
+    let _structs = unit
+        .0
+        .iter()
         .filter_map(|part| {
             if let SourceUnitPart::StructDef(def) = part {
                 Some(def)
@@ -17,7 +19,9 @@ pub fn resolve_unit(unit: SourceUnit, namespace: &mut Namespace) {
         .collect::<Vec<(usize, &cjc_parser::StructDef)>>();
 
     // todo: resolve struct function
-    let struct_funcs = unit.0.iter()
+    let struct_funcs = unit
+        .0
+        .iter()
         .filter_map(|part| {
             if let SourceUnitPart::StructFuncDef(def) = part {
                 Some(def)
@@ -40,7 +44,10 @@ pub fn resolve_unit(unit: SourceUnit, namespace: &mut Namespace) {
     resolve_struct_functions(struct_funcs, namespace);
 }
 
-pub fn resolve_struct_functions(struct_funcs: Vec<(usize, &StructFuncDef)>, namespace: &mut Namespace) -> bool {
+pub fn resolve_struct_functions(
+    struct_funcs: Vec<(usize, &StructFuncDef)>,
+    namespace: &mut Namespace,
+) -> bool {
     let mut _broken = false;
 
     // let mut function_no_bodies = Vec::new();
@@ -49,7 +56,6 @@ pub fn resolve_struct_functions(struct_funcs: Vec<(usize, &StructFuncDef)>, name
     for (_index, func) in struct_funcs {
         struct_function_decl(func, namespace);
         if func.body.is_empty() {
-
         } else {
             function_bodies.push(func);
         }
@@ -60,10 +66,7 @@ pub fn resolve_struct_functions(struct_funcs: Vec<(usize, &StructFuncDef)>, name
     _broken
 }
 
-pub fn resolve_bodies(
-    bodies: Vec<&StructFuncDef>,
-    namespace: &mut Namespace,
-) {
+pub fn resolve_bodies(bodies: Vec<&StructFuncDef>, namespace: &mut Namespace) {
     for def in bodies {
         statements::resolve_function_body(def, namespace);
     }

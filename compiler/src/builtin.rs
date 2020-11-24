@@ -1,5 +1,5 @@
 use cjc_lexer::Location;
-use cjc_parser::parse_tree::{Type};
+use cjc_parser::parse_tree::Type;
 
 #[derive(PartialEq, Clone, Debug)]
 pub enum Builtin {
@@ -68,8 +68,7 @@ pub fn resolve_call(
     _name: &str,
     namespace: Option<&str>,
     id: &str,
-    args: &Vec<cjc_parser::Argument>
-    // args: &[Expression],
+    args: &Vec<cjc_parser::Argument>, // args: &[Expression],
 ) -> Result<GenExpression, ()> {
     let matches = BUILTIN_FUNCTIONS
         .iter()
@@ -120,7 +119,7 @@ mod tests {
     use cjc_lexer::Location;
     use cjc_parser::parse_tree::{Expression, ExpressionType};
 
-    use crate::builtin::{is_builtin_call};
+    use crate::builtin::is_builtin_call;
 
     #[test]
     fn should_identify_builtin_print() {

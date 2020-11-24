@@ -1,4 +1,4 @@
-use cjc_hir::{StructDecl, Function};
+use cjc_hir::{Function, StructDecl};
 use cjc_parser::ExpressionType;
 
 pub struct Namespace {
@@ -13,7 +13,7 @@ impl Namespace {
         Namespace {
             files: vec![],
             structs: vec![],
-            functions: vec![]
+            functions: vec![],
         }
     }
 
@@ -21,7 +21,7 @@ impl Namespace {
         self.expr_to_type(&id);
     }
 
-    pub fn expr_to_type<'a>(&mut self, expr: &'a cjc_parser::Expression,) {
+    pub fn expr_to_type<'a>(&mut self, expr: &'a cjc_parser::Expression) {
         let expr = expr;
         match expr.node {
             ExpressionType::Call { .. } => {}

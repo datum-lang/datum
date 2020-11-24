@@ -1,8 +1,8 @@
 pub mod compiler;
-use crate::neat::Namespace;
-use inkwell::context::Context;
-use cjc_parser::parser::parse_program;
 use crate::lowerify::compiler::Compiler;
+use crate::neat::Namespace;
+use cjc_parser::parser::parse_program;
+use inkwell::context::Context;
 
 pub fn compile_program(input: &str, filename: &str) -> Result<String, ()> {
     let mut namespace = Namespace::new();

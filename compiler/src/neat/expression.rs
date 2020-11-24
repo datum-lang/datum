@@ -1,7 +1,7 @@
+use crate::builtin;
+use crate::neat::Namespace;
 use crate::symbol_table::SymbolTable;
 use cjc_parser::{Argument, ExpressionType};
-use crate::neat::Namespace;
-use crate::builtin;
 
 pub fn expression(
     expr: &cjc_parser::Expression,
