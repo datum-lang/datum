@@ -4,13 +4,22 @@
 
 > A easy maintain(read/write) language for transform **from**/**to** other languages.
 
-Usecases samples:
+Design for:
 
  - legacy system migration.
- - domain model design for languages.
- - compile languages. for examples, JavaScript to WASM.
- - visualize architecture.
- - a quick DSL maker's infrastructure. (TBD)
+ - multiple-targets compiled languages. (by LLVM)
+ - quick pseudocode.
+ - simple DSL design. (TBD)
+     - domain model design for languages.
+     - visualize architecture.
+
+examples:
+
+ - JavaScript/Java to WASM
+
+TBD:
+
+ - C++ to Charj. (partially support)
 
 ## Development
 
