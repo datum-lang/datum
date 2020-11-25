@@ -9,7 +9,6 @@ use inkwell::types::{BasicTypeEnum, IntType};
 use inkwell::values::{BasicValue, FunctionValue, PointerValue};
 use inkwell::{AddressSpace, OptimizationLevel};
 
-use cjc_codegen::instruction::Instruction;
 use cjc_lexer::Location;
 use cjc_parser::parse_tree::StructFuncDef;
 
@@ -19,7 +18,6 @@ pub struct Compiler<'a, 'ctx> {
     pub builder: &'a Builder<'ctx>,
     pub module: &'a Module<'ctx>,
 
-    output_stack: Vec<Instruction>,
     variables: HashMap<String, PointerValue<'ctx>>,
     fn_value_opt: Option<FunctionValue<'ctx>>,
     current_source_location: Location,
@@ -43,7 +41,7 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
             context,
             builder,
             module,
-            output_stack: vec![],
+
             fn_value_opt: None,
             variables: HashMap::new(),
             current_source_location: Default::default(),
@@ -55,10 +53,6 @@ impl<'a, 'ctx> Compiler<'a, 'ctx> {
     fn emit_void(&mut self) {
         self.builder
             .build_return(Some(&self.context.i32_type().const_zero()));
-    }
-
-    fn emit(&mut self, instruction: Instruction) {
-        self.output_stack.push(instruction);
     }
 
     // todo: change to mir or hir

@@ -1,12 +1,6 @@
-use std::panic::Location;
-
+use crate::basic_block::BasicBlock;
+use cjc_lexer::Location;
 use crate::instruction::Instruction;
-
-#[derive(Clone)]
-pub struct BasicBlock {
-    pub name: String,
-    pub instructions: Vec<Instruction>,
-}
 
 #[derive(Clone)]
 pub struct ControlFlowGraph {

@@ -1,5 +1,4 @@
 use clap::{App, Arg};
-use compiler::lowerify::compile_program;
 use std::fs::File;
 use std::io::Read;
 use std::path::PathBuf;
@@ -27,7 +26,7 @@ fn main() {
             }
 
             // todo: generate code
-            let namespace = parse_and_resolve(&*contents, filename);
+            let _namespace = parse_and_resolve(&*contents, filename);
             // let _r = compile_program(&*contents, filename);
         }
     }
