@@ -16,6 +16,7 @@ pub enum MIRKind {
 
     },
     Return,
+    JMP,    //?
 }
 
 pub enum ExprKind {

@@ -43,4 +43,5 @@ members = [
     "cjc_codegen",
     "cjc_hir",
     "cjc_mir",
+    "cjc_ir_pretty",  # output IR for debug
 ]
