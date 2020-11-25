@@ -25,6 +25,16 @@ TBD:
 
 see in [DEVELOPMENT.md](DEVELOPMENT.md)
 
+Roadmap：
+
+ - [ ] implementation basic compiler logic
+     - [x] hir convert (neat)
+        - [ ] optimized
+            - [ ] parameter value to vars
+     - [ ] mir convert (medium)
+     - [ ] to LLVM     (codegen)
+ - [ ] implementation grammars
+
 ## Roadmap
 
 see in [ROADMAP.md](ROADMAP.md)
