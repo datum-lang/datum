@@ -1,6 +1,6 @@
 use crate::basic_block::BasicBlock;
 use cjc_lexer::Location;
-use crate::instruction::Instruction;
+use crate::instruction::MIRKind;
 
 #[derive(Clone)]
 pub struct ControlFlowGraph {
@@ -14,7 +14,7 @@ impl ControlFlowGraph {
         ControlFlowGraph { name, block }
     }
 
-    fn emit(&mut self, instruction: Instruction, _location: Location) {
+    fn emit(&mut self, instruction: MIRKind, _location: Location) {
         self.block.instructions.push(instruction);
     }
 }

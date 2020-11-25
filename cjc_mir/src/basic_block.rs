@@ -1,7 +1,7 @@
-use crate::instruction::Instruction;
+use crate::instruction::MIRKind;
 
 #[derive(Clone)]
 pub struct BasicBlock {
     pub name: String,
-    pub instructions: Vec<Instruction>,
+    pub instructions: Vec<MIRKind>,
 }

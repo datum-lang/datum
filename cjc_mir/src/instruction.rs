@@ -11,17 +11,17 @@ pub enum Constant {
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub enum Instruction {
-    ImportFrom {
-        name: String,
+pub enum MIRKind {
+    Call {
+
     },
-    LoadName {
-        name: String,
-    },
-    LoadConst {
-        value: Constant,
-    },
-    CallFunction {
-        // expr: Expression,
-    }
+    Return,
+}
+
+pub enum ExprKind {
+
+}
+
+pub enum TerminatorKind {
+
 }
