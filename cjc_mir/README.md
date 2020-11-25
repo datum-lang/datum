@@ -9,3 +9,15 @@ Key MIR vocabulary
  - Basic blocks: units of the control-flow graph, consisting of:
     - statements: actions with one successor
     - terminators: actions with potentially multiple successors; always at the end of a block
+
+## Python Samples
+
+```rust
+LoadName { name: "print", scope: Free },
+LoadConst { value: String { value: "hello,world" } },
+CallFunction { typ: Positional(1) },
+
+Pop,
+LoadConst { value: None },
+ReturnValue
+```
