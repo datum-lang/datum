@@ -26,6 +26,7 @@ pub enum Expression {
         args: Vec<Expression>,
     },
     Builtin {
+        location: Location,
         types: Vec<Type>,
         builtin: Builtin,
         args: Vec<Expression>,

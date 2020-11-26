@@ -53,7 +53,7 @@ fn method_call(
             let is_builtin = builtin::is_builtin_call(None, &*name.name);
             if is_builtin {
                 let result =
-                    builtin::resolve_call(&*name.name, None, ns, &*name.name, args, symbol_table);
+                    builtin::resolve_call(&var.location, None, ns, &*name.name, args, symbol_table);
                 return result;
             }
         }

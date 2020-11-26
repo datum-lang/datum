@@ -37,7 +37,7 @@ mod test {
         let statement = &ns.functions[0].body[0];
         if let Statement::Expression { location: _, expression } = statement {
             match expression {
-                Expression::Builtin { types: _, builtin, args: _ } => {
+                Expression::Builtin { location: _, types: _, builtin, args: _ } => {
                     if *builtin == cjc_hir::Builtin::Print {
                         is_print_builtin = true;
                     }
@@ -48,10 +48,10 @@ mod test {
 
         assert_eq!(true, is_print_builtin);
     }
+
     #[test]
     #[rustfmt::skip]
     fn should_call_meanify() {
         let ns = process_string("default$main() {println(\"hello,world\")}", "hello.cj");
-
     }
 }

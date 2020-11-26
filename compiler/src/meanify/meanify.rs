@@ -1,5 +1,6 @@
 use crate::{ControlFlowGraph, Namespace};
 use cjc_hir::{Builtin, Expression, Function, Statement};
+use cjc_mir::instruction::MIRKind;
 
 pub fn meanify(ns: &mut Namespace) {
     let mut cfg_no = 0;
@@ -53,6 +54,7 @@ pub fn expression_cfg(expr: &Expression, cfg: &mut ControlFlowGraph, ns: &Namesp
         Expression::BytesLiteral { .. } => Expression::Placeholder,
         Expression::InternalFunctionCall { .. } => Expression::Placeholder,
         Expression::Builtin {
+            location,
             types,
             builtin,
             args,
@@ -61,6 +63,7 @@ pub fn expression_cfg(expr: &Expression, cfg: &mut ControlFlowGraph, ns: &Namesp
             Builtin::Print => {
                 println!("{:?}", &args[0]);
                 let expr = expression_cfg(&args[0], cfg, ns);
+                // cfg.emit(MIRKind::Call {});
                 expr
             }
         },

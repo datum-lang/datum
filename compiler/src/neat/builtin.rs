@@ -49,19 +49,14 @@ pub enum Symbol {
     Import(Location, usize),
 }
 
-/// Does function call match builtin
 pub fn is_builtin_call(namespace: Option<&str>, fname: &str) -> bool {
     BUILTIN_FUNCTIONS
         .iter()
         .any(|p| p.name == fname && p.namespace == namespace)
 }
 
-/// Resolve a builtin method call. The takes the unresolved arguments, since it has
-/// to handle the special case "fmt.print("hello,world")" where the
-/// second argument is a type list. The generic expression resolver cannot deal with
-/// this. It is only used in for this specific call.
 pub fn resolve_call(
-    _name: &str,
+    location: &Location,
     namespace: Option<&str>,
     ns: &mut Namespace,
     id: &str,
@@ -87,6 +82,7 @@ pub fn resolve_call(
 
         if matches {
             return Ok(Expression::Builtin {
+                location: location.to_owned(),
                 types: func.ret.to_vec(),
                 builtin: func.builtin.clone(),
                 args: resolved_args,

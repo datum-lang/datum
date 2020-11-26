@@ -6,7 +6,7 @@ use cjc_mir::instruction::MIRKind;
 #[derive(Clone)]
 pub struct ControlFlowGraph {
     pub name: String,
-    pub block: BasicBlock,
+    pub basic_block: BasicBlock,
     pub params: Vec<Parameter>,
     pub returns: Vec<Parameter>,
 }
@@ -16,7 +16,7 @@ impl ControlFlowGraph {
     pub fn new(name: String) -> Self {
         ControlFlowGraph {
             name,
-            block: Default::default(),
+            basic_block: Default::default(),
             params: vec![],
             returns: vec![],
         }
@@ -25,13 +25,15 @@ impl ControlFlowGraph {
     pub fn placeholder() -> Self {
         ControlFlowGraph {
             name: "".to_string(),
-            block: Default::default(),
+            basic_block: Default::default(),
             params: vec![],
             returns: vec![],
         }
     }
 
-    fn emit(&mut self, instruction: MIRKind, _location: Location) {
-        self.block.instructions.push(instruction);
+    pub fn add(&mut self, instruction: MIRKind) {}
+
+    pub fn emit(&mut self, instruction: MIRKind, _location: Location) {
+        self.basic_block.instructions.push(instruction);
     }
 }
