@@ -1,7 +1,7 @@
+use cjc_hir::Parameter;
 use cjc_lexer::Location;
 use cjc_mir::basic_block::BasicBlock;
 use cjc_mir::instruction::MIRKind;
-use cjc_hir::Parameter;
 
 #[derive(Clone)]
 pub struct ControlFlowGraph {
@@ -18,7 +18,7 @@ impl ControlFlowGraph {
             name,
             block: Default::default(),
             params: vec![],
-            returns: vec![]
+            returns: vec![],
         }
     }
 
@@ -27,7 +27,7 @@ impl ControlFlowGraph {
             name: "".to_string(),
             block: Default::default(),
             params: vec![],
-            returns: vec![]
+            returns: vec![],
         }
     }
 

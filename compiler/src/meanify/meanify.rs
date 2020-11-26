@@ -1,5 +1,5 @@
 use crate::{ControlFlowGraph, Namespace};
-use cjc_hir::{Function, Statement};
+use cjc_hir::{Builtin, Expression, Function, Statement};
 
 pub fn meanify(ns: &mut Namespace) {
     let mut cfg_no = 0;
@@ -9,8 +9,8 @@ pub fn meanify(ns: &mut Namespace) {
     all_cfg.resize(cfg_no, ControlFlowGraph::placeholder());
 
     let function_no = 0;
-    for cfg in all_cfg {
-        function_cfg(function_no, ns );
+    for _cfg in all_cfg {
+        function_cfg(function_no, ns);
     }
 }
 
@@ -35,11 +35,34 @@ pub fn statement_cfg(
 ) {
     match stmt {
         Statement::VariableDecl { location } => {
-            println!("{:?}", location);
+            // todo
         }
-        Statement::Expression { location, expression } => {
-            println!("{:?}", location);
-            println!("{:?}", expression);
+        Statement::Expression {
+            location,
+            expression: expr,
+        } => {
+            expression_cfg(expr, cfg, ns);
         }
+    }
+}
+
+pub fn expression_cfg(expr: &Expression, cfg: &mut ControlFlowGraph, ns: &Namespace) -> Expression {
+    match expr {
+        Expression::Placeholder => Expression::Placeholder,
+        Expression::StringLiteral { .. } => Expression::Placeholder,
+        Expression::BytesLiteral { .. } => Expression::Placeholder,
+        Expression::InternalFunctionCall { .. } => Expression::Placeholder,
+        Expression::Builtin {
+            types,
+            builtin,
+            args,
+        } => match builtin {
+            Builtin::Assert => Expression::Placeholder,
+            Builtin::Print => {
+                println!("{:?}", &args[0]);
+                let expr = expression_cfg(&args[0], cfg, ns);
+                expr
+            }
+        },
     }
 }
