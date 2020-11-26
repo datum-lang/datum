@@ -13,6 +13,7 @@ pub enum Constant {
 pub enum MIRKind {
     Call {},
     Return,
+    Var,
     JMP, //?
 }
 

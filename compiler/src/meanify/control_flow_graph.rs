@@ -1,5 +1,4 @@
 use cjc_hir::Parameter;
-use cjc_lexer::Location;
 use cjc_mir::basic_block::BasicBlock;
 use cjc_mir::instruction::MIRKind;
 
@@ -31,9 +30,7 @@ impl ControlFlowGraph {
         }
     }
 
-    pub fn add(&mut self, instruction: MIRKind) {}
-
-    pub fn emit(&mut self, instruction: MIRKind, _location: Location) {
+    pub fn emit(&mut self, instruction: MIRKind) {
         self.basic_block.instructions.push(instruction);
     }
 }

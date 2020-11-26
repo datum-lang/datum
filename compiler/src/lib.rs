@@ -52,6 +52,6 @@ mod test {
     #[test]
     #[rustfmt::skip]
     fn should_call_meanify() {
-        let ns = process_string("default$main() {println(\"hello,world\")}", "hello.cj");
+        process_string("default$main() {println(\"hello,world\")}", "hello.cj");
     }
 }
