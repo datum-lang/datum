@@ -8,16 +8,19 @@ pub fn meanify(ns: &mut Namespace) {
     cfg_no = ns.functions.len();
     all_cfg.resize(cfg_no, ControlFlowGraph::placeholder());
 
-    for function in ns.functions.iter_mut() {
-        // function_cfg(function, ns);
+    let function_no = 0;
+    for cfg in all_cfg {
+        function_cfg(function_no, ns );
     }
 }
 
-pub fn function_cfg(func: &mut Function, ns: &mut Namespace) {
+pub fn function_cfg(function_no: usize, ns: &mut Namespace) {
+    let mut func = &ns.functions[function_no];
+
     let func_name = &func.name;
     let mut cfg = ControlFlowGraph::new(func_name.to_string());
-    // cfg.params = func.params.clone();
-    // cfg.returns = func.returns.clone();
+    cfg.params = func.params.clone();
+    cfg.returns = func.returns.clone();
 
     for stmt in &func.body {
         statement_cfg(stmt, func, &mut cfg, ns)
@@ -31,7 +34,12 @@ pub fn statement_cfg(
     ns: &Namespace,
 ) {
     match stmt {
-        Statement::VariableDecl { .. } => {}
-        Statement::Expression { .. } => {}
+        Statement::VariableDecl { location } => {
+            println!("{:?}", location);
+        }
+        Statement::Expression { location, expression } => {
+            println!("{:?}", location);
+            println!("{:?}", expression);
+        }
     }
 }

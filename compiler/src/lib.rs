@@ -23,7 +23,7 @@ pub fn process_string(input: &str, filename: &str) {
 
 #[cfg(test)]
 mod test {
-    use crate::parse_and_resolve;
+    use crate::{parse_and_resolve, process_string};
     use cjc_hir::{Expression, Statement};
 
     #[test]
@@ -47,5 +47,11 @@ mod test {
         }
 
         assert_eq!(true, is_print_builtin);
+    }
+    #[test]
+    #[rustfmt::skip]
+    fn should_call_meanify() {
+        let ns = process_string("default$main() {println(\"hello,world\")}", "hello.cj");
+
     }
 }
