@@ -1,7 +1,9 @@
+pub use lowerify::*;
+pub use meanify::*;
 pub use neat::*;
 
 pub mod lowerify;
-pub mod medium;
+pub mod meanify;
 pub mod neat;
 
 pub fn parse_and_resolve(input: &str, filename: &str) -> Namespace {
@@ -10,6 +12,13 @@ pub fn parse_and_resolve(input: &str, filename: &str) -> Namespace {
 
     program(input, filename, &mut namespace);
     namespace
+}
+
+pub fn process_filename() {}
+
+pub fn process_string(input: &str, filename: &str) {
+    let mut namespace = parse_and_resolve(input, filename);
+    meanify(&mut namespace);
 }
 
 #[cfg(test)]

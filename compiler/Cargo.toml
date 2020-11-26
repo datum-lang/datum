@@ -13,5 +13,6 @@ inkwell = { version = "0.1.0-llvm10sample", features = ["target-x86", "target-we
 
 cjc_lexer = { path = "../cjc_lexer" }
 cjc_hir = { path = "../cjc_hir" }
+cjc_mir = { path = "../cjc_mir" }
 cjc_parser = { path = "../cjc_parser" }
 cjc_codegen = { path = "../cjc_codegen" }

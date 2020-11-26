@@ -1,8 +1,8 @@
 use clap::{App, Arg};
+use compiler::parse_and_resolve;
 use std::fs::File;
 use std::io::Read;
 use std::path::PathBuf;
-use compiler::parse_and_resolve;
 
 fn main() {
     let matches = App::new("solang")

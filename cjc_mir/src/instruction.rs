@@ -1,6 +1,5 @@
-use serde::{Deserialize, Serialize};
 use num_bigint::BigInt;
-
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum Constant {
@@ -12,17 +11,11 @@ pub enum Constant {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum MIRKind {
-    Call {
-
-    },
+    Call {},
     Return,
-    JMP,    //?
+    JMP, //?
 }
 
-pub enum ExprKind {
+pub enum ExprKind {}
 
-}
-
-pub enum TerminatorKind {
-
-}
+pub enum TerminatorKind {}
