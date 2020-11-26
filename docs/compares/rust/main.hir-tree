@@ -1,0 +1,683 @@
+Crate {
+    item: CrateItem {
+        module: Mod {
+            inner: main.rs:1:1: 3:2 (#0),
+            item_ids: [
+                ItemId {
+                    id: HirId {
+                        owner: DefId(0:1 ~ main[317d]::{misc#0}),
+                        local_id: 0,
+                    },
+                },
+                ItemId {
+                    id: HirId {
+                        owner: DefId(0:2 ~ main[317d]::std),
+                        local_id: 0,
+                    },
+                },
+                ItemId {
+                    id: HirId {
+                        owner: DefId(0:3 ~ main[317d]::main),
+                        local_id: 0,
+                    },
+                },
+            ],
+        },
+        attrs: [],
+        span: main.rs:1:1: 3:2 (#0),
+    },
+    exported_macros: [],
+    non_exported_macro_attrs: [],
+    items: {
+        HirId {
+            owner: DefId(0:1 ~ main[317d]::{misc#0}),
+            local_id: 0,
+        }: Item {
+            ident: #0,
+            hir_id: HirId {
+                owner: DefId(0:1 ~ main[317d]::{misc#0}),
+                local_id: 0,
+            },
+            attrs: [
+                Attribute {
+                    kind: Normal(
+                        AttrItem {
+                            path: Path {
+                                span: main.rs:1:1: 1:1 (#1),
+                                segments: [
+                                    PathSegment {
+                                        ident: prelude_import#1,
+                                        id: NodeId(3),
+                                        args: None,
+                                    },
+                                ],
+                                tokens: None,
+                            },
+                            args: Empty,
+                            tokens: None,
+                        },
+                        None,
+                    ),
+                    id: AttrId(1),
+                    style: Outer,
+                    span: main.rs:1:1: 1:1 (#1),
+                },
+            ],
+            kind: Use(
+                Path {
+                    span: main.rs:1:1: 1:1 (#1),
+                    res: Err,
+                    segments: [
+                        PathSegment {
+                            ident: {{root}}#1,
+                            hir_id: Some(
+                                HirId {
+                                    owner: DefId(0:1 ~ main[317d]::{misc#0}),
+                                    local_id: 1,
+                                },
+                            ),
+                            res: Some(
+                                Err,
+                            ),
+                            args: None,
+                            infer_args: false,
+                        },
+                        PathSegment {
+                            ident: std#1,
+                            hir_id: Some(
+                                HirId {
+                                    owner: DefId(0:1 ~ main[317d]::{misc#0}),
+                                    local_id: 2,
+                                },
+                            ),
+                            res: Some(
+                                Def(
+                                    Mod,
+                                    DefId(1:0 ~ std[fb0f]),
+                                ),
+                            ),
+                            args: None,
+                            infer_args: false,
+                        },
+                        PathSegment {
+                            ident: prelude#1,
+                            hir_id: Some(
+                                HirId {
+                                    owner: DefId(0:1 ~ main[317d]::{misc#0}),
+                                    local_id: 3,
+                                },
+                            ),
+                            res: Some(
+                                Def(
+                                    Mod,
+                                    DefId(1:15 ~ std[fb0f]::prelude),
+                                ),
+                            ),
+                            args: None,
+                            infer_args: false,
+                        },
+                        PathSegment {
+                            ident: v1#1,
+                            hir_id: Some(
+                                HirId {
+                                    owner: DefId(0:1 ~ main[317d]::{misc#0}),
+                                    local_id: 4,
+                                },
+                            ),
+                            res: Some(
+                                Def(
+                                    Mod,
+                                    DefId(1:16 ~ std[fb0f]::prelude::v1),
+                                ),
+                            ),
+                            args: None,
+                            infer_args: false,
+                        },
+                    ],
+                },
+                Glob,
+            ),
+            vis: Spanned {
+                node: Inherited,
+                span: main.rs:1:1: 1:1 (#1),
+            },
+            span: main.rs:1:1: 1:1 (#1),
+        },
+        HirId {
+            owner: DefId(0:2 ~ main[317d]::std),
+            local_id: 0,
+        }: Item {
+            ident: std#2,
+            hir_id: HirId {
+                owner: DefId(0:2 ~ main[317d]::std),
+                local_id: 0,
+            },
+            attrs: [
+                Attribute {
+                    kind: Normal(
+                        AttrItem {
+                            path: Path {
+                                span: main.rs:1:1: 1:1 (#1),
+                                segments: [
+                                    PathSegment {
+                                        ident: macro_use#1,
+                                        id: NodeId(9),
+                                        args: None,
+                                    },
+                                ],
+                                tokens: None,
+                            },
+                            args: Empty,
+                            tokens: None,
+                        },
+                        None,
+                    ),
+                    id: AttrId(0),
+                    style: Outer,
+                    span: main.rs:1:1: 1:1 (#1),
+                },
+            ],
+            kind: ExternCrate(
+                None,
+            ),
+            vis: Spanned {
+                node: Inherited,
+                span: main.rs:1:1: 1:1 (#1),
+            },
+            span: main.rs:1:1: 1:1 (#1),
+        },
+        HirId {
+            owner: DefId(0:3 ~ main[317d]::main),
+            local_id: 0,
+        }: Item {
+            ident: main#0,
+            hir_id: HirId {
+                owner: DefId(0:3 ~ main[317d]::main),
+                local_id: 0,
+            },
+            attrs: [],
+            kind: Fn(
+                FnSig {
+                    header: FnHeader {
+                        unsafety: Normal,
+                        constness: NotConst,
+                        asyncness: NotAsync,
+                        abi: Rust,
+                    },
+                    decl: FnDecl {
+                        inputs: [],
+                        output: DefaultReturn(
+                            main.rs:1:11: 1:11 (#0),
+                        ),
+                        c_variadic: false,
+                        implicit_self: None,
+                    },
+                    span: main.rs:1:1: 1:10 (#0),
+                },
+                Generics {
+                    params: [],
+                    where_clause: WhereClause {
+                        predicates: [],
+                        span: main.rs:1:10: 1:10 (#0),
+                    },
+                    span: main.rs:1:8: 1:8 (#0),
+                },
+                BodyId {
+                    hir_id: HirId {
+                        owner: DefId(0:3 ~ main[317d]::main),
+                        local_id: 28,
+                    },
+                },
+            ),
+            vis: Spanned {
+                node: Inherited,
+                span: main.rs:1:1: 1:1 (#0),
+            },
+            span: main.rs:1:1: 3:2 (#0),
+        },
+    },
+    trait_items: {},
+    impl_items: {},
+    bodies: {
+        BodyId {
+            hir_id: HirId {
+                owner: DefId(0:3 ~ main[317d]::main),
+                local_id: 28,
+            },
+        }: Body {
+            params: [],
+            value: Expr {
+                hir_id: HirId {
+                    owner: DefId(0:3 ~ main[317d]::main),
+                    local_id: 28,
+                },
+                kind: Block(
+                    Block {
+                        stmts: [
+                            Stmt {
+                                hir_id: HirId {
+                                    owner: DefId(0:3 ~ main[317d]::main),
+                                    local_id: 26,
+                                },
+                                kind: Semi(
+                                    Expr {
+                                        hir_id: HirId {
+                                            owner: DefId(0:3 ~ main[317d]::main),
+                                            local_id: 25,
+                                        },
+                                        kind: Block(
+                                            Block {
+                                                stmts: [
+                                                    Stmt {
+                                                        hir_id: HirId {
+                                                            owner: DefId(0:3 ~ main[317d]::main),
+                                                            local_id: 23,
+                                                        },
+                                                        kind: Semi(
+                                                            Expr {
+                                                                hir_id: HirId {
+                                                                    owner: DefId(0:3 ~ main[317d]::main),
+                                                                    local_id: 22,
+                                                                },
+                                                                kind: Call(
+                                                                    Expr {
+                                                                        hir_id: HirId {
+                                                                            owner: DefId(0:3 ~ main[317d]::main),
+                                                                            local_id: 5,
+                                                                        },
+                                                                        kind: Path(
+                                                                            Resolved(
+                                                                                None,
+                                                                                Path {
+                                                                                    span: /rustc/da384694807172f0ca40eca2e49a11688aba6e93/library/std/src/macros.rs:96:9: 96:27 (#6),
+                                                                                    res: Def(
+                                                                                        Fn,
+                                                                                        DefId(1:3038 ~ std[fb0f]::io::stdio::_print),
+                                                                                    ),
+                                                                                    segments: [
+                                                                                        PathSegment {
+                                                                                            ident: $crate#6,
+                                                                                            hir_id: Some(
+                                                                                                HirId {
+                                                                                                    owner: DefId(0:3 ~ main[317d]::main),
+                                                                                                    local_id: 2,
+                                                                                                },
+                                                                                            ),
+                                                                                            res: Some(
+                                                                                                Err,
+                                                                                            ),
+                                                                                            args: None,
+                                                                                            infer_args: true,
+                                                                                        },
+                                                                                        PathSegment {
+                                                                                            ident: io#6,
+                                                                                            hir_id: Some(
+                                                                                                HirId {
+                                                                                                    owner: DefId(0:3 ~ main[317d]::main),
+                                                                                                    local_id: 3,
+                                                                                                },
+                                                                                            ),
+                                                                                            res: Some(
+                                                                                                Def(
+                                                                                                    Mod,
+                                                                                                    DefId(1:2390 ~ std[fb0f]::io),
+                                                                                                ),
+                                                                                            ),
+                                                                                            args: None,
+                                                                                            infer_args: true,
+                                                                                        },
+                                                                                        PathSegment {
+                                                                                            ident: _print#6,
+                                                                                            hir_id: Some(
+                                                                                                HirId {
+                                                                                                    owner: DefId(0:3 ~ main[317d]::main),
+                                                                                                    local_id: 4,
+                                                                                                },
+                                                                                            ),
+                                                                                            res: Some(
+                                                                                                Err,
+                                                                                            ),
+                                                                                            args: None,
+                                                                                            infer_args: true,
+                                                                                        },
+                                                                                    ],
+                                                                                },
+                                                                            ),
+                                                                        ),
+                                                                        attrs: ThinVec(
+                                                                            None,
+                                                                        ),
+                                                                        span: /rustc/da384694807172f0ca40eca2e49a11688aba6e93/library/std/src/macros.rs:96:9: 96:27 (#6),
+                                                                    },
+                                                                    [
+                                                                        Expr {
+                                                                            hir_id: HirId {
+                                                                                owner: DefId(0:3 ~ main[317d]::main),
+                                                                                local_id: 21,
+                                                                            },
+                                                                            kind: Call(
+                                                                                Expr {
+                                                                                    hir_id: HirId {
+                                                                                        owner: DefId(0:3 ~ main[317d]::main),
+                                                                                        local_id: 12,
+                                                                                    },
+                                                                                    kind: Path(
+                                                                                        TypeRelative(
+                                                                                            Ty {
+                                                                                                hir_id: HirId {
+                                                                                                    owner: DefId(0:3 ~ main[317d]::main),
+                                                                                                    local_id: 10,
+                                                                                                },
+                                                                                                kind: Path(
+                                                                                                    Resolved(
+                                                                                                        None,
+                                                                                                        Path {
+                                                                                                            span: /rustc/da384694807172f0ca40eca2e49a11688aba6e93/library/std/src/macros.rs:96:28: 96:61 (#7),
+                                                                                                            res: Def(
+                                                                                                                Struct,
+                                                                                                                DefId(2:34330 ~ core[e37a]::fmt::Arguments),
+                                                                                                            ),
+                                                                                                            segments: [
+                                                                                                                PathSegment {
+                                                                                                                    ident: $crate#7,
+                                                                                                                    hir_id: Some(
+                                                                                                                        HirId {
+                                                                                                                            owner: DefId(0:3 ~ main[317d]::main),
+                                                                                                                            local_id: 6,
+                                                                                                                        },
+                                                                                                                    ),
+                                                                                                                    res: Some(
+                                                                                                                        Err,
+                                                                                                                    ),
+                                                                                                                    args: None,
+                                                                                                                    infer_args: true,
+                                                                                                                },
+                                                                                                                PathSegment {
+                                                                                                                    ident: fmt#0,
+                                                                                                                    hir_id: Some(
+                                                                                                                        HirId {
+                                                                                                                            owner: DefId(0:3 ~ main[317d]::main),
+                                                                                                                            local_id: 7,
+                                                                                                                        },
+                                                                                                                    ),
+                                                                                                                    res: Some(
+                                                                                                                        Def(
+                                                                                                                            Mod,
+                                                                                                                            DefId(2:6339 ~ core[e37a]::fmt),
+                                                                                                                        ),
+                                                                                                                    ),
+                                                                                                                    args: None,
+                                                                                                                    infer_args: true,
+                                                                                                                },
+                                                                                                                PathSegment {
+                                                                                                                    ident: Arguments#0,
+                                                                                                                    hir_id: Some(
+                                                                                                                        HirId {
+                                                                                                                            owner: DefId(0:3 ~ main[317d]::main),
+                                                                                                                            local_id: 9,
+                                                                                                                        },
+                                                                                                                    ),
+                                                                                                                    res: Some(
+                                                                                                                        Err,
+                                                                                                                    ),
+                                                                                                                    args: Some(
+                                                                                                                        GenericArgs {
+                                                                                                                            args: [
+                                                                                                                                Lifetime(
+                                                                                                                                    lifetime(HirId { owner: DefId(0:3 ~ main[317d]::main), local_id: 8 }: ),
+                                                                                                                                ),
+                                                                                                                            ],
+                                                                                                                            bindings: [],
+                                                                                                                            parenthesized: false,
+                                                                                                                        },
+                                                                                                                    ),
+                                                                                                                    infer_args: true,
+                                                                                                                },
+                                                                                                            ],
+                                                                                                        },
+                                                                                                    ),
+                                                                                                ),
+                                                                                                span: /rustc/da384694807172f0ca40eca2e49a11688aba6e93/library/std/src/macros.rs:96:28: 96:61 (#7),
+                                                                                            },
+                                                                                            PathSegment {
+                                                                                                ident: new_v1#0,
+                                                                                                hir_id: Some(
+                                                                                                    HirId {
+                                                                                                        owner: DefId(0:3 ~ main[317d]::main),
+                                                                                                        local_id: 11,
+                                                                                                    },
+                                                                                                ),
+                                                                                                res: Some(
+                                                                                                    Err,
+                                                                                                ),
+                                                                                                args: None,
+                                                                                                infer_args: true,
+                                                                                            },
+                                                                                        ),
+                                                                                    ),
+                                                                                    attrs: ThinVec(
+                                                                                        None,
+                                                                                    ),
+                                                                                    span: /rustc/da384694807172f0ca40eca2e49a11688aba6e93/library/std/src/macros.rs:96:28: 96:61 (#7),
+                                                                                },
+                                                                                [
+                                                                                    Expr {
+                                                                                        hir_id: HirId {
+                                                                                            owner: DefId(0:3 ~ main[317d]::main),
+                                                                                            local_id: 15,
+                                                                                        },
+                                                                                        kind: AddrOf(
+                                                                                            Ref,
+                                                                                            Not,
+                                                                                            Expr {
+                                                                                                hir_id: HirId {
+                                                                                                    owner: DefId(0:3 ~ main[317d]::main),
+                                                                                                    local_id: 14,
+                                                                                                },
+                                                                                                kind: Array(
+                                                                                                    [
+                                                                                                        Expr {
+                                                                                                            hir_id: HirId {
+                                                                                                                owner: DefId(0:3 ~ main[317d]::main),
+                                                                                                                local_id: 13,
+                                                                                                            },
+                                                                                                            kind: Lit(
+                                                                                                                Spanned {
+                                                                                                                    node: Str(
+                                                                                                                        "Hello World!\n",
+                                                                                                                        Cooked,
+                                                                                                                    ),
+                                                                                                                    span: main.rs:2:14: 2:28 (#0),
+                                                                                                                },
+                                                                                                            ),
+                                                                                                            attrs: ThinVec(
+                                                                                                                None,
+                                                                                                            ),
+                                                                                                            span: main.rs:2:14: 2:28 (#0),
+                                                                                                        },
+                                                                                                    ],
+                                                                                                ),
+                                                                                                attrs: ThinVec(
+                                                                                                    None,
+                                                                                                ),
+                                                                                                span: main.rs:2:14: 2:28 (#0),
+                                                                                            },
+                                                                                        ),
+                                                                                        attrs: ThinVec(
+                                                                                            None,
+                                                                                        ),
+                                                                                        span: main.rs:2:14: 2:28 (#0),
+                                                                                    },
+                                                                                    Expr {
+                                                                                        hir_id: HirId {
+                                                                                            owner: DefId(0:3 ~ main[317d]::main),
+                                                                                            local_id: 20,
+                                                                                        },
+                                                                                        kind: AddrOf(
+                                                                                            Ref,
+                                                                                            Not,
+                                                                                            Expr {
+                                                                                                hir_id: HirId {
+                                                                                                    owner: DefId(0:3 ~ main[317d]::main),
+                                                                                                    local_id: 19,
+                                                                                                },
+                                                                                                kind: Match(
+                                                                                                    Expr {
+                                                                                                        hir_id: HirId {
+                                                                                                            owner: DefId(0:3 ~ main[317d]::main),
+                                                                                                            local_id: 16,
+                                                                                                        },
+                                                                                                        kind: Tup(
+                                                                                                            [],
+                                                                                                        ),
+                                                                                                        attrs: ThinVec(
+                                                                                                            None,
+                                                                                                        ),
+                                                                                                        span: /rustc/da384694807172f0ca40eca2e49a11688aba6e93/library/std/src/macros.rs:96:28: 96:61 (#7),
+                                                                                                    },
+                                                                                                    [
+                                                                                                        Arm {
+                                                                                                            hir_id: HirId {
+                                                                                                                owner: DefId(0:3 ~ main[317d]::main),
+                                                                                                                local_id: 17,
+                                                                                                            },
+                                                                                                            span: /rustc/da384694807172f0ca40eca2e49a11688aba6e93/library/std/src/macros.rs:96:28: 96:61 (#7),
+                                                                                                            attrs: [],
+                                                                                                            pat: Pat {
+                                                                                                                hir_id: HirId {
+                                                                                                                    owner: DefId(0:3 ~ main[317d]::main),
+                                                                                                                    local_id: 1,
+                                                                                                                },
+                                                                                                                kind: Tuple(
+                                                                                                                    [],
+                                                                                                                    None,
+                                                                                                                ),
+                                                                                                                span: /rustc/da384694807172f0ca40eca2e49a11688aba6e93/library/std/src/macros.rs:96:28: 96:61 (#7),
+                                                                                                                default_binding_modes: true,
+                                                                                                            },
+                                                                                                            guard: None,
+                                                                                                            body: Expr {
+                                                                                                                hir_id: HirId {
+                                                                                                                    owner: DefId(0:3 ~ main[317d]::main),
+                                                                                                                    local_id: 18,
+                                                                                                                },
+                                                                                                                kind: Array(
+                                                                                                                    [],
+                                                                                                                ),
+                                                                                                                attrs: ThinVec(
+                                                                                                                    None,
+                                                                                                                ),
+                                                                                                                span: /rustc/da384694807172f0ca40eca2e49a11688aba6e93/library/std/src/macros.rs:96:28: 96:61 (#7),
+                                                                                                            },
+                                                                                                        },
+                                                                                                    ],
+                                                                                                    Normal,
+                                                                                                ),
+                                                                                                attrs: ThinVec(
+                                                                                                    None,
+                                                                                                ),
+                                                                                                span: /rustc/da384694807172f0ca40eca2e49a11688aba6e93/library/std/src/macros.rs:96:28: 96:61 (#7),
+                                                                                            },
+                                                                                        ),
+                                                                                        attrs: ThinVec(
+                                                                                            None,
+                                                                                        ),
+                                                                                        span: /rustc/da384694807172f0ca40eca2e49a11688aba6e93/library/std/src/macros.rs:96:28: 96:61 (#7),
+                                                                                    },
+                                                                                ],
+                                                                            ),
+                                                                            attrs: ThinVec(
+                                                                                None,
+                                                                            ),
+                                                                            span: /rustc/da384694807172f0ca40eca2e49a11688aba6e93/library/std/src/macros.rs:96:28: 96:61 (#7),
+                                                                        },
+                                                                    ],
+                                                                ),
+                                                                attrs: ThinVec(
+                                                                    None,
+                                                                ),
+                                                                span: /rustc/da384694807172f0ca40eca2e49a11688aba6e93/library/std/src/macros.rs:96:9: 96:62 (#6),
+                                                            },
+                                                        ),
+                                                        span: /rustc/da384694807172f0ca40eca2e49a11688aba6e93/library/std/src/macros.rs:96:9: 96:63 (#6),
+                                                    },
+                                                ],
+                                                expr: None,
+                                                hir_id: HirId {
+                                                    owner: DefId(0:3 ~ main[317d]::main),
+                                                    local_id: 24,
+                                                },
+                                                rules: DefaultBlock,
+                                                span: /rustc/da384694807172f0ca40eca2e49a11688aba6e93/library/std/src/macros.rs:95:23: 97:6 (#6),
+                                                targeted_by_break: false,
+                                            },
+                                            None,
+                                        ),
+                                        attrs: ThinVec(
+                                            None,
+                                        ),
+                                        span: /rustc/da384694807172f0ca40eca2e49a11688aba6e93/library/std/src/macros.rs:95:23: 97:6 (#6),
+                                    },
+                                ),
+                                span: /rustc/da384694807172f0ca40eca2e49a11688aba6e93/library/std/src/macros.rs:95:23: 97:6 (#6),
+                            },
+                        ],
+                        expr: None,
+                        hir_id: HirId {
+                            owner: DefId(0:3 ~ main[317d]::main),
+                            local_id: 27,
+                        },
+                        rules: DefaultBlock,
+                        span: main.rs:1:11: 3:2 (#0),
+                        targeted_by_break: false,
+                    },
+                    None,
+                ),
+                attrs: ThinVec(
+                    None,
+                ),
+                span: main.rs:1:11: 3:2 (#0),
+            },
+            generator_kind: None,
+        },
+    },
+    trait_impls: {},
+    body_ids: [
+        BodyId {
+            hir_id: HirId {
+                owner: DefId(0:3 ~ main[317d]::main),
+                local_id: 28,
+            },
+        },
+    ],
+    modules: {
+        HirId {
+            owner: DefId(0:0 ~ main[317d]),
+            local_id: 0,
+        }: ModuleItems {
+            items: {
+                HirId {
+                    owner: DefId(0:1 ~ main[317d]::{misc#0}),
+                    local_id: 0,
+                },
+                HirId {
+                    owner: DefId(0:2 ~ main[317d]::std),
+                    local_id: 0,
+                },
+                HirId {
+                    owner: DefId(0:3 ~ main[317d]::main),
+                    local_id: 0,
+                },
+            },
+            trait_items: {},
+            impl_items: {},
+        },
+    },
+    proc_macros: [],
+    trait_map: {
+        HirId {
+            owner: DefId(0:3 ~ main[317d]::main),
+            local_id: 12,
+        }: [],
+    },
+}
