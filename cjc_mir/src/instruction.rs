@@ -13,10 +13,17 @@ pub enum Constant {
 pub enum MIRKind {
     Call {},
     Return,
-    Var,
-    JMP, //?
+    JMP,
 }
 
-pub enum ExprKind {}
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub enum ExprKind {
+    Var {
+        // todo: update to real mir
+        value: String,
+    },
+    Call,
+    Print {},
+}
 
 pub enum TerminatorKind {}

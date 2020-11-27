@@ -1,9 +1,9 @@
-use crate::instruction::MIRKind;
+use crate::instruction::ExprKind;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct BasicBlock {
     pub name: String,
-    pub instructions: Vec<MIRKind>,
+    pub instructions: Vec<ExprKind>,
 }
 
 impl Default for BasicBlock {

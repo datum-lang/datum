@@ -1,8 +1,8 @@
 use cjc_hir::Parameter;
 use cjc_mir::basic_block::BasicBlock;
-use cjc_mir::instruction::MIRKind;
+use cjc_mir::instruction::ExprKind;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct ControlFlowGraph {
     pub name: String,
     pub basic_block: BasicBlock,
@@ -30,7 +30,7 @@ impl ControlFlowGraph {
         }
     }
 
-    pub fn emit(&mut self, instruction: MIRKind) {
+    pub fn emit(&mut self, instruction: ExprKind) {
         self.basic_block.instructions.push(instruction);
     }
 }

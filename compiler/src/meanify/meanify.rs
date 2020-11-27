@@ -1,6 +1,6 @@
 use crate::{ControlFlowGraph, Namespace};
 use cjc_hir::{Builtin, Expression, Function, Statement};
-use cjc_mir::instruction::MIRKind;
+use cjc_mir::instruction::ExprKind;
 
 pub fn meanify(ns: &mut Namespace) {
     #[allow(unused_assignments)]
@@ -27,6 +27,8 @@ pub fn function_cfg(function_no: usize, ns: &mut Namespace) {
     for stmt in &func.body {
         statement_cfg(stmt, func, &mut cfg, ns)
     }
+
+    println!("{:?}", cfg);
 }
 
 pub fn statement_cfg(
@@ -51,9 +53,11 @@ pub fn statement_cfg(
 pub fn expression_cfg(expr: &Expression, cfg: &mut ControlFlowGraph, ns: &Namespace) -> Expression {
     match expr {
         Expression::Placeholder => Expression::Placeholder,
-        Expression::StringLiteral { location: _, value: _ } => {
-            cfg.emit(MIRKind::Var {});
-            Expression::Placeholder
+        Expression::StringLiteral { location: _, value } => {
+            cfg.emit(ExprKind::Var {
+                value: value.to_string(),
+            });
+            Expression::Variable
         }
         Expression::BytesLiteral { .. } => Expression::Placeholder,
         Expression::InternalFunctionCall { .. } => Expression::Placeholder,
@@ -66,9 +70,12 @@ pub fn expression_cfg(expr: &Expression, cfg: &mut ControlFlowGraph, ns: &Namesp
             Builtin::Assert => Expression::Placeholder,
             Builtin::Print => {
                 let expr = expression_cfg(&args[0], cfg, ns);
-                cfg.emit(MIRKind::Call {});
-                expr
+                cfg.emit(ExprKind::Print {
+                    // expr
+                });
+                Expression::Placeholder
             }
         },
+        _ => expr.clone(),
     }
 }
