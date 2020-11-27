@@ -2,6 +2,7 @@ pub use lowerify::*;
 pub use meanify::*;
 pub use neat::*;
 
+// todo: to be defined;
 pub mod lowerify;
 pub mod meanify;
 pub mod neat;
@@ -14,16 +15,15 @@ pub fn parse_and_resolve(input: &str, filename: &str) -> Namespace {
     namespace
 }
 
-pub fn process_filename() {}
-
-pub fn process_string(input: &str, filename: &str) {
+pub fn process_string(input: &str, filename: &str) -> Namespace {
     let mut namespace = parse_and_resolve(input, filename);
     meanify(&mut namespace);
+    namespace
 }
 
 #[cfg(test)]
 mod test {
-    use crate::{parse_and_resolve, process_string};
+    use crate::{codegen, parse_and_resolve, process_string};
     use cjc_hir::{Expression, Statement};
 
     #[test]
@@ -52,6 +52,9 @@ mod test {
     #[test]
     #[rustfmt::skip]
     fn should_call_meanify() {
-        process_string("default$main() {println(\"hello,world\")}", "hello.cj");
+        let mut ns = process_string("default$main() {println(\"hello,world\")}", "hello.cj");
+        assert_eq!(1, ns.cfgs.len());
+        assert_eq!(2, ns.cfgs[0].basic_block.instructions.len());
+        codegen(&mut ns);
     }
 }

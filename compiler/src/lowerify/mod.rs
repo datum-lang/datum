@@ -1,7 +1,21 @@
-pub mod compiler;
+use inkwell::context::Context;
 
 use crate::lowerify::compiler::Compiler;
-use inkwell::context::Context;
+use crate::Namespace;
+pub mod compiler;
+
+pub fn codegen(ns: &mut Namespace) {
+    println!("{:?}", ns);
+    let filename = ns.files[0].clone();
+
+    let context = Context::create();
+    let module_name = filename.replace(".cj", "");
+
+    let module = context.create_module(&module_name);
+    let builder = context.create_builder();
+
+    let compiler = Compiler::compile(&context, &builder, &module);
+}
 
 pub fn compile_program(_input: &str, filename: &str) -> Result<String, ()> {
     let context = Context::create();

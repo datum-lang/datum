@@ -1,3 +1,4 @@
+use crate::ControlFlowGraph;
 use cjc_hir::{Function, StructDecl};
 use cjc_parser::ExpressionType;
 
@@ -7,6 +8,7 @@ pub struct Namespace {
     pub files: Vec<String>,
     pub structs: Vec<StructDecl>,
     pub functions: Vec<Function>,
+    pub cfgs: Vec<ControlFlowGraph>,
 }
 
 impl Namespace {
@@ -15,6 +17,7 @@ impl Namespace {
             files: vec![],
             structs: vec![],
             functions: vec![],
+            cfgs: vec![],
         }
     }
 

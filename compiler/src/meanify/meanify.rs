@@ -28,7 +28,7 @@ pub fn function_cfg(function_no: usize, ns: &mut Namespace) {
         statement_cfg(stmt, func, &mut cfg, ns)
     }
 
-    println!("{:?}", cfg);
+    ns.cfgs.push(cfg);
 }
 
 pub fn statement_cfg(
@@ -69,10 +69,10 @@ pub fn expression_cfg(expr: &Expression, cfg: &mut ControlFlowGraph, ns: &Namesp
         } => match builtin {
             Builtin::Assert => Expression::Placeholder,
             Builtin::Print => {
-                let expr = expression_cfg(&args[0], cfg, ns);
                 cfg.emit(ExprKind::Print {
                     // expr
                 });
+                let _expr = expression_cfg(&args[0], cfg, ns);
                 Expression::Placeholder
             }
         },

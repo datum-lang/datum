@@ -1,8 +1,10 @@
-use clap::{App, Arg};
-use compiler::parse_and_resolve;
 use std::fs::File;
 use std::io::Read;
 use std::path::PathBuf;
+
+use clap::{App, Arg};
+
+use compiler::{codegen, process_string};
 
 fn main() {
     let matches = App::new("solang")
@@ -26,7 +28,9 @@ fn main() {
             }
 
             // todo: generate code
-            let _namespace = parse_and_resolve(&*contents, filename);
+            // let _namespace = parse_and_resolve(&*contents, filename);
+            let mut ns = process_string(&*contents, filename);
+            codegen(&mut ns);
             // let _r = compile_program(&*contents, filename);
         }
     }
