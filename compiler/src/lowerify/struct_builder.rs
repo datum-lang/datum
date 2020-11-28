@@ -1,12 +1,12 @@
 use std::path::Path;
 
-use inkwell::{AddressSpace, OptimizationLevel};
 use inkwell::builder::Builder;
 use inkwell::context::Context;
 use inkwell::module::{Linkage, Module};
 use inkwell::targets::TargetTriple;
 use inkwell::types::IntType;
 use inkwell::values::PointerValue;
+use inkwell::{AddressSpace, OptimizationLevel};
 
 use crate::{ControlFlowGraph, Namespace};
 
@@ -113,5 +113,13 @@ impl<'a> StructBuilder<'a> {
         unsafe {
             compiled_fn.call();
         }
+    }
+
+    pub fn dump_llvm(&self, path: &Path) -> Result<(), String> {
+        if let Err(s) = self.module.print_to_file(path) {
+            return Err(s.to_string());
+        }
+
+        Ok(())
     }
 }

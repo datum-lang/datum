@@ -3,8 +3,8 @@ use inkwell::context::Context;
 use crate::lowerify::struct_builder::StructBuilder;
 use crate::{ControlFlowGraph, Namespace};
 use cjc_mir::instruction::ExprKind;
-use inkwell::types::{BasicTypeEnum};
-use inkwell::values::{FunctionValue};
+use inkwell::types::BasicTypeEnum;
+use inkwell::values::FunctionValue;
 
 pub struct ClassicTarget {}
 

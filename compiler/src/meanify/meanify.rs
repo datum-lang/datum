@@ -53,7 +53,10 @@ pub fn statement_cfg(
 pub fn expression_cfg(expr: &Expression, cfg: &mut ControlFlowGraph, ns: &Namespace) -> Expression {
     match expr {
         Expression::Placeholder => Expression::Placeholder,
-        Expression::StringLiteral { location: _, value: _ } => {
+        Expression::StringLiteral {
+            location: _,
+            value: _,
+        } => {
             // cfg.emit(ExprKind::Var {
             //     value: value.to_string(),
             // });
