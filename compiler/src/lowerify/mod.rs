@@ -15,8 +15,9 @@ pub fn codegen(ns: &mut Namespace) {
         let filename = ns.files[0].clone();
         let context = Context::create();
 
-        let compiler = ClassicTarget::build(&filename, cfg, &context, ns);
-        compiler.bitcode(Path::new("main.cjc"));
+        let obj = ClassicTarget::build(&filename, cfg, &context, ns);
+        let name = format!("{}.bc", &cfg.name);
+        obj.bitcode(Path::new(&name));
     }
 }
 
