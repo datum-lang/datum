@@ -10,11 +10,11 @@ pub struct ClassicTarget {}
 
 impl ClassicTarget {
     pub fn build<'a>(
-        filename: &String,
+        filename: &'a String,
         cfg: &'a ControlFlowGraph,
         context: &'a Context,
         ns: &'a Namespace,
-    ) -> Self {
+    ) -> StructBuilder<'a> {
         let target = ClassicTarget {};
 
         let mut structure = StructBuilder::new(filename, cfg, context, "", ns);
@@ -24,7 +24,8 @@ impl ClassicTarget {
         println!("{:?}", structure.module.print_to_string());
 
         structure.run_jit();
-        Self {}
+
+        structure
     }
 
     pub fn emit_function(mut self, sb: &mut StructBuilder) {

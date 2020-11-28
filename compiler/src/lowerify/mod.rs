@@ -3,6 +3,7 @@ use inkwell::context::Context;
 use crate::lowerify::classic_target::ClassicTarget;
 use crate::lowerify::compiler::Compiler;
 use crate::Namespace;
+use std::path::Path;
 
 pub mod classic_target;
 pub mod compiler;
@@ -16,7 +17,8 @@ pub fn codegen(ns: &mut Namespace) {
         let filename = ns.files[0].clone();
         let context = Context::create();
 
-        let _compiler = ClassicTarget::build(&filename, cfg, &context, ns);
+        let compiler = ClassicTarget::build(&filename, cfg, &context, ns);
+        compiler.bitcode(Path::new("main.cjc"));
     }
 }
 

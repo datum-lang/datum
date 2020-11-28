@@ -6,6 +6,15 @@
  - Medium mod for transform HIR -> MIR (TBD)
  - Lowerify mod for transform MIR -> LLVM IR
 
+## Bitcode
+
+Run bitcode
+
+```rust
+lli main.cjc
+```
+
+
 ## Compiler
 
 in Rust design:

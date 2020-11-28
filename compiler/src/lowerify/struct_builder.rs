@@ -1,17 +1,19 @@
+use std::path::Path;
+
+use inkwell::{AddressSpace, OptimizationLevel};
 use inkwell::builder::Builder;
 use inkwell::context::Context;
 use inkwell::module::{Linkage, Module};
 use inkwell::targets::TargetTriple;
-
-use crate::{ControlFlowGraph, Namespace};
 use inkwell::types::IntType;
 use inkwell::values::PointerValue;
-use inkwell::{AddressSpace, OptimizationLevel};
+
+use crate::{ControlFlowGraph, Namespace};
 
 #[allow(dead_code)]
 #[derive(Debug)]
 pub struct StructBuilder<'a> {
-    pub name: String,
+    pub name: &'a str,
     pub module: Module<'a>,
     pub context: &'a Context,
     pub(crate) builder: Builder<'a>,
@@ -33,7 +35,7 @@ impl<'a> StructBuilder<'a> {
         module.set_source_file_name(filename);
 
         StructBuilder {
-            name: name.to_owned(),
+            name: &name,
             module,
             builder: context.create_builder(),
             context,
@@ -82,6 +84,10 @@ impl<'a> StructBuilder<'a> {
     pub fn emit_void(&mut self) {
         self.builder
             .build_return(Some(&self.context.i32_type().const_zero()));
+    }
+
+    pub fn bitcode(&self, path: &Path) {
+        self.module.write_bitcode_to_path(path);
     }
 
     pub fn run_jit(&self) {
