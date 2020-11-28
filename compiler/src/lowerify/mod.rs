@@ -1,20 +1,19 @@
 use inkwell::context::Context;
 
+use crate::lowerify::classic_target::ClassicTarget;
 use crate::lowerify::compiler::Compiler;
 use crate::Namespace;
+
 pub mod compiler;
+pub mod wasm_target;
+pub mod classic_target;
+pub mod target_builder;
 
 pub fn codegen(ns: &mut Namespace) {
-    println!("{:?}", ns);
     let filename = ns.files[0].clone();
-
     let context = Context::create();
-    let module_name = filename.replace(".cj", "");
 
-    let module = context.create_module(&module_name);
-    let builder = context.create_builder();
-
-    let compiler = Compiler::compile(&context, &builder, &module);
+    let compiler = ClassicTarget::build(&filename, &context, ns);
 }
 
 pub fn compile_program(_input: &str, filename: &str) -> Result<String, ()> {
