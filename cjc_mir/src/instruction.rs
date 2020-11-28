@@ -18,13 +18,9 @@ pub enum MIRKind {
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum ExprKind {
-    Var {
-        value: String,
-    },
+    Var { value: String },
     Call,
-    Print {
-        value: String
-    },
+    Print { value: String },
 }
 
 pub enum TerminatorKind {}

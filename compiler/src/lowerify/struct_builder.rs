@@ -1,12 +1,12 @@
 use inkwell::builder::Builder;
 use inkwell::context::Context;
-use inkwell::module::{Module, Linkage};
+use inkwell::module::{Linkage, Module};
 use inkwell::targets::TargetTriple;
 
-use crate::{Namespace, ControlFlowGraph};
-use inkwell::values::PointerValue;
-use inkwell::AddressSpace;
+use crate::{ControlFlowGraph, Namespace};
 use inkwell::types::IntType;
+use inkwell::values::PointerValue;
+use inkwell::{AddressSpace, OptimizationLevel};
 
 #[allow(dead_code)]
 #[derive(Debug)]
@@ -77,5 +77,35 @@ impl<'a> StructBuilder<'a> {
             self.context.i8_type().ptr_type(AddressSpace::Generic),
             name,
         )
+    }
+
+    pub fn emit_void(&mut self) {
+        self.builder
+            .build_return(Some(&self.context.i32_type().const_zero()));
+    }
+
+    pub fn run_jit(&self) {
+        // todo: verify
+        self.module.get_function("main").unwrap().verify(true);
+
+        let ee = self
+            .module
+            .create_jit_execution_engine(OptimizationLevel::None)
+            .unwrap();
+        let maybe_fn = unsafe {
+            // todo: thinking in return of main func
+            ee.get_function::<unsafe extern "C" fn() -> i32>("main")
+        };
+
+        let compiled_fn = match maybe_fn {
+            Ok(f) => f,
+            Err(err) => {
+                panic!("{:?}", err);
+            }
+        };
+
+        unsafe {
+            compiled_fn.call();
+        }
     }
 }

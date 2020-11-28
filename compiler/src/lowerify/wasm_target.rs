@@ -1,8 +1,3 @@
-pub struct WasmTarget {
+pub struct WasmTarget {}
 
-}
-
-impl WasmTarget {
-
-}
-
+impl WasmTarget {}

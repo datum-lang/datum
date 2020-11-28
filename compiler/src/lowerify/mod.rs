@@ -4,10 +4,10 @@ use crate::lowerify::classic_target::ClassicTarget;
 use crate::lowerify::compiler::Compiler;
 use crate::Namespace;
 
-pub mod compiler;
-pub mod wasm_target;
 pub mod classic_target;
+pub mod compiler;
 pub mod struct_builder;
+pub mod wasm_target;
 
 pub fn codegen(ns: &mut Namespace) {
     for no in 0..ns.cfgs.len() {
@@ -16,9 +16,8 @@ pub fn codegen(ns: &mut Namespace) {
         let filename = ns.files[0].clone();
         let context = Context::create();
 
-        let _compiler = ClassicTarget::build(&filename, cfg , &context, ns);
+        let _compiler = ClassicTarget::build(&filename, cfg, &context, ns);
     }
-
 }
 
 pub fn compile_program(_input: &str, filename: &str) -> Result<String, ()> {

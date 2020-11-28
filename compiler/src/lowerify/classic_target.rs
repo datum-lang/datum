@@ -1,12 +1,10 @@
 use inkwell::context::Context;
 
-use crate::{Namespace, ControlFlowGraph};
 use crate::lowerify::struct_builder::StructBuilder;
+use crate::{ControlFlowGraph, Namespace};
 use cjc_mir::instruction::ExprKind;
-use inkwell::types::{BasicTypeEnum, IntType};
-use inkwell::values::{FunctionValue, PointerValue};
-use inkwell::AddressSpace;
-use inkwell::module::Linkage;
+use inkwell::types::{BasicTypeEnum};
+use inkwell::values::{FunctionValue};
 
 pub struct ClassicTarget {}
 
@@ -25,6 +23,7 @@ impl ClassicTarget {
 
         println!("{:?}", structure.module.print_to_string());
 
+        structure.run_jit();
         Self {}
     }
 
@@ -43,10 +42,7 @@ impl ClassicTarget {
 
         let fn_type = sb.context.i32_type().fn_type(args_types, false);
 
-        let func_decl =
-            sb
-                .module
-                .add_function(&sb.cfg.name, fn_type, None);
+        let func_decl = sb.module.add_function(&sb.cfg.name, fn_type, None);
         func_decl
     }
 
@@ -63,6 +59,7 @@ impl ClassicTarget {
                 }
             }
         }
+
+        sb.emit_void();
     }
 }
-
