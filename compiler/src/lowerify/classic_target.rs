@@ -1,6 +1,6 @@
 use inkwell::context::Context;
 
-use crate::lowerify::struct_builder::StructBuilder;
+use crate::lowerify::code_object::CodeObject;
 use crate::{ControlFlowGraph, Namespace};
 use cjc_mir::instruction::ExprKind;
 use inkwell::types::BasicTypeEnum;
@@ -14,10 +14,10 @@ impl ClassicTarget {
         cfg: &'a ControlFlowGraph,
         context: &'a Context,
         ns: &'a Namespace,
-    ) -> StructBuilder<'a> {
+    ) -> CodeObject<'a> {
         let target = ClassicTarget {};
 
-        let mut structure = StructBuilder::new(filename, cfg, context, "", ns);
+        let mut structure = CodeObject::new(filename, cfg, context, "", ns);
 
         target.emit_function(&mut structure);
 
@@ -28,12 +28,12 @@ impl ClassicTarget {
         structure
     }
 
-    pub fn emit_function(mut self, sb: &mut StructBuilder) {
+    pub fn emit_function(mut self, sb: &mut CodeObject) {
         let funtion = ClassicTarget::create_llvm_function(sb);
         self.emit_cfg(sb, funtion);
     }
 
-    fn create_llvm_function<'func>(sb: &mut StructBuilder<'func>) -> FunctionValue<'func> {
+    fn create_llvm_function<'func>(sb: &mut CodeObject<'func>) -> FunctionValue<'func> {
         let ret_type = sb.context.i32_type();
         let args_types = std::iter::repeat(ret_type)
             .take(sb.cfg.params.len())
@@ -47,7 +47,7 @@ impl ClassicTarget {
         func_decl
     }
 
-    pub fn emit_cfg(mut self, sb: &mut StructBuilder, function: FunctionValue) {
+    pub fn emit_cfg(mut self, sb: &mut CodeObject, function: FunctionValue) {
         let bb = sb.context.append_basic_block(function, &sb.cfg.name);
         sb.builder.position_at_end(bb);
 

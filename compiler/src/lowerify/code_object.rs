@@ -12,7 +12,7 @@ use crate::{ControlFlowGraph, Namespace};
 
 #[allow(dead_code)]
 #[derive(Debug)]
-pub struct StructBuilder<'a> {
+pub struct CodeObject<'a> {
     pub name: &'a str,
     pub module: Module<'a>,
     pub context: &'a Context,
@@ -20,7 +20,7 @@ pub struct StructBuilder<'a> {
     pub cfg: &'a ControlFlowGraph,
 }
 
-impl<'a> StructBuilder<'a> {
+impl<'a> CodeObject<'a> {
     pub fn new(
         name: &'a str,
         cfg: &'a ControlFlowGraph,
@@ -34,7 +34,7 @@ impl<'a> StructBuilder<'a> {
         module.set_triple(&triple);
         module.set_source_file_name(filename);
 
-        StructBuilder {
+        CodeObject {
             name: &name,
             module,
             builder: context.create_builder(),

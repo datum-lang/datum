@@ -5,7 +5,7 @@ use crate::Namespace;
 use std::path::Path;
 
 pub mod classic_target;
-pub mod struct_builder;
+pub mod code_object;
 pub mod wasm_target;
 
 pub fn codegen(ns: &mut Namespace) {
