@@ -18,17 +18,12 @@ impl ClassicTarget {
         let target = ClassicTarget {};
 
         let mut structure = CodeObject::new(filename, cfg, context, "", ns);
-
         target.emit_function(&mut structure);
-
-        println!("{:?}", structure.module.print_to_string());
-
-        structure.run_jit();
 
         structure
     }
 
-    pub fn emit_function(mut self, sb: &mut CodeObject) {
+    pub fn emit_function(self, sb: &mut CodeObject) {
         let funtion = ClassicTarget::create_llvm_function(sb);
         self.emit_cfg(sb, funtion);
     }
@@ -47,7 +42,7 @@ impl ClassicTarget {
         func_decl
     }
 
-    pub fn emit_cfg(mut self, sb: &mut CodeObject, function: FunctionValue) {
+    pub fn emit_cfg(self, sb: &mut CodeObject, function: FunctionValue) {
         let bb = sb.context.append_basic_block(function, &sb.cfg.name);
         sb.builder.position_at_end(bb);
 

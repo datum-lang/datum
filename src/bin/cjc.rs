@@ -7,7 +7,7 @@ use clap::{App, Arg};
 use compiler::{codegen, process_string};
 
 fn main() {
-    let matches = App::new("solang")
+    let matches = App::new("charj")
         .version(&*format!("version {}", env!("GIT_HASH")))
         .author(env!("CARGO_PKG_AUTHORS"))
         .about(env!("CARGO_PKG_DESCRIPTION"))
@@ -16,6 +16,13 @@ fn main() {
                 .help("Charj input files")
                 .required(true)
                 .multiple(true),
+        )
+        .arg(
+            Arg::with_name("TARGET")
+                .help("Output target")
+                .multiple(true)
+                .last(true)
+                .default_value("jit"),
         )
         .get_matches();
 
@@ -27,11 +34,14 @@ fn main() {
                 panic!("failed to read file ‘{}’: {}", filename, e.to_string())
             }
 
-            // todo: generate code
-            // let _namespace = parse_and_resolve(&*contents, filename);
             let mut ns = process_string(&*contents, filename);
-            codegen(&mut ns);
-            // let _r = compile_program(&*contents, filename);
+            if let Some("jit") = matches.value_of("TARGET") {
+                codegen(&mut ns, "jit");
+            } else {
+                panic!("not support target{:?}", matches.value_of("TARGET"));
+            }
+        } else {
+            panic!("lost file: {:?}", filename);
         }
     }
 }

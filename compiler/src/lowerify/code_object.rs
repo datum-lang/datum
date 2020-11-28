@@ -91,7 +91,6 @@ impl<'a> CodeObject<'a> {
     }
 
     pub fn run_jit(&self) {
-        // todo: verify
         self.module.get_function("main").unwrap().verify(true);
 
         let ee = self
