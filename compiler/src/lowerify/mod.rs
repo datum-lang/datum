@@ -7,13 +7,18 @@ use crate::Namespace;
 pub mod compiler;
 pub mod wasm_target;
 pub mod classic_target;
-pub mod target_builder;
+pub mod struct_builder;
 
 pub fn codegen(ns: &mut Namespace) {
-    let filename = ns.files[0].clone();
-    let context = Context::create();
+    for no in 0..ns.cfgs.len() {
+        let cfg = &ns.cfgs[no];
 
-    let compiler = ClassicTarget::build(&filename, &context, ns);
+        let filename = ns.files[0].clone();
+        let context = Context::create();
+
+        let _compiler = ClassicTarget::build(&filename, cfg , &context, ns);
+    }
+
 }
 
 pub fn compile_program(_input: &str, filename: &str) -> Result<String, ()> {

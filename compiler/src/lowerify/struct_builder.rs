@@ -3,21 +3,24 @@ use inkwell::context::Context;
 use inkwell::module::Module;
 use inkwell::targets::TargetTriple;
 
-use crate::Namespace;
+use crate::{Namespace, ControlFlowGraph};
 
-pub struct TargetBuilder<'a> {
+#[allow(dead_code)]
+pub struct StructBuilder<'a> {
     pub name: String,
     pub module: Module<'a>,
     builder: Builder<'a>,
     context: &'a Context,
+    cfg: &'a ControlFlowGraph,
 }
 
-impl<'a> TargetBuilder<'a> {
+impl<'a> StructBuilder<'a> {
     pub fn new(
         name: &'a str,
+        cfg: &'a ControlFlowGraph,
         context: &'a Context,
-        ns: &'a Namespace,
         filename: &'a str,
+        _ns: &'a Namespace,
     ) -> Self {
         let triple = TargetTriple::create("x86_64");
         let module = context.create_module(&name);
@@ -25,11 +28,12 @@ impl<'a> TargetBuilder<'a> {
         module.set_triple(&triple);
         module.set_source_file_name(filename);
 
-        TargetBuilder {
+        StructBuilder {
             name: name.to_owned(),
             module,
             builder: context.create_builder(),
-            context
+            context,
+            cfg
         }
     }
 }

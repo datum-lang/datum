@@ -1,21 +1,30 @@
-use inkwell::builder::Builder;
 use inkwell::context::Context;
-use inkwell::module::Module;
-use inkwell::targets::TargetTriple;
 
-use crate::Namespace;
+use crate::{Namespace, ControlFlowGraph};
+use crate::lowerify::struct_builder::StructBuilder;
 
 pub struct ClassicTarget {}
 
 impl ClassicTarget {
     pub fn build<'a>(
-        name: &String,
+        filename: &String,
+        cfg: &'a ControlFlowGraph,
         context: &'a Context,
-        ns: &'a mut Namespace,
+        ns: &'a Namespace,
     ) -> Self {
-        Self {
+        let target = ClassicTarget {};
 
-        }
+        let mut structure = StructBuilder::new(filename, cfg, context, "", ns);
+
+        target.emit_functions(&mut structure);
+
+        Self {}
     }
+
+    pub fn emit_functions(mut self, sb: &mut StructBuilder) {
+        self.emit_cfg(sb);
+    }
+
+    pub fn emit_cfg(mut self, sb: &mut StructBuilder) {}
 }
 
