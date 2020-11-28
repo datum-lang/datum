@@ -54,10 +54,10 @@ pub fn expression_cfg(expr: &Expression, cfg: &mut ControlFlowGraph, ns: &Namesp
     match expr {
         Expression::Placeholder => Expression::Placeholder,
         Expression::StringLiteral { location: _, value } => {
-            cfg.emit(ExprKind::Var {
-                value: value.to_string(),
-            });
-            Expression::Variable
+            // cfg.emit(ExprKind::Var {
+            //     value: value.to_string(),
+            // });
+            expr.clone()
         }
         Expression::BytesLiteral { .. } => Expression::Placeholder,
         Expression::InternalFunctionCall { .. } => Expression::Placeholder,
@@ -69,10 +69,17 @@ pub fn expression_cfg(expr: &Expression, cfg: &mut ControlFlowGraph, ns: &Namesp
         } => match builtin {
             Builtin::Assert => Expression::Placeholder,
             Builtin::Print => {
+                let expr = expression_cfg(&args[0], cfg, ns);
+                let mut val = "".to_string();
+                match expr {
+                    Expression::StringLiteral { location: _, value } => {
+                        val = value;
+                    }
+                    _ => {}
+                }
                 cfg.emit(ExprKind::Print {
-                    // expr
+                    value: val
                 });
-                let _expr = expression_cfg(&args[0], cfg, ns);
                 Expression::Placeholder
             }
         },

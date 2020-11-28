@@ -3,8 +3,10 @@ use inkwell::context::Context;
 use crate::{Namespace, ControlFlowGraph};
 use crate::lowerify::struct_builder::StructBuilder;
 use cjc_mir::instruction::ExprKind;
-use inkwell::types::BasicTypeEnum;
-use inkwell::values::FunctionValue;
+use inkwell::types::{BasicTypeEnum, IntType};
+use inkwell::values::{FunctionValue, PointerValue};
+use inkwell::AddressSpace;
+use inkwell::module::Linkage;
 
 pub struct ClassicTarget {}
 
@@ -20,6 +22,8 @@ impl ClassicTarget {
         let mut structure = StructBuilder::new(filename, cfg, context, "", ns);
 
         target.emit_function(&mut structure);
+
+        println!("{:?}", structure.module.print_to_string());
 
         Self {}
     }
@@ -54,7 +58,9 @@ impl ClassicTarget {
             match instr {
                 ExprKind::Var { .. } => {}
                 ExprKind::Call => {}
-                ExprKind::Print { .. } => {}
+                ExprKind::Print { value } => {
+                    sb.emit_print(&"", value);
+                }
             }
         }
     }
