@@ -3,7 +3,6 @@ use inkwell::context::Context;
 use crate::{Namespace, ControlFlowGraph};
 use crate::lowerify::struct_builder::StructBuilder;
 use cjc_mir::instruction::ExprKind;
-use inkwell::module::Linkage;
 use inkwell::types::BasicTypeEnum;
 use inkwell::values::FunctionValue;
 
@@ -26,6 +25,10 @@ impl ClassicTarget {
     }
 
     pub fn emit_function(mut self, sb: &mut StructBuilder) {
+        self.emit_cfg(sb, ClassicTarget::create_llvm_function(&sb));
+    }
+
+    fn create_llvm_function(sb: &&mut StructBuilder) -> FunctionValue {
         let ret_type = sb.context.i32_type();
         let args_types = std::iter::repeat(ret_type)
             .take(sb.cfg.params.len())
@@ -39,8 +42,7 @@ impl ClassicTarget {
             sb
                 .module
                 .add_function(&sb.cfg.name, fn_type, None);
-
-        self.emit_cfg(sb, func_decl);
+        func_decl
     }
 
     pub fn emit_cfg(mut self, sb: &mut StructBuilder, function: FunctionValue) {
