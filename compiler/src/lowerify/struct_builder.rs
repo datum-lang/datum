@@ -9,9 +9,9 @@ use crate::{Namespace, ControlFlowGraph};
 pub struct StructBuilder<'a> {
     pub name: String,
     pub module: Module<'a>,
-    builder: Builder<'a>,
-    context: &'a Context,
-    cfg: &'a ControlFlowGraph,
+    pub context: &'a Context,
+    pub(crate) builder: Builder<'a>,
+    pub cfg: &'a ControlFlowGraph,
 }
 
 impl<'a> StructBuilder<'a> {
@@ -33,7 +33,7 @@ impl<'a> StructBuilder<'a> {
             module,
             builder: context.create_builder(),
             context,
-            cfg
+            cfg,
         }
     }
 }
