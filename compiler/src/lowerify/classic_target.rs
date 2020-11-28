@@ -25,10 +25,11 @@ impl ClassicTarget {
     }
 
     pub fn emit_function(mut self, sb: &mut StructBuilder) {
-        self.emit_cfg(sb, ClassicTarget::create_llvm_function(&sb));
+        let funtion = ClassicTarget::create_llvm_function(sb);
+        self.emit_cfg(sb, funtion);
     }
 
-    fn create_llvm_function(sb: &&mut StructBuilder) -> FunctionValue {
+    fn create_llvm_function<'func>(sb: &mut StructBuilder<'func>) -> FunctionValue<'func> {
         let ret_type = sb.context.i32_type();
         let args_types = std::iter::repeat(ret_type)
             .take(sb.cfg.params.len())
