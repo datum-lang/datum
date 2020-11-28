@@ -5,6 +5,21 @@ on: [push]
 jobs:
 # we know how to build a llvm with llvmenv in Ubuntu or macOS server, but it's slowly. So I just copy the solang config
 # But as a open source project, we shouldn't to use others server.
+
+  linux:
+    name: Linux
+    runs-on: ubuntu-18.04
+    container: hyperledgerlabs/solang:ci
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+      - name: Rust stable
+        run: rustup default stable
+      - name: Build
+        run: cargo build --verbose --release
+      - name: Run tests
+        run: cargo test --verbose --release
+
   mac:
     name: Mac
     runs-on: macos-latest
