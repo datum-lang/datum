@@ -54,6 +54,6 @@ mod test {
     fn should_call_meanify() {
         let mut ns = process_string("default$main() {println(\"hello,world\")}", "hello.cj");
         assert_eq!(1, ns.cfgs.len());
-        codegen(&mut ns);
+        codegen(&mut ns, "jit");
     }
 }
