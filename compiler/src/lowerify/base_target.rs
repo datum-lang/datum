@@ -1,7 +1,7 @@
 use crate::code_object::CodeObject;
-use inkwell::values::FunctionValue;
-use inkwell::types::BasicTypeEnum;
 use cjc_mir::instruction::ExprKind;
+use inkwell::types::BasicTypeEnum;
+use inkwell::values::FunctionValue;
 
 pub trait BaseTarget<'a> {
     fn emit_function(&self, sb: &mut CodeObject) {

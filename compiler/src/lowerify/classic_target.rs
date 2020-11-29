@@ -1,8 +1,8 @@
 use inkwell::context::Context;
 
+use crate::base_target::BaseTarget;
 use crate::lowerify::code_object::CodeObject;
 use crate::{ControlFlowGraph, Namespace};
-use crate::base_target::BaseTarget;
 
 pub struct ClassicTarget {}
 

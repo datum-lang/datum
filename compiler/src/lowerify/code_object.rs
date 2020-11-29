@@ -3,7 +3,7 @@ use std::path::Path;
 use inkwell::builder::Builder;
 use inkwell::context::Context;
 use inkwell::module::{Linkage, Module};
-use inkwell::targets::TargetTriple;
+use inkwell::targets::{CodeModel, FileType, RelocMode, TargetTriple};
 use inkwell::types::IntType;
 use inkwell::values::PointerValue;
 use inkwell::{AddressSpace, OptimizationLevel};
@@ -121,5 +121,27 @@ impl<'a> CodeObject<'a> {
         }
 
         Ok(())
+    }
+
+    pub fn code(&self) {
+        let target = inkwell::targets::Target::from_name("wasm").unwrap();
+        let target_machine = target
+            .create_target_machine(
+                &TargetTriple::create("wasm32-unknown-unknown-wasm"),
+                "",
+                "",
+                OptimizationLevel::None,
+                RelocMode::Default,
+                CodeModel::Default,
+            )
+            .unwrap();
+
+        match target_machine.write_to_memory_buffer(&self.module, FileType::Object) {
+            Ok(out) => {
+                let slice = out.as_slice();
+                println!("{:?}", slice);
+            }
+            Err(_) => {}
+        }
     }
 }

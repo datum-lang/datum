@@ -37,6 +37,8 @@ fn main() {
             let mut ns = process_string(&*contents, filename);
             if let Some("jit") = matches.value_of("TARGET") {
                 codegen(&mut ns, "jit");
+            } else if let Some("wasm") = matches.value_of("TARGET") {
+                codegen(&mut ns, "wasm");
             } else {
                 panic!("not support target{:?}", matches.value_of("TARGET"));
             }
