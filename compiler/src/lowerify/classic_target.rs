@@ -17,15 +17,15 @@ impl ClassicTarget {
     ) -> CodeObject<'a> {
         let target = ClassicTarget {};
 
-        let mut structure = CodeObject::new(filename, cfg, context, "", ns);
+        let mut structure = CodeObject::new(&*cfg.name, cfg, context, filename, ns);
         target.emit_function(&mut structure);
 
         structure
     }
 
     pub fn emit_function(self, sb: &mut CodeObject) {
-        let funtion = ClassicTarget::create_llvm_function(sb);
-        self.emit_cfg(sb, funtion);
+        let function = ClassicTarget::create_llvm_function(sb);
+        self.emit_cfg(sb, function);
     }
 
     fn create_llvm_function<'func>(sb: &mut CodeObject<'func>) -> FunctionValue<'func> {
