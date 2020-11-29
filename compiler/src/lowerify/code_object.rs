@@ -27,8 +27,9 @@ impl<'a> CodeObject<'a> {
         context: &'a Context,
         filename: &'a str,
         _ns: &'a Namespace,
+        target: &str,
     ) -> Self {
-        let triple = TargetTriple::create("x86_64");
+        let triple = TargetTriple::create(target);
         let module = context.create_module(&name);
 
         module.set_triple(&triple);

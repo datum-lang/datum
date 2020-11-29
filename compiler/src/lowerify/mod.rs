@@ -7,6 +7,7 @@ use std::path::Path;
 pub mod classic_target;
 pub mod code_object;
 pub mod wasm_target;
+pub mod base_target;
 
 pub fn codegen(ns: &mut Namespace, target: &str) {
     for no in 0..ns.cfgs.len() {

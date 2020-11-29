@@ -2,9 +2,7 @@ use inkwell::context::Context;
 
 use crate::lowerify::code_object::CodeObject;
 use crate::{ControlFlowGraph, Namespace};
-use cjc_mir::instruction::ExprKind;
-use inkwell::types::BasicTypeEnum;
-use inkwell::values::FunctionValue;
+use crate::base_target::BaseTarget;
 
 pub struct ClassicTarget {}
 
@@ -17,45 +15,11 @@ impl ClassicTarget {
     ) -> CodeObject<'a> {
         let target = ClassicTarget {};
 
-        let mut structure = CodeObject::new(&*cfg.name, cfg, context, filename, ns);
+        let mut structure = CodeObject::new(&*cfg.name, cfg, context, filename, ns, "x86_64");
         target.emit_function(&mut structure);
 
         structure
     }
-
-    pub fn emit_function(self, sb: &mut CodeObject) {
-        let function = ClassicTarget::create_llvm_function(sb);
-        self.emit_cfg(sb, function);
-    }
-
-    fn create_llvm_function<'func>(sb: &mut CodeObject<'func>) -> FunctionValue<'func> {
-        let ret_type = sb.context.i32_type();
-        let args_types = std::iter::repeat(ret_type)
-            .take(sb.cfg.params.len())
-            .map(|f| f.into())
-            .collect::<Vec<BasicTypeEnum>>();
-        let args_types = args_types.as_slice();
-
-        let fn_type = sb.context.i32_type().fn_type(args_types, false);
-
-        let func_decl = sb.module.add_function(&sb.cfg.name, fn_type, None);
-        func_decl
-    }
-
-    pub fn emit_cfg(self, sb: &mut CodeObject, function: FunctionValue) {
-        let bb = sb.context.append_basic_block(function, &sb.cfg.name);
-        sb.builder.position_at_end(bb);
-
-        for instr in &sb.cfg.basic_block.instructions {
-            match instr {
-                ExprKind::Var { .. } => {}
-                ExprKind::Call => {}
-                ExprKind::Print { value } => {
-                    sb.emit_print(&"", value);
-                }
-            }
-        }
-
-        sb.emit_void();
-    }
 }
+
+impl<'a> BaseTarget<'a> for ClassicTarget {}
