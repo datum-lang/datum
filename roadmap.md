@@ -1,14 +1,25 @@
 # Roadmap
 
- - [ ] make compiler works
+##
+
+ - [x] implementation basic compiler logic
+     - [x] hir convert (neat)
+     - [x] mir convert (medium)
+     - [x] to LLVM     (codegen)
+ - [ ] design HIR
  - [ ] design MIR
      - [ ] charj is a MIR for high level
  - [ ] target
      - [ ] WASM
-     - [ ] Desktop
- - [ ] convert
-     - [ ] compile from java/javascipt
-     - [ ] compile to java/javascript
+     - [x] Desktop
+ - [ ] build system
+ - [ ] package manager
+ - [ ] dependency manager
+
+Others todo:
+
+ - [ ] CI
+    - [ ] replace Solang CI container.
 
 ## Make compiler works
 
@@ -27,14 +38,6 @@
        - [ ] expression
           - [x] assignment
           - [x] method call
-    - [ ] poet design
  - [x] compiler
     - [x] LLVM spike
     - [x] hello, world
- - [ ] build system
- - [ ] dependency manager
-
-Others todo:
-
- - [ ] CI
-    - [ ] replace Solang CI container.
