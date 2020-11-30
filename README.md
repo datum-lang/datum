@@ -13,14 +13,6 @@ Design for:
      - domain model design for languages.
      - visualize architecture.
 
-examples:
-
- - JavaScript/Java to WASM
-
-TBD:
-
- - C++ to Charj. (partially support)
-
 ## Development
 
 see in [DEVELOPMENT.md](DEVELOPMENT.md)
