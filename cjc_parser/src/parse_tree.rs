@@ -136,6 +136,30 @@ pub enum ExpressionType {
     },
 }
 
+#[derive(Debug, Clone, PartialEq)]
+pub enum VariableStorage {
+    Memory { location: Location },
+    Storage { location: Location },
+}
+
+impl VariableStorage {
+    pub fn location(&self) -> &Location {
+        match self {
+            VariableStorage::Memory { location } => location,
+            VariableStorage::Storage { location } => location
+        }
+    }
+}
+
+impl fmt::Display for VariableStorage {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            VariableStorage::Memory { .. } => write!(f, "memory"),
+            VariableStorage::Storage { .. } => write!(f, "storage"),
+        }
+    }
+}
+
 #[derive(Debug, PartialEq)]
 pub struct Argument {
     pub location: Location,
