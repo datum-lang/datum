@@ -35,7 +35,7 @@ mod test {
     fn test_parse_package() {
         let package = parse_program("package charj");
         assert_eq!(package.unwrap(), Program {
-            0: vec![ProgramUnit::PackageDirective(Package::Plain(
+            0: vec![ProgramUnit::PackageDecl(Package::Plain(
                 Identifier {
                     loc: Loc(8, 13),
                     name: "charj".to_string(),

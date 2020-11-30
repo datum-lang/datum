@@ -36,7 +36,7 @@ pub fn resolve_unit(program: Program, namespace: &mut Namespace) {
     // todo: add import support
     for part in &program.0 {
         match part {
-            ProgramUnit::ImportDirective(_) => {}
+            ProgramUnit::ImportDecl(_) => {}
             _ => {}
         }
     }

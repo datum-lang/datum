@@ -17,19 +17,19 @@ pub Charj: Program = {
 };
 
 ProgramUnit: ProgramUnit = {
-    PackageDirective => ProgramUnit::PackageDirective(<>),
-    ImportDirective => ProgramUnit::ImportDirective(<>),
+    PackageDecl => ProgramUnit::PackageDecl(<>),
+    ImportDecl => ProgramUnit::ImportDecl(<>),
     StructDef => ProgramUnit::StructDef(<>),
     FuncDef => ProgramUnit::FuncDef(<>),
     StructFuncDef => ProgramUnit::StructFuncDef(<>),
 }
 
-PackageDirective: Package = {
+PackageDecl: Package = {
    "package" <s:Identifier> => Package::Plain(s),
    "pkg" <s:Identifier> => Package::Plain(s),
 }
 
-ImportDirective: Import = {
+ImportDecl: Import = {
     "import" <s:Identifier> => Import::Standard(s),
     "import" <s:StringLiteral> "as" <id:Identifier> ";" => Import::GlobalSymbol(s, id)
 }

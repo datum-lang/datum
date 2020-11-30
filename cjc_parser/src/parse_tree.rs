@@ -9,9 +9,8 @@ pub struct Program(pub Vec<ProgramUnit>);
 
 #[derive(Debug, PartialEq)]
 pub enum ProgramUnit {
-    ImportDirective(Import),
-    MultipleImportDirective(Vec<Import>),
-    PackageDirective(Package),
+    PackageDecl(Package),
+    ImportDecl(Import),
     StructFuncDef(Box<StructFuncDef>),
     FuncDef(Box<FuncDef>),
     StructDef(Box<StructDef>),
@@ -146,7 +145,7 @@ impl VariableStorage {
     pub fn location(&self) -> &Location {
         match self {
             VariableStorage::Memory { location } => location,
-            VariableStorage::Storage { location } => location
+            VariableStorage::Storage { location } => location,
         }
     }
 }
