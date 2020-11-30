@@ -1,14 +1,14 @@
-use cjc_parser::{SourceUnit, SourceUnitPart, StructFuncDef};
+use cjc_parser::{Program, ProgramUnit, StructFuncDef};
 
 use crate::neat::struct_function::struct_function_decl;
 use crate::neat::{statements, Namespace};
 
-pub fn resolve_unit(unit: SourceUnit, namespace: &mut Namespace) {
-    let _structs = unit
+pub fn resolve_unit(program: Program, namespace: &mut Namespace) {
+    let _structs = program
         .0
         .iter()
         .filter_map(|part| {
-            if let SourceUnitPart::StructDef(def) = part {
+            if let ProgramUnit::StructDef(def) = part {
                 Some(def)
             } else {
                 None
@@ -19,11 +19,11 @@ pub fn resolve_unit(unit: SourceUnit, namespace: &mut Namespace) {
         .collect::<Vec<(usize, &cjc_parser::StructDef)>>();
 
     // todo: resolve struct function
-    let struct_funcs = unit
+    let struct_funcs = program
         .0
         .iter()
         .filter_map(|part| {
-            if let SourceUnitPart::StructFuncDef(def) = part {
+            if let ProgramUnit::StructFuncDef(def) = part {
                 Some(def)
             } else {
                 None
@@ -34,9 +34,9 @@ pub fn resolve_unit(unit: SourceUnit, namespace: &mut Namespace) {
         .collect::<Vec<(usize, &cjc_parser::StructFuncDef)>>();
 
     // todo: add import support
-    for part in &unit.0 {
+    for part in &program.0 {
         match part {
-            SourceUnitPart::ImportDirective(_) => {}
+            ProgramUnit::ImportDirective(_) => {}
             _ => {}
         }
     }

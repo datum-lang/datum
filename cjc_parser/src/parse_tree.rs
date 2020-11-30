@@ -5,10 +5,10 @@ use num_bigint::BigInt;
 use cjc_lexer::{Loc, Location};
 
 #[derive(Debug, PartialEq)]
-pub struct SourceUnit(pub Vec<SourceUnitPart>);
+pub struct Program(pub Vec<ProgramUnit>);
 
 #[derive(Debug, PartialEq)]
-pub enum SourceUnitPart {
+pub enum ProgramUnit {
     ImportDirective(Import),
     MultipleImportDirective(Vec<Import>),
     PackageDirective(Package),

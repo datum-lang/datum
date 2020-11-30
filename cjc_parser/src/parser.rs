@@ -1,7 +1,7 @@
 use cjc_lexer::Diagnostic;
 
 use crate::charj;
-use crate::parse_tree::SourceUnit;
+use crate::parse_tree::Program;
 
 macro_rules! do_lalr_parsing {
     ($input: expr) => {{
@@ -13,13 +13,13 @@ macro_rules! do_lalr_parsing {
     }};
 }
 
-pub fn parse_program(source: &str) -> Result<SourceUnit, Diagnostic> {
+pub fn parse_program(source: &str) -> Result<Program, Diagnostic> {
     do_lalr_parsing!(source)
 }
 
 #[cfg(test)]
 mod test {
-    use crate::parse_tree::{Identifier, Package, SourceUnit, SourceUnitPart};
+    use crate::parse_tree::{Identifier, Package, Program, ProgramUnit};
     use crate::parser::parse_program;
     use cjc_lexer::Loc;
 
@@ -34,8 +34,8 @@ mod test {
     #[rustfmt::skip]
     fn test_parse_package() {
         let package = parse_program("package charj");
-        assert_eq!(package.unwrap(), SourceUnit {
-            0: vec![SourceUnitPart::PackageDirective(Package::Plain(
+        assert_eq!(package.unwrap(), Program {
+            0: vec![ProgramUnit::PackageDirective(Package::Plain(
                 Identifier {
                     loc: Loc(8, 13),
                     name: "charj".to_string(),
@@ -164,7 +164,7 @@ pkg comment
 }");
 
         match function_return.unwrap().0.get(0).unwrap() {
-            SourceUnitPart::StructFuncDef(def) => {
+            ProgramUnit::StructFuncDef(def) => {
                 let string = format!("{:?}", def.returns.as_ref().unwrap().node);
                 assert_eq!("Type { ty: Int(256) }", string);
             }
@@ -181,7 +181,7 @@ pkg comment
 }");
 
         match function_return.unwrap().0.get(0).unwrap() {
-            SourceUnitPart::StructFuncDef(def) => {
+            ProgramUnit::StructFuncDef(def) => {
                 let string = format!("{:?}", def.returns.as_ref().unwrap().node);
                 assert_eq!("Type { ty: String }", string);
             }
@@ -218,7 +218,7 @@ struct Summary {
 }");
 
         match code.unwrap().0.get(1).unwrap() {
-            SourceUnitPart::StructDef(def) => {
+            ProgramUnit::StructDef(def) => {
                 assert_eq!("Summary", def.name.name);
             }
             _ => {
@@ -250,7 +250,7 @@ Summary$constructor(string name) {
 ");
 
         match code.unwrap().0.get(2).unwrap() {
-            SourceUnitPart::StructFuncDef(def) => {
+            ProgramUnit::StructFuncDef(def) => {
                 assert_eq!("Summary", def.struct_name.name);
             }
             _ => {

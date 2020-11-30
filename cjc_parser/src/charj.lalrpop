@@ -12,16 +12,16 @@ use crate::parse_tree::*;
 
 grammar<'input>(input: &'input str);
 
-pub Charj: SourceUnit = {
-    SourceUnitPart+ => SourceUnit(<>)
+pub Charj: Program = {
+    ProgramUnit + => Program(<>)
 };
 
-SourceUnitPart: SourceUnitPart = {
-    PackageDirective => SourceUnitPart::PackageDirective(<>),
-    ImportDirective => SourceUnitPart::ImportDirective(<>),
-    StructDef => SourceUnitPart::StructDef(<>),
-    FuncDef => SourceUnitPart::FuncDef(<>),
-    StructFuncDef => SourceUnitPart::StructFuncDef(<>),
+ProgramUnit: ProgramUnit = {
+    PackageDirective => ProgramUnit::PackageDirective(<>),
+    ImportDirective => ProgramUnit::ImportDirective(<>),
+    StructDef => ProgramUnit::StructDef(<>),
+    FuncDef => ProgramUnit::FuncDef(<>),
+    StructFuncDef => ProgramUnit::StructFuncDef(<>),
 }
 
 PackageDirective: Package = {
