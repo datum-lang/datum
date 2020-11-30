@@ -91,7 +91,7 @@ impl<'a> CodeObject<'a> {
         self.module.write_bitcode_to_path(path);
     }
 
-    pub fn run_jit(&self) {
+    pub fn run_jit(&self) -> i32 {
         self.module.get_function("main").unwrap().verify(true);
 
         let ee = self
@@ -111,7 +111,7 @@ impl<'a> CodeObject<'a> {
         };
 
         unsafe {
-            compiled_fn.call();
+            compiled_fn.call()
         }
     }
 

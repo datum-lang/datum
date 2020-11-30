@@ -2,7 +2,6 @@ pub use lowerify::*;
 pub use meanify::*;
 pub use neat::*;
 
-// todo: to be defined;
 pub mod lowerify;
 pub mod meanify;
 pub mod neat;
@@ -23,8 +22,9 @@ pub fn process_string(input: &str, filename: &str) -> Namespace {
 
 #[cfg(test)]
 mod test {
-    use crate::{codegen, parse_and_resolve, process_string};
     use cjc_hir::{Expression, Statement};
+
+    use crate::{codegen, CodegenResult, parse_and_resolve, process_string};
 
     #[test]
     #[rustfmt::skip]
@@ -54,7 +54,16 @@ mod test {
     fn should_run_hello_world() {
         let mut ns = process_string("default$main() {println(\"hello,world\")}", "hello.cj");
         assert_eq!(1, ns.cfgs.len());
-        codegen(&mut ns, "jit");
+        let results = codegen(&mut ns, "jit");
+        assert_eq!(1, results.len());
+        match results[0] {
+            CodegenResult::Jit { exit_code } => {
+                assert_eq!(0, exit_code);
+            }
+            _ => {
+                panic!("run hello, world failure");
+            }
+        }
     }
 
     #[test]
@@ -62,7 +71,15 @@ mod test {
     fn should_run_hello_world_utf8() {
         let mut ns = process_string("default$main() {println(\"你好，世界！\")}", "hello.cj");
         assert_eq!(1, ns.cfgs.len());
-        codegen(&mut ns, "jit");
+        let results = codegen(&mut ns, "jit");
+        match results[0] {
+            CodegenResult::Jit { exit_code } => {
+                assert_eq!(0, exit_code);
+            }
+            _ => {
+                panic!("run hello, world failure");
+            }
+        }
     }
 
     #[test]

@@ -17,7 +17,16 @@ lazy_static::lazy_static! {
     };
 }
 
-pub fn codegen(ns: &mut Namespace, target: &str) {
+pub enum CodegenResult {
+    Jit { exit_code: i32 },
+    Wasm,
+    LLVM { value: String },
+    BitCode
+}
+
+pub fn codegen(ns: &mut Namespace, target: &str) -> Vec<CodegenResult> {
+    let mut results = vec![];
+
     for no in 0..ns.cfgs.len() {
         let cfg = &ns.cfgs[no];
 
@@ -27,12 +36,14 @@ pub fn codegen(ns: &mut Namespace, target: &str) {
         match target {
             "jit" => {
                 let obj = ClassicTarget::build(&filename, cfg, &context, ns);
-                obj.run_jit();
+                let exit_code = obj.run_jit();
+                results.push(CodegenResult::Jit { exit_code });
             }
             "wasm" => {
                 // lazy_static::initialize(&LLVM_INIT);
                 let obj = WasmTarget::build(&filename, cfg, &context, ns);
                 obj.code();
+                results.push(CodegenResult::Wasm);
             }
             "llvm" => {
                 let obj = ClassicTarget::build(&filename, cfg, &context, ns);
@@ -45,14 +56,19 @@ pub fn codegen(ns: &mut Namespace, target: &str) {
                         panic!("dump llvm failured: {:?}", name);
                     }
                 }
+
+                results.push(CodegenResult::LLVM { value: "".to_string() });
             }
             &_ => {
                 let obj = ClassicTarget::build(&filename, cfg, &context, ns);
                 let name = format!("{}.bc", &cfg.name);
                 obj.bitcode(Path::new(&name));
+                results.push(CodegenResult::BitCode);
             }
         }
     }
+
+    results
 }
 
 #[cfg(test)]
