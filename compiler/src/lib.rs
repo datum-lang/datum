@@ -59,8 +59,16 @@ mod test {
 
     #[test]
     #[rustfmt::skip]
+    fn should_run_hello_world_utf8() {
+        let mut ns = process_string("default$main() {println(\"你好，世界！\")}", "hello.cj");
+        assert_eq!(1, ns.cfgs.len());
+        codegen(&mut ns, "jit");
+    }
+
+    #[test]
+    #[rustfmt::skip]
     fn should_down_wasm() {
-        let ns = process_string("default$main() {println(\"hello,world\")}", "hello.cj");
+        let _ns = process_string("default$main() {println(\"hello,world\")}", "hello.cj");
         // codegen(&mut ns, "wasm");
     }
 }
