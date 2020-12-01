@@ -27,6 +27,7 @@ pub enum Token<'input> {
     Continue,
     Return,
     Let,
+    Object,
 
     Rarrow,
 
@@ -132,6 +133,7 @@ impl<'input> fmt::Display for Token<'input> {
             Continue => write!(f, "continue"),
             Return => write!(f, "return"),
             Let => write!(f, "let"),
+            Object => write!(f, "object"),
 
             // type
             Bool => write!(f, "bool"),

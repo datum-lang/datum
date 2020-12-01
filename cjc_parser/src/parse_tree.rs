@@ -14,9 +14,18 @@ pub enum ProgramUnit {
     StructFuncDecl(Box<StructFuncDecl>),
     FuncDecl(Box<FuncDecl>),
     StructDecl(Box<StructDecl>),
+    // todo
+    ObjectDecl(Box<ObjectDecl>),
 }
 
 pub type Suite = Vec<Statement>;
+
+#[derive(Debug, PartialEq)]
+pub struct ObjectDecl {
+    pub loc: Loc,
+    pub name: Identifier,
+    pub functions: Vec<Box<FuncDecl>>,
+}
 
 #[derive(Debug, PartialEq)]
 pub struct FuncDecl {

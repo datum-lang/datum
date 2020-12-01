@@ -19,6 +19,7 @@ pub Charj: Program = {
 ProgramUnit: ProgramUnit = {
     PackageDecl => ProgramUnit::PackageDecl(<>),
     ImportDecl => ProgramUnit::ImportDecl(<>),
+    ObjectDecl => ProgramUnit::ObjectDecl(<>),
     StructDecl => ProgramUnit::StructDecl(<>),
     FuncDecl => ProgramUnit::FuncDecl(<>),
     StructFuncDecl => ProgramUnit::StructFuncDecl(<>),
@@ -40,6 +41,13 @@ StructDecl: Box<StructDecl> = {
         Box::new(StructDecl{loc: Loc(l, r), name, fields})
     }
 }
+
+ObjectDecl: Box<ObjectDecl> = {
+    <l:@L> "object" <name:Identifier> "{" <functions:(<FuncDecl>)*> "}" <r:@R> => {
+        Box::new(ObjectDecl{loc: Loc(l, r), name, functions})
+    }
+}
+
 
 FuncDecl: Box<FuncDecl> = {
     <l:@L> "fun" <name:Identifier> <params:ParameterList?> "{" <body:Suite?> "}" <r:@R> => {
@@ -527,6 +535,7 @@ extern {
         "as" => Token::As,
         "fun" => Token::Fun,
         "let" => Token::Let,
+        "object" => Token::Object,
 
         // statement
         "if" => Token::If,

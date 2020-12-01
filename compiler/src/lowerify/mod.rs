@@ -21,7 +21,7 @@ pub enum CodegenResult {
     Jit { exit_code: i32 },
     Wasm,
     LLVM { value: String },
-    BitCode
+    BitCode,
 }
 
 pub fn codegen(ns: &mut Namespace, target: &str) -> Vec<CodegenResult> {
@@ -57,7 +57,9 @@ pub fn codegen(ns: &mut Namespace, target: &str) -> Vec<CodegenResult> {
                     }
                 }
 
-                results.push(CodegenResult::LLVM { value: "".to_string() });
+                results.push(CodegenResult::LLVM {
+                    value: "".to_string(),
+                });
             }
             &_ => {
                 let obj = ClassicTarget::build(&filename, cfg, &context, ns);

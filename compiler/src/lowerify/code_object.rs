@@ -110,9 +110,7 @@ impl<'a> CodeObject<'a> {
             }
         };
 
-        unsafe {
-            compiled_fn.call()
-        }
+        unsafe { compiled_fn.call() }
     }
 
     pub fn dump_llvm(&self, path: &Path) -> Result<(), String> {

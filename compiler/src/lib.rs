@@ -24,7 +24,7 @@ pub fn process_string(input: &str, filename: &str) -> Namespace {
 mod test {
     use cjc_hir::{Expression, Statement};
 
-    use crate::{codegen, CodegenResult, parse_and_resolve, process_string};
+    use crate::{codegen, parse_and_resolve, process_string, CodegenResult};
 
     #[test]
     #[rustfmt::skip]
