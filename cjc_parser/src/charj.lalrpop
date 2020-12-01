@@ -31,7 +31,8 @@ PackageDecl: Package = {
 
 ImportDecl: Import = {
     "import" <s:Identifier> => Import::Standard(s),
-    "import" <s:StringLiteral> "as" <id:Identifier> ";" => Import::GlobalSymbol(s, id)
+    "import" <s:StringLiteral> "as" <id:Identifier> ";" => Import::GlobalSymbol(s, id),
+    "import" <s:StringLiteral> "." "*" "as" <id:Identifier> ";" => Import::GlobalSymbol(s, id)
 }
 
 StructDef: Box<StructDef> = {
