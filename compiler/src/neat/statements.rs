@@ -2,10 +2,10 @@ use crate::neat::expression::expression;
 use crate::neat::Namespace;
 use crate::symbol_table::SymbolTable;
 use cjc_hir::Statement;
-use cjc_parser::StructFuncDef;
+use cjc_parser::StructFuncDecl;
 
 pub fn resolve_function_body(
-    func_def: &StructFuncDef,
+    func_def: &StructFuncDecl,
     namespace: &mut Namespace,
     function_no: usize,
 ) {

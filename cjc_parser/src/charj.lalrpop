@@ -19,9 +19,9 @@ pub Charj: Program = {
 ProgramUnit: ProgramUnit = {
     PackageDecl => ProgramUnit::PackageDecl(<>),
     ImportDecl => ProgramUnit::ImportDecl(<>),
-    StructDef => ProgramUnit::StructDef(<>),
-    FuncDef => ProgramUnit::FuncDef(<>),
-    StructFuncDef => ProgramUnit::StructFuncDef(<>),
+    StructDecl => ProgramUnit::StructDecl(<>),
+    FuncDecl => ProgramUnit::FuncDecl(<>),
+    StructFuncDecl => ProgramUnit::StructFuncDecl(<>),
 }
 
 PackageDecl: Package = {
@@ -35,18 +35,18 @@ ImportDecl: Import = {
     "import" <s:StringLiteral> "." "*" "as" <id:Identifier> ";" => Import::GlobalSymbol(s, id)
 }
 
-StructDef: Box<StructDef> = {
+StructDecl: Box<StructDecl> = {
      <l:@L> "struct" <name:Identifier> "{" <fields:(<VarDecl>)*> "}" <r:@R> => {
-        Box::new(StructDef{loc: Loc(l, r), name, fields})
+        Box::new(StructDecl{loc: Loc(l, r), name, fields})
     }
 }
 
-FuncDef: Box<FuncDef> = {
+FuncDecl: Box<FuncDecl> = {
     <l:@L> "fun" <name:Identifier> <params:ParameterList?> "{" <body:Suite?> "}" <r:@R> => {
         let params = params.unwrap_or(Vec::new());
         let body = body.unwrap_or(Vec::new());
 
-        Box::new(FuncDef {
+        Box::new(FuncDecl {
             loc: Loc(l, r),
             name,
             params,
@@ -55,12 +55,12 @@ FuncDef: Box<FuncDef> = {
     }
 };
 
-StructFuncDef: Box<StructFuncDef> = {
+StructFuncDecl: Box<StructFuncDecl> = {
     <l:@L> <struct_name:Identifier> "$" <name:Identifier> <params:ParameterList?> <returns:("->" Expression)?> "{" <body:Suite?> "}" <r:@R> => {
         let params = params.unwrap_or(Vec::new());
         let body = body.unwrap_or(Vec::new());
 
-        Box::new(StructFuncDef{
+        Box::new(StructFuncDecl{
             loc: Loc(l, r),
             name, struct_name,
             params,

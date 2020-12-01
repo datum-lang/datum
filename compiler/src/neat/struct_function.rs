@@ -2,7 +2,7 @@ use crate::neat::Namespace;
 use cjc_hir::{Function, Parameter};
 
 pub fn struct_function_decl(
-    struct_func_def: &cjc_parser::StructFuncDef,
+    struct_func_def: &cjc_parser::StructFuncDecl,
     namespace: &mut Namespace,
 ) -> bool {
     let success = true;

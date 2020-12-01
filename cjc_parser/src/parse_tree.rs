@@ -11,15 +11,15 @@ pub struct Program(pub Vec<ProgramUnit>);
 pub enum ProgramUnit {
     PackageDecl(Package),
     ImportDecl(Import),
-    StructFuncDef(Box<StructFuncDef>),
-    FuncDef(Box<FuncDef>),
-    StructDef(Box<StructDef>),
+    StructFuncDecl(Box<StructFuncDecl>),
+    FuncDecl(Box<FuncDecl>),
+    StructDecl(Box<StructDecl>),
 }
 
 pub type Suite = Vec<Statement>;
 
 #[derive(Debug, PartialEq)]
-pub struct FuncDef {
+pub struct FuncDecl {
     pub loc: Loc,
     pub name: Identifier,
     pub params: Vec<(Loc, Option<Parameter>)>,
@@ -27,7 +27,7 @@ pub struct FuncDef {
 }
 
 #[derive(Debug, PartialEq)]
-pub struct StructFuncDef {
+pub struct StructFuncDecl {
     pub loc: Loc,
     pub name: Identifier,
     pub struct_name: Identifier,
@@ -217,7 +217,7 @@ pub enum StatementType {
 }
 
 #[derive(Debug, PartialEq)]
-pub struct StructDef {
+pub struct StructDecl {
     pub loc: Loc,
     pub name: Identifier,
     pub fields: Vec<Statement>,

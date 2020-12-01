@@ -164,7 +164,7 @@ pkg comment
 }");
 
         match function_return.unwrap().0.get(0).unwrap() {
-            ProgramUnit::StructFuncDef(def) => {
+            ProgramUnit::StructFuncDecl(def) => {
                 let string = format!("{:?}", def.returns.as_ref().unwrap().node);
                 assert_eq!("Type { ty: Int(256) }", string);
             }
@@ -181,7 +181,7 @@ pkg comment
 }");
 
         match function_return.unwrap().0.get(0).unwrap() {
-            ProgramUnit::StructFuncDef(def) => {
+            ProgramUnit::StructFuncDecl(def) => {
                 let string = format!("{:?}", def.returns.as_ref().unwrap().node);
                 assert_eq!("Type { ty: String }", string);
             }
@@ -218,7 +218,7 @@ struct Summary {
 }");
 
         match code.unwrap().0.get(1).unwrap() {
-            ProgramUnit::StructDef(def) => {
+            ProgramUnit::StructDecl(def) => {
                 assert_eq!("Summary", def.name.name);
             }
             _ => {
@@ -250,7 +250,7 @@ Summary$constructor(string name) {
 ");
 
         match code.unwrap().0.get(2).unwrap() {
-            ProgramUnit::StructFuncDef(def) => {
+            ProgramUnit::StructFuncDecl(def) => {
                 assert_eq!("Summary", def.struct_name.name);
             }
             _ => {

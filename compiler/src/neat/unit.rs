@@ -1,4 +1,4 @@
-use cjc_parser::{Program, ProgramUnit, StructFuncDef};
+use cjc_parser::{Program, ProgramUnit, StructFuncDecl};
 
 use crate::neat::struct_function::struct_function_decl;
 use crate::neat::{statements, Namespace};
@@ -8,7 +8,7 @@ pub fn resolve_unit(program: Program, namespace: &mut Namespace) {
         .0
         .iter()
         .filter_map(|part| {
-            if let ProgramUnit::StructDef(def) = part {
+            if let ProgramUnit::StructDecl(def) = part {
                 Some(def)
             } else {
                 None
@@ -16,14 +16,14 @@ pub fn resolve_unit(program: Program, namespace: &mut Namespace) {
         })
         .enumerate()
         .map(|(no, def)| (no, def.as_ref()))
-        .collect::<Vec<(usize, &cjc_parser::StructDef)>>();
+        .collect::<Vec<(usize, &cjc_parser::StructDecl)>>();
 
     // todo: resolve struct function
     let struct_funcs = program
         .0
         .iter()
         .filter_map(|part| {
-            if let ProgramUnit::StructFuncDef(def) = part {
+            if let ProgramUnit::StructFuncDecl(def) = part {
                 Some(def)
             } else {
                 None
@@ -31,7 +31,7 @@ pub fn resolve_unit(program: Program, namespace: &mut Namespace) {
         })
         .enumerate()
         .map(|(no, def)| (no, def.as_ref()))
-        .collect::<Vec<(usize, &cjc_parser::StructFuncDef)>>();
+        .collect::<Vec<(usize, &cjc_parser::StructFuncDecl)>>();
 
     // todo: add import support
     for part in &program.0 {
@@ -45,7 +45,7 @@ pub fn resolve_unit(program: Program, namespace: &mut Namespace) {
 }
 
 pub fn resolve_struct_functions(
-    struct_funcs: Vec<(usize, &StructFuncDef)>,
+    struct_funcs: Vec<(usize, &StructFuncDecl)>,
     namespace: &mut Namespace,
 ) -> bool {
     let mut _broken = false;
