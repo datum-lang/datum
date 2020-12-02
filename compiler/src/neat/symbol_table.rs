@@ -5,18 +5,16 @@ use indexmap::map::IndexMap;
 #[derive(Clone, Copy, PartialEq)]
 pub enum SymbolTableType {
     Module,
-    Class,
+    Struct,
     Function,
-    Comprehension,
 }
 
 impl fmt::Display for SymbolTableType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             SymbolTableType::Module => write!(f, "module"),
-            SymbolTableType::Class => write!(f, "class"),
+            SymbolTableType::Struct => write!(f, "struct"),
             SymbolTableType::Function => write!(f, "function"),
-            SymbolTableType::Comprehension => write!(f, "comprehension"),
         }
     }
 }
