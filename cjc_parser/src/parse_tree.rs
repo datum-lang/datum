@@ -129,14 +129,6 @@ pub enum ExpressionType {
         args: Vec<Argument>,
         // keywords: Vec<Keyword>,
     },
-
-    /// A chained comparison. Note that in python you can use
-    /// `1 < a < 10` for example.
-    SimpleCompare {
-        vals: Vec<Expression>,
-        ops: Vec<Comparison>,
-    },
-
     Compare {
         op: Comparison,
         left: Box<Expression>,

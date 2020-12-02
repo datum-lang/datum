@@ -28,7 +28,6 @@ pub fn expression(
             let result = function_call_expr(function, args, ns, symbol_table);
             return result;
         }
-        ExpressionType::SimpleCompare { .. } => Ok(cjc_hir::Expression::Placeholder),
         ExpressionType::Compare { .. } => Ok(cjc_hir::Expression::Placeholder),
     }
 }
