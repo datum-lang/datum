@@ -14,7 +14,6 @@ pub enum ProgramUnit {
     StructFuncDecl(Box<StructFuncDecl>),
     FuncDecl(Box<FuncDecl>),
     StructDecl(Box<StructDecl>),
-    // todo
     ObjectDecl(Box<ObjectDecl>),
 }
 
@@ -182,6 +181,10 @@ pub type Statement = Located<StatementType>;
 
 #[derive(Debug, PartialEq)]
 pub enum StatementType {
+    VariableDecl {
+        field: Identifier,
+        ty: Expression, // type
+    },
     Break,
     Continue,
     If {
@@ -204,10 +207,6 @@ pub enum StatementType {
         target: Identifier,
         value: Expression,
         ty: Expression,
-    },
-    Variable {
-        field: Identifier,
-        ty: Expression, // type
     },
     Return {
         value: Option<Expression>,

@@ -37,7 +37,7 @@ ImportDecl: Import = {
 }
 
 StructDecl: Box<StructDecl> = {
-     <l:@L> "struct" <name:Identifier> "{" <fields:(<VarDecl>)*> "}" <r:@R> => {
+     <l:@L> "struct" <name:Identifier> "{" <fields:(<VariableDecl>)*> "}" <r:@R> => {
         Box::new(StructDecl{loc: Loc(l, r), name, fields})
     }
 }
@@ -78,11 +78,11 @@ StructFuncDecl: Box<StructFuncDecl> = {
     }
 }
 
-VarDecl: Statement = {
+VariableDecl: Statement = {
     <l:@L><field:Identifier> ":" <ty:TypeLiteral><r:@R> => {
         Statement {
             location: Location::new(l, r),
-            node: StatementType::Variable {
+            node: StatementType::VariableDecl {
                 field,
                 ty
             }
