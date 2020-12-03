@@ -1,27 +1,33 @@
 # Roadmap
 
-##
+## Todo
+
+### Main
+
+High priority:
 
  - [x] implementation basic compiler logic
      - [x] hir convert (neat)
      - [x] mir convert (medium)
      - [x] to LLVM     (codegen)
+ - [ ] improve Charj syntax
  - [ ] design HIR
  - [ ] design MIR
      - [ ] charj is a MIR for high level
- - [ ] target
+
+Medium priority:
+
+ - [ ] multiple-target
      - [ ] WASM
      - [x] Desktop
  - [ ] build system
  - [ ] package manager
+     - [ ] use Maven ?
  - [ ] dependency manager
+ - [ ] document system
+      - [ ] document system
 
-Others todo:
-
- - [ ] CI
-    - [ ] replace Solang CI container.
-
-## Make compiler works
+### Syntax Design
 
  - [ ] lexer & parser
     - [ ] syntax design
@@ -41,3 +47,12 @@ Others todo:
  - [x] compiler
     - [x] LLVM spike
     - [x] hello, world
+
+
+### Workflow [low priority]
+
+ - [ ] CI
+    - [ ] replace Solang CI container.
+
+### Document
+
