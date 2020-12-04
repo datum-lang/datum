@@ -24,6 +24,30 @@ pub enum CodegenResult {
     BitCode,
 }
 
+#[derive(PartialEq, Clone, Copy)]
+pub enum CharjTarget {
+    Generic,
+    WASM,
+}
+
+impl CharjTarget {
+    #[allow(dead_code)]
+    fn llvm_target_name(&self) -> &'static str {
+        return match self {
+            CharjTarget::Generic => { "generic" }
+            CharjTarget::WASM => { "wasm" }
+        }
+    }
+
+    #[allow(dead_code)]
+    fn llvm_target_triple(&self) -> &'static str {
+        return match self {
+            CharjTarget::Generic => { "x86_64" }
+            CharjTarget::WASM => { "wasm32-unknown-unknown-wasm" }
+        }
+    }
+}
+
 pub fn codegen(ns: &mut Namespace, target: &str) -> Vec<CodegenResult> {
     let mut results = vec![];
 

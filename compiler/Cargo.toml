@@ -10,7 +10,7 @@ edition = "2018"
 indexmap = "1.0"
 lazy_static = "1.4"
 # todo: update targets
-inkwell = { version = "0.1.0-llvm10sample", features = ["target-x86", "target-webassembly", "llvm10-0"] }
+inkwell = { version = "0.1.0-llvm10sample", features = ["target-x86", "target-arm", "target-webassembly", "llvm10-0"] }
 
 cjc_lexer = { path = "../cjc_lexer" }
 cjc_hir = { path = "../cjc_hir" }
