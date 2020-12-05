@@ -49,7 +49,20 @@ TBD:
 lexer -----> parser -----> hir -----> mir -----> codegen -----> LLVM IR
      lalrpop         AST
 
-### Setup LLVM
+## Setup LLVM
+
+### by homebrew with LLVM 11
+
+```
+brew install llvm
+```
+
+```
+LLVM_SYS_110_PREFIX=/usr/local/Cellar/llvm/11.0.0 cargo build
+```
+
+### by llvmenv with LLVM 10
+
 
 we use [llvmenv](https://github.com/termoshtt/llvmenv) to manage multiple LLVM/Clang build in macOS.
 
