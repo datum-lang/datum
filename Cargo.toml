@@ -35,12 +35,6 @@ path = "cjc_parser"
 [dependencies.cjc_codegen]
 path = "cjc_codegen"
 
-[dependencies.local]
-optional = true
-
-[features]
-default = []
-
 [workspace]
 members = [
     "compiler",

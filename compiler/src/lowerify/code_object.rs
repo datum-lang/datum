@@ -121,8 +121,8 @@ impl<'a> CodeObject<'a> {
         Ok(())
     }
 
-    pub fn code(&self) {
-        let target = inkwell::targets::Target::from_name("wasm").unwrap();
+    pub fn code(&self) -> Result<Vec<u8>, String> {
+        let target = inkwell::targets::Target::from_name("wasm32").unwrap();
         let target_machine = target
             .create_target_machine(
                 &TargetTriple::create("wasm32-unknown-unknown-wasm"),
@@ -137,9 +137,11 @@ impl<'a> CodeObject<'a> {
         match target_machine.write_to_memory_buffer(&self.module, FileType::Object) {
             Ok(out) => {
                 let slice = out.as_slice();
-                println!("{:?}", slice);
+                return Ok(slice.to_vec());
             }
-            Err(_) => {}
+            Err(s) => {
+                return Err(s.to_string());
+            }
         }
     }
 }

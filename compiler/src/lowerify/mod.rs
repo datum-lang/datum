@@ -19,7 +19,7 @@ lazy_static::lazy_static! {
 
 pub enum CodegenResult {
     Jit { exit_code: i32 },
-    Wasm,
+    Wasm { code: Vec<u8> },
     LLVM { value: String },
     BitCode,
 }
@@ -36,7 +36,7 @@ impl CharjTarget {
         return match self {
             CharjTarget::Generic => { "generic" }
             CharjTarget::WASM => { "wasm" }
-        }
+        };
     }
 
     #[allow(dead_code)]
@@ -44,7 +44,7 @@ impl CharjTarget {
         return match self {
             CharjTarget::Generic => { "x86_64" }
             CharjTarget::WASM => { "wasm32-unknown-unknown-wasm" }
-        }
+        };
     }
 }
 
@@ -64,10 +64,10 @@ pub fn codegen(ns: &mut Namespace, target: &str) -> Vec<CodegenResult> {
                 results.push(CodegenResult::Jit { exit_code });
             }
             "wasm" => {
-                // lazy_static::initialize(&LLVM_INIT);
+                lazy_static::initialize(&LLVM_INIT);
                 let obj = WasmTarget::build(&filename, cfg, &context, ns);
-                obj.code();
-                results.push(CodegenResult::Wasm);
+                let code = obj.code().expect("compile should succeeed");
+                results.push(CodegenResult::Wasm {code});
             }
             "llvm" => {
                 let obj = ClassicTarget::build(&filename, cfg, &context, ns);
