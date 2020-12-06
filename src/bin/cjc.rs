@@ -1,10 +1,10 @@
 use std::fs::File;
-use std::io::Read;
+use std::io::{Read, Write};
 use std::path::PathBuf;
 
 use clap::{App, Arg};
 
-use compiler::{codegen, process_string};
+use compiler::{codegen, process_string, CodegenResult};
 
 fn main() {
     let matches = App::new("charj")
@@ -35,12 +35,21 @@ fn main() {
             }
 
             let mut ns = process_string(&*contents, filename);
-            if let Some("jit") = matches.value_of("TARGET") {
-                codegen(&mut ns, "jit");
-            } else if let Some("wasm") = matches.value_of("TARGET") {
-                codegen(&mut ns, "wasm");
-            } else {
-                panic!("not support target{:?}", matches.value_of("TARGET"));
+            match matches.value_of("TARGET") {
+                Some("jit") => {
+                    codegen(&mut ns, "jit");
+                }
+                Some("wasm") => {
+                    let result = codegen(&mut ns, "wasm");
+                    let mut file = File::create("out.wasm").unwrap();
+                    match &result[0] {
+                        CodegenResult::Wasm { code } => file.write_all(code).unwrap(),
+                        _ => {}
+                    }
+                }
+                _ => {
+                    panic!("not support target{:?}", matches.value_of("TARGET"));
+                }
             }
         } else {
             panic!("lost file: {:?}", filename);

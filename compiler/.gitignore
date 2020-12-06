@@ -1,3 +1,5 @@
 *.ll
 *.cjc
 *.bc
+*.wasm
+*.html
