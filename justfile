@@ -1,8 +1,5 @@
 tests:
-	cargo test --all
-
-tests-ci:
-	cargo test
+	cargo test --all --features local
 
 build:
     cargo build
