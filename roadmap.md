@@ -14,6 +14,8 @@ High priority:
  - [ ] design HIR
  - [ ] design MIR
      - [ ] charj is a MIR for high level
+ - [ ] LLVM 11
+     - [ ] waiting for inkwell 1100
 
 Medium priority:
 

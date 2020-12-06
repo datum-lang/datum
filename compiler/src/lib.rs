@@ -85,6 +85,7 @@ mod test {
     #[test]
     #[rustfmt::skip]
     fn should_down_wasm() {
+        // todo: need waiting to Inkwell 11 to LLVM 10
         let _ns = process_string("default$main() {println(\"hello,world\")}", "hello.cj");
         // codegen(&mut ns, "wasm");
     }
