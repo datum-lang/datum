@@ -39,7 +39,7 @@ path = "cjc_codegen"
 optional = true
 
 [features]
-default = ["local"]
+default = []
 
 [workspace]
 members = [

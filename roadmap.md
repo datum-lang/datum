@@ -53,8 +53,9 @@ Medium priority:
 
 ### Workflow [low priority]
 
- - [ ] CI
-    - [ ] replace Solang CI container.
+ - [x] CI
+    - [x] replace Solang CI container.
+    - [ ] run on windows
 
 ### Document
 
