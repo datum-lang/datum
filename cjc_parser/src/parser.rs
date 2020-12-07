@@ -209,6 +209,16 @@ pkg comment
 
     #[test]
     #[rustfmt::skip]
+    fn test_utf8_identify() {
+        let basic_function_call = parse_program("default$主要(string name) {
+    显示(\"hello,world\")
+}");
+
+        assert!(basic_function_call.is_ok());
+    }
+
+    #[test]
+    #[rustfmt::skip]
     fn test_struct_vars() {
         let code = parse_program("pkg charj
 struct Summary {
