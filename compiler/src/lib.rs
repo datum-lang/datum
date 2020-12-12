@@ -51,7 +51,6 @@ mod test {
 
     #[test]
     #[rustfmt::skip]
-    #[cfg_attr(feature = "local", ignore)]
     fn should_run_hello_world() {
         let mut ns = process_string("default$main() {println(\"hello,world\")}", "hello.cj");
         assert_eq!(1, ns.cfgs.len());
@@ -69,7 +68,6 @@ mod test {
 
     #[test]
     #[rustfmt::skip]
-    #[cfg_attr(feature = "local", ignore)]
     fn should_print_nums() {
         let mut ns = process_string("default$main() {println(5)}", "hello.cj");
         assert_eq!(1, ns.cfgs.len());
@@ -87,7 +85,6 @@ mod test {
 
     #[test]
     #[rustfmt::skip]
-    #[cfg_attr(feature = "local", ignore)]
     fn should_run_hello_world_utf8() {
         let mut ns = process_string("default$main() {println(\"你好，世界！\")}", "hello.cj");
         assert_eq!(1, ns.cfgs.len());
