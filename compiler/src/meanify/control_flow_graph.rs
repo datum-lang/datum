@@ -2,10 +2,11 @@ use cjc_hir::Parameter;
 use cjc_mir::basic_block::BasicBlock;
 use cjc_mir::instruction::ExprKind;
 
+///  which is a [Control-flow graph](https://en.wikipedia.org/wiki/Control-flow_graph)
 #[derive(Clone, Debug)]
 pub struct ControlFlowGraph {
     pub name: String,
-    pub basic_block: BasicBlock,
+    pub blocks: BasicBlock,
     pub params: Vec<Parameter>,
     pub returns: Vec<Parameter>,
 }
@@ -15,7 +16,7 @@ impl ControlFlowGraph {
     pub fn new(name: String) -> Self {
         ControlFlowGraph {
             name,
-            basic_block: Default::default(),
+            blocks: Default::default(),
             params: vec![],
             returns: vec![],
         }
@@ -24,13 +25,13 @@ impl ControlFlowGraph {
     pub fn placeholder() -> Self {
         ControlFlowGraph {
             name: "".to_string(),
-            basic_block: Default::default(),
+            blocks: Default::default(),
             params: vec![],
             returns: vec![],
         }
     }
 
     pub fn emit(&mut self, instruction: ExprKind) {
-        self.basic_block.instructions.push(instruction);
+        self.blocks.instructions.push(instruction);
     }
 }

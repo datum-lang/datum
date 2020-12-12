@@ -27,7 +27,7 @@ pub trait BaseTarget<'a> {
         let bb = sb.context.append_basic_block(function, &sb.cfg.name);
         sb.builder.position_at_end(bb);
 
-        for instr in &sb.cfg.basic_block.instructions {
+        for instr in &sb.cfg.blocks.instructions {
             match instr {
                 ExprKind::Var { .. } => {}
                 ExprKind::Call => {}
