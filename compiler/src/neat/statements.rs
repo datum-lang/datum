@@ -1,7 +1,7 @@
 use crate::neat::expression::expression;
 use crate::neat::Namespace;
 use crate::symbol_table::SymbolTable;
-use cjc_hir::Statement;
+use cjc_hir::{Statement};
 use cjc_parser::StructFuncDecl;
 
 pub fn resolve_function_body(
@@ -35,11 +35,16 @@ pub fn statement(
             cjc_parser::StatementType::VariableDecl { .. } => {}
             cjc_parser::StatementType::Return { .. } => {}
             cjc_parser::StatementType::Expression { expr } => {
-                let expression = expression(&expr, namespace, symbol_table).unwrap();
-                res.push(Statement::Expression {
-                    location: stmt.location,
-                    expression,
-                });
+                let result = expression(&expr, namespace, symbol_table);
+                match result {
+                    Ok(expression) => {
+                        res.push(Statement::Expression {
+                            location: stmt.location,
+                            expression,
+                        });
+                    }
+                    Err(_) => {}
+                }
             }
         }
     }

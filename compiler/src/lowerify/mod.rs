@@ -17,6 +17,8 @@ lazy_static::lazy_static! {
     };
 }
 
+
+#[derive(PartialEq, Clone, Debug)]
 pub enum CodegenResult {
     Jit { exit_code: i32 },
     Wasm { code: Vec<u8> },
@@ -24,7 +26,7 @@ pub enum CodegenResult {
     BitCode,
 }
 
-#[derive(PartialEq, Clone, Copy)]
+#[derive(PartialEq, Clone, Copy, Debug)]
 pub enum CharjTarget {
     Generic,
     WASM,

@@ -113,4 +113,17 @@ mod test {
             }
         }
     }
+
+    #[test]
+    #[rustfmt::skip]
+    fn should_support_local_function_call() {
+        let mut ns = process_string("default$main() {say_hello()}
+
+default$say_hello() {println(\"你好，世界！\")}
+", "hello.cj");
+        assert_eq!(2, ns.cfgs.len());
+        let results = codegen(&mut ns, "jit");
+        // todo: add linker
+        // println!("{:?}", results);
+    }
 }
