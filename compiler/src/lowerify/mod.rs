@@ -68,7 +68,7 @@ pub fn codegen(ns: &mut Namespace, target: &str) -> Vec<CodegenResult> {
             "wasm" => {
                 lazy_static::initialize(&LLVM_INIT);
                 let obj = WasmTarget::build(&filename, cfg, &context, ns);
-                let code = obj.code().expect("compile should succeeed");
+                let code = obj.code().expect("compile should succeed");
                 results.push(CodegenResult::Wasm { code });
             }
             "llvm" => {
@@ -76,10 +76,10 @@ pub fn codegen(ns: &mut Namespace, target: &str) -> Vec<CodegenResult> {
                 let name = format!("{}.ll", &cfg.name);
                 match obj.dump_llvm(Path::new(&name)) {
                     Ok(_) => {
-                        println!("dump llvm success: {:?}", name);
+                        println!("dump llvm succeed: {:?}", name);
                     }
                     Err(_) => {
-                        panic!("dump llvm failured: {:?}", name);
+                        panic!("dump llvm failed: {:?}", name);
                     }
                 }
 

@@ -122,7 +122,7 @@ mod test {
 default$say_hello() {println(\"你好，世界！\")}
 ", "hello.cj");
         assert_eq!(2, ns.cfgs.len());
-        let results = codegen(&mut ns, "jit");
+        let _results = codegen(&mut ns, "jit");
         // todo: add linker
         // println!("{:?}", results);
     }
