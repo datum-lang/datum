@@ -6,6 +6,8 @@ Date: 2020-11-05
 
 2020-11-05 proposed
 
+2020-12-16 accepted
+
 ## Context
 
 In this version, we use LLVM IR, so we can support:

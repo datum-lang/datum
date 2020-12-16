@@ -1,4 +1,4 @@
-# 16. cli target & improve
+# 16. cli target improve
 
 Date: 2020-12-01
 
