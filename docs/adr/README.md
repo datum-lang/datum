@@ -16,3 +16,4 @@
 * [14. ir-design](0014-ir-design.md)
 * [15. mir](0015-mir.md)
 * [16. cli-target-&-improve](0016-cli-target-&-improve.md)
+* [17. parser-syntax](0017-parser-syntax.md)
