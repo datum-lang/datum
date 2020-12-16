@@ -5,8 +5,11 @@ use indexmap::map::IndexMap;
 #[derive(Clone, Copy, PartialEq)]
 pub enum SymbolTableType {
     Module,
+    // same to class symbol
     Struct,
     Function,
+    Variable,
+    BuiltinType,
 }
 
 impl fmt::Display for SymbolTableType {
@@ -15,6 +18,8 @@ impl fmt::Display for SymbolTableType {
             SymbolTableType::Module => write!(f, "module"),
             SymbolTableType::Struct => write!(f, "struct"),
             SymbolTableType::Function => write!(f, "function"),
+            SymbolTableType::Variable => write!(f, "variable"),
+            SymbolTableType::BuiltinType => write!(f, "builtintype"),
         }
     }
 }
