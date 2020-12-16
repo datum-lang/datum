@@ -1,4 +1,4 @@
-# 17. parser-syntax
+# 17. Container Parser Syntax
 
 Date: 2020-12-16
 
@@ -40,6 +40,8 @@ struct parameter {
 ```
 
 in top can be like `struct` or `class`, and some method in class. `ast{}` will be equal `struct ast{}`
+
+In such things, we can call it `container`.a container can be `struct` or `enum` in.
 
 ## Decision
 
