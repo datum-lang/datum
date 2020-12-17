@@ -1,4 +1,4 @@
-# 2. package format design 
+# 2. package format
 
 Date: 2020-10-26
 
@@ -6,7 +6,7 @@ Date: 2020-10-26
 
 2020-10-26 proposed
 
-2020-11-04 done
+2020-11-04 accepted
 
 ## Context
 
@@ -14,7 +14,7 @@ Context here...
 
 ## Decision
 
-use `pkg` and `package`
+use `ckp` for package format.
 
 ## Consequences
 

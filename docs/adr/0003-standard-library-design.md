@@ -1,10 +1,12 @@
-# 3. standard library package format
+# 3. standard library design
 
 Date: 2020-10-27
 
 ## Status
 
 2020-10-27 proposed
+
+2020-12-17 accepted
 
 ## Context
 
