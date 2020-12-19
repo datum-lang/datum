@@ -23,7 +23,7 @@ pub fn expression(
         ExpressionType::List { .. } => Ok(cjc_hir::Expression::Placeholder),
         ExpressionType::Identifier { .. } => Ok(cjc_hir::Expression::Placeholder),
         ExpressionType::Type { .. } => Ok(cjc_hir::Expression::Placeholder),
-        ExpressionType::Attribute { .. } => Ok(cjc_hir::Expression::Placeholder),
+        ExpressionType::MemberAccess { .. } => Ok(cjc_hir::Expression::Placeholder),
         ExpressionType::Call { function, args } => {
             let result = function_call_expr(function, args, ns, symbol_table);
             return result;

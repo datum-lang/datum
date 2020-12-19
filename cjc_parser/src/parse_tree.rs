@@ -118,7 +118,7 @@ pub enum ExpressionType {
     },
 
     /// Attribute access in the form of `value.name`.
-    Attribute {
+    MemberAccess {
         value: Box<Expression>,
         name: Identifier,
     },

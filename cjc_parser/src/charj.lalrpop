@@ -226,9 +226,9 @@ ForStatement: Statement = {
 };
 
 // todo: add suport for "{" and "}"
-BlockStatement: Statement = {
-
-}
+//BlockStatement: Statement = {
+//
+//}
 
 Expression: Expression = {
     UnaryExpr,
@@ -336,13 +336,13 @@ NotExpression: Expression = {
 PrimaryExpr: Expression = {
     Atom,
     <FunctionCall> => <>,
-    // Parentize
     <e:PrimaryExpr> <l:@L> "." <name:Identifier> <r:@R> => {
         Expression {
             location: Location::new(l, r),
-            node: ExpressionType::Attribute { value: Box::new(e), name }
+            node: ExpressionType::MemberAccess { value: Box::new(e), name }
         }
     },
+    // Parentize
 //    <l:@L> <a:ParameterList> <r:@R> => {
 //        if a.len() == 1 {
 //            if let Some(Parameter{ ty, name: None, .. }) = &a[0].1 {
@@ -359,7 +359,7 @@ PrimaryExpr: Expression = {
 }
 
 FunctionCall: Expression = {
-    <f:PrimaryExpr> <l:@L> "(" <a: Comma<Argument>> ")" <r:@R> => {
+    <l:@L>  <f:PrimaryExpr> "(" <a: Comma<Argument>> ")" <r:@R> => {
         Expression {
             location: Location::new(l, r),
             node: ExpressionType::Call { function: Box::new(f), args: a }
