@@ -1,4 +1,23 @@
-## Platform Support
+## Development
+
+ - cjc_lexer, aka lexer
+ - cjc_parser (outputs: AST)
+ - cjc_hir (define: CFG)
+ - cjc_mir (define: MIR)
+ - compiler (outputs: LLVM IR)
+    - neat. AST -> HIR
+    - medium. HIR -> MIR (TBD)
+    - lowerify. MIR -> LLVM IR
+ - cjc_codegen (process MIR -> LLVM IR)
+
+## Process
+
+-----> parser ----> AST ------------compiler------------------> LLVM IR
+lexer -----> parser -----> hir -----> mir -----> codegen -----> LLVM IR
+     lalrpop         AST
+
+
+## Target Platform Support (Plan)
 
 ### Tier 1
 
@@ -20,34 +39,6 @@
 | `wasm32-wasi` | ✓ |   | WebAssembly with WASI |
 | `wasm32-unknown-emscripten` | ✓ |   | WebAssembly via Emscripten |
 | `aarch64-unknown-linux-gnu` | ✓ | ✓ | ARM64 Linux (kernel 4.2, glibc 2.17+) |
-
-## Usage
-
-examples:
-
- - JavaScript/Java to WASM
-
-TBD:
-
- - C++ to Charj. (partially support)
-
-## Development
-
- - cjc_lexer, aka lexer
- - cjc_parser (outputs: AST)
- - cjc_hir (define: CFG)
- - cjc_mir (define: MIR)
- - compiler (outputs: LLVM IR)
-    - neat. AST -> HIR
-    - medium. HIR -> MIR (TBD)
-    - lowerify. MIR -> LLVM IR
- - cjc_codegen (process MIR -> LLVM IR)
-
-## Process
-
------> parser ----> AST ------------compiler------------------> LLVM IR
-lexer -----> parser -----> hir -----> mir -----> codegen -----> LLVM IR
-     lalrpop         AST
 
 ## Setup LLVM
 
