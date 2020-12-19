@@ -283,10 +283,10 @@ pub enum Number {
 pub enum Operator {
     Add,
     Sub,
-    Mult,
+    Multiply,
     MatMult,
-    Div,
-    Mod,
+    Divide,
+    Modulo,
     Pow,
     LShift,
     RShift,

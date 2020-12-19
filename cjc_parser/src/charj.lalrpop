@@ -178,6 +178,7 @@ ReturnValue: Expression = {
 }
 
 IfStatement: Statement = {
+    // todo: support for ClosedStatement.
     <l:@L> "if" "(" <cond:Expression> ")" "{" <body:Suite?> "}" <s3:("else" "{" Suite "}")?> <r:@R> => {
         let mut last = s3.map(|s| s.2);
 
@@ -336,6 +337,12 @@ PrimaryExpr: Expression = {
     Atom,
     <FunctionCall> => <>,
 }
+//
+//ParenthesizedExpr: Expression = {
+//    <l:@L> "(" <expr: Expression> ")" <r:@R> => {
+//        expr
+//    }
+//}
 
 FunctionCall: Expression = {
     <f:PrimaryExpr> <l:@L> "(" <a: Comma<Argument>> ")" <r:@R> => {
@@ -350,6 +357,7 @@ FunctionCall: Expression = {
             node: ExpressionType::Attribute { value: Box::new(e), name }
         }
     },
+//    ParenthesizedExpr,
 }
 
 UnOp: UnaryOperator = {
@@ -359,9 +367,9 @@ UnOp: UnaryOperator = {
 };
 
 MulOp: Operator = {
-    "*" => Operator::Mult,
-    "/" => Operator::Div,
-    "%" => Operator::Mod,
+    "*" => Operator::Multiply,
+    "/" => Operator::Divide,
+    "%" => Operator::Modulo,
 };
 
 Atom: Expression = {
