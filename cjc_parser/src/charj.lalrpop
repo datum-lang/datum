@@ -289,11 +289,11 @@ CompareExpression: Expression = {
 }
 
 ShiftExpression: Expression = {
-    <e1:ShiftExpression> <l:@L> <op:ShiftOp> <e2:ArithmaticExpression> <r:@R> => Expression {
+    <e1:ShiftExpression> <l:@L> <op:ShiftOp> <e2:ArithmeticExpression> <r:@R> => Expression {
         location: Location::new(l, r),
         node: ExpressionType::Binop { a: Box::new(e1), op, b: Box::new(e2) }
     },
-    ArithmaticExpression,
+    ArithmeticExpression,
 }
 
 ShiftOp: Operator = {
@@ -302,8 +302,8 @@ ShiftOp: Operator = {
 };
 
 // Unary Expr
-ArithmaticExpression: Expression = {
-    <a:ArithmaticExpression> <l:@L> <op:AddOp> <b:Term> <r:@R> => Expression {
+ArithmeticExpression: Expression = {
+    <a:ArithmeticExpression> <l:@L> <op:AddOp> <b:Term> <r:@R> => Expression {
         location: Location::new(l, r),
         node: ExpressionType::Binop { a: Box::new(a), op, b: Box::new(b) }
     },
