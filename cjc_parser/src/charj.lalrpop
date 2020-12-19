@@ -336,6 +336,16 @@ NotExpression: Expression = {
 PrimaryExpr: Expression = {
     Atom,
     <FunctionCall> => <>,
+    // Parentize
+//    <l:@L> <a:ParameterList> <r:@R> => {
+//        if a.len() == 1 {
+//            if let Some(Parameter{ ty, name: None, .. }) = &a[0].1 {
+//                // this means "(" Expression ")"
+//                return ty.clone();
+//            }
+//        }
+//        // Expression::List(Loc(file_no, l, r), a)
+//    },
 }
 //
 //ParenthesizedExpr: Expression = {
@@ -356,8 +366,7 @@ FunctionCall: Expression = {
             location: Location::new(l, r),
             node: ExpressionType::Attribute { value: Box::new(e), name }
         }
-    },
-//    ParenthesizedExpr,
+    }
 }
 
 UnOp: UnaryOperator = {
@@ -404,16 +413,6 @@ Atom: Expression = {
             node: ExpressionType::Number { value: n }
         }
     },
-//    <l:@L> <a:ParameterList> <r:@R> => {
-//        if a.len() == 1 {
-//            if let Some(Parameter{ ty, storage: None, name: None, .. }) = &a[0].1 {
-//                // this means "(" Expression ")"
-//                return ty.clone();
-//            }
-//        }
-//
-//        Expression::List(Loc(file_no, l, r), a)
-//    },
 }
 
 TypeLiteral: Expression = {
