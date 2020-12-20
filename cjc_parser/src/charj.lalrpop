@@ -324,7 +324,7 @@ Term: Expression = {
 };
 
 NotExpression: Expression = {
-    <l:@L> "!" <e:NotExpression> <r:@R> => {
+    <l:@L> "!" <r:@R> <e:NotExpression> => {
        Expression {
            location: Location::new(l, r),
            node: ExpressionType::Unop { op: UnaryOperator::Not, a: Box::new(e) }
@@ -342,22 +342,11 @@ PrimaryExpr: Expression = {
         }
     },
     Atom,
-    // Parentize
-    // todo: thinking in change to paramter list
-//    "(" <e:Expression> ")" => e,
-//    <l:@L> <a:ParameterList> <r:@R> => {
-//        if a.len() == 1 {
-//            if let Some(Parameter{ ty, name: None, .. }) = &a[0].1 {
-//                // this means "(" Expression ")"
-//                return ty.clone();
-//            }
-//        }
-//
-//        Expression {
-//            location: Location::new(l, r),
-//            node: ExpressionType::List { elements: vec![] },
-//        }
-//    },
+//    ParenthesizedExpression,
+}
+
+ParenthesizedExpression: Expression = {
+    "(" <e:Expression> ")" => e,
 }
 
 FunctionCall: Expression = {
