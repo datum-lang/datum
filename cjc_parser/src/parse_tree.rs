@@ -17,6 +17,7 @@ pub enum ProgramUnit {
     ObjectDecl(Box<ObjectDecl>),
 }
 
+// todo: inline for support empty stmt, like ';'
 pub type Suite = Vec<Statement>;
 
 #[derive(Debug, PartialEq)]

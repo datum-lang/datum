@@ -1,7 +1,7 @@
 extern crate lalrpop;
 
 fn main() {
-    lalrpop::Configuration::new()
+    let _result = lalrpop::Configuration::new()
         .always_use_colors()
         .process_current_dir();
 

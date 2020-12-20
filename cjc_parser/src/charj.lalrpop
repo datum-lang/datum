@@ -95,6 +95,7 @@ Suite: Suite = {
 };
 
 Statement: Suite = {
+//    <@L> <@R> ";" => None,
     <s:CompoundStatement> => vec![s],
 };
 
