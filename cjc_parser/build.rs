@@ -1,7 +1,9 @@
 extern crate lalrpop;
 
 fn main() {
-    lalrpop::process_root().unwrap();
+    lalrpop::Configuration::new()
+        .always_use_colors()
+        .process_current_dir();
 
     // todo: thinking in generate code in codebase
     // lalrpop::Configuration::new()
