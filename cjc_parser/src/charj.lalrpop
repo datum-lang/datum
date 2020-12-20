@@ -343,6 +343,8 @@ PrimaryExpr: Expression = {
     },
     Atom,
     // Parentize
+    // todo: thinking in change to paramter list
+//    "(" <e:Expression> ")" => e,
 //    <l:@L> <a:ParameterList> <r:@R> => {
 //        if a.len() == 1 {
 //            if let Some(Parameter{ ty, name: None, .. }) = &a[0].1 {
