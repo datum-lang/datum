@@ -380,6 +380,7 @@ struct Hello {
         let not_cond = parse_program("default$main(string name) {
     if (!true){}
 }");
+        println!("{:?}", not_cond);
         assert!(not_cond.is_ok());
     }
 

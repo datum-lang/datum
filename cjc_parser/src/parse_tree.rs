@@ -17,9 +17,6 @@ pub enum ProgramUnit {
     ObjectDecl(Box<ObjectDecl>),
 }
 
-// todo: inline for support empty stmt, like ';'
-pub type Suite = Vec<Statement>;
-
 #[derive(Debug, PartialEq)]
 pub struct ObjectDecl {
     pub loc: Loc,
@@ -32,7 +29,7 @@ pub struct FuncDecl {
     pub loc: Loc,
     pub name: Identifier,
     pub params: Vec<(Loc, Option<Parameter>)>,
-    pub body: Suite,
+    pub body: Option<Statement>,
 }
 
 #[derive(Debug, PartialEq)]
@@ -41,7 +38,7 @@ pub struct StructFuncDecl {
     pub name: Identifier,
     pub struct_name: Identifier,
     pub params: Vec<(Loc, Option<Parameter>)>,
-    pub body: Suite,
+    pub body: Option<Statement>,
     pub returns: Option<Expression>,
 }
 
@@ -181,26 +178,30 @@ pub struct Located<T> {
 pub type Statement = Located<StatementType>;
 
 #[derive(Debug, PartialEq)]
+#[allow(clippy::large_enum_variant, clippy::type_complexity)]
 pub enum StatementType {
     VariableDecl {
         field: Identifier,
         ty: Expression, // type
     },
     Break,
+    Block {
+        blocks: Vec<Statement>
+    },
     Continue,
     If {
         cond: Expression,
-        body: Suite,
-        orelse: Option<Suite>,
+        body: Box<Statement>,
+        orelse: Option<Box<Statement>>,
     },
     While {
         cond: Expression,
-        body: Suite,
+        body: Box<Statement>,
     },
     For {
         target: Box<Expression>,
         iter: Box<Expression>,
-        body: Suite,
+        body: Option<Box<Statement>>,
     },
     Loop,
     /// Variable assignment. Note that we can assign to multiple targets.

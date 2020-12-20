@@ -50,23 +50,21 @@ ObjectDecl: Box<ObjectDecl> = {
 
 
 FuncDecl: Box<FuncDecl> = {
-    <l:@L> "fun" <name:Identifier> <params:ParameterList?> "{" <body:Suite?> "}" <r:@R> => {
+    <l:@L> "fun" <name:Identifier> <params:ParameterList?> "{" <body:BlockStatementOrSemiColon> "}" <r:@R> => {
         let params = params.unwrap_or(Vec::new());
-        let body = body.unwrap_or(Vec::new());
 
         Box::new(FuncDecl {
             loc: Loc(l, r),
             name,
             params,
-            body: body,
+            body,
        })
     }
 };
 
 StructFuncDecl: Box<StructFuncDecl> = {
-    <l:@L> <struct_name:Identifier> "$" <name:Identifier> <params:ParameterList?> <returns:("->" Expression)?> "{" <body:Suite?> "}" <r:@R> => {
+    <l:@L> <struct_name:Identifier> "$" <name:Identifier> <params:ParameterList?> <returns:("->" Expression)?> "{" <body:BlockStatementOrSemiColon> "}" <r:@R> => {
         let params = params.unwrap_or(Vec::new());
-        let body = body.unwrap_or(Vec::new());
 
         Box::new(StructFuncDecl{
             loc: Loc(l, r),
@@ -90,20 +88,26 @@ VariableDecl: Statement = {
     }
 };
 
-Suite: Suite = {
-    <s:Statement+> => s.into_iter().flatten().collect(),
-};
+BlockStatementOrSemiColon: Option<Statement> = {
+    <@L> <@R> ";" => None,
+    BlockStatement => Some(<>),
+}
 
-Statement: Suite = {
-//    <@L> <@R> ";" => None,
-    <s:CompoundStatement> => vec![s],
-};
+BlockStatement: Statement = {
+    <l:@L> <s:CompoundStatement*> <r:@R> => {
+        Statement {
+            location: Location::new(l, r),
+            node: StatementType::Block {
+                blocks: s
+            }
+        }
+    },
+}
 
 CompoundStatement: Statement = {
 // todo: add support for open || close statement
 //    OpenStatement,    // support like in one line if (a > b) return a
 //    ClosedStatement,
-//
     IfStatement,
     WhileStatement,
     ForStatement,
@@ -180,30 +184,28 @@ ReturnValue: Expression = {
 
 IfStatement: Statement = {
     // todo: support for ClosedStatement.
-    <l:@L> "if" "(" <cond:Expression> ")" "{" <body:Suite?> "}" <s3:("else" "{" Suite "}")?> <r:@R> => {
-        let mut last = s3.map(|s| s.2);
-
-        let body = body.unwrap_or(Vec::new());
+    <l:@L> "if" "(" <cond:Expression> ")" "{" <body:CompoundStatement> "}" <s3:("else" "{" CompoundStatement "}")?> <r:@R> => {        let mut last = s3.map(|s| s.2);
+        // let mut last = s3.map(|s| s.2);
+        println!("{:?}", last);
 
         Statement {
             location: Location::new(l, r),
             node: StatementType::If {
                 cond,
-                body,
-                orelse: last
+                body: Box::new(body),
+                orelse: None
             }
         }
     }
 };
 
 WhileStatement: Statement = {
-    <l:@L> "while" "(" <cond:Expression> ")" "{" <body:Suite?> "}" <r:@R> => {
-        let body = body.unwrap_or(Vec::new());
+    <l:@L> "while" "(" <cond:Expression> ")" "{" <body:CompoundStatement> "}" <r:@R> => {
         Statement {
             location: Location::new(l, r),
             node: StatementType::While {
                 cond,
-                body
+                body: Box::new(body)
             }
         }
     }
@@ -212,24 +214,17 @@ WhileStatement: Statement = {
 ForStatement: Statement = {
     // todo: change target to ExpressionList,
     // todo: add support for `for (let i: int = 0; i < 100; i ++) { }
-    <l:@L> "for" "(" <target:Expression> "in" <iter:Expression> ")" "{" <body:Suite?> "}" <r:@R> => {
-        let body = body.unwrap_or(Vec::new());
-
+    <l:@L> "for" "(" <target:Expression> "in" <iter:Expression> ")" "{" <body:CompoundStatement> "}" <r:@R> => {
         Statement {
             location: Location::new(l, r),
             node: StatementType::For {
                 target: Box::new(target),
                 iter: Box::new(iter),
-                body
+                body: Some(Box::new(body))
             }
         }
     }
 };
-
-// todo: add suport for "{" and "}"
-//BlockStatement: Statement = {
-//
-//}
 
 Expression: Expression = {
     UnaryExpr,
