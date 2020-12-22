@@ -108,7 +108,7 @@ CompoundStatement: Statement = {
     WhileStatement,
     ForStatement,
     FlowStatement,
-    ExpressionStatement,
+    SimpleStatement,
 }
 
 VariableDeclaration: Statement = {
@@ -124,7 +124,7 @@ VariableDeclaration: Statement = {
     },
 }
 
-ExpressionStatement: Statement = {
+SimpleStatement: Statement = {
     VariableDeclaration,
     <l:@L> <e:Expression> <r:@R> => {
         Statement {
@@ -133,15 +133,6 @@ ExpressionStatement: Statement = {
         }
     }
 }
-
-CompOp: Comparison = {
-    "==" => Comparison::Equal,
-    "!=" => Comparison::NotEqual,
-    "<" => Comparison::Less,
-    "<=" => Comparison::LessOrEqual,
-    ">" => Comparison::Greater,
-    ">=" => Comparison::GreaterOrEqual,
-};
 
 FlowStatement: Statement = {
     <l:@L> "break" <r:@R> => {
@@ -293,6 +284,15 @@ CompareExpression: Expression = {
     ShiftExpression,
 }
 
+CompOp: Comparison = {
+    "==" => Comparison::Equal,
+    "!=" => Comparison::NotEqual,
+    "<" => Comparison::Less,
+    "<=" => Comparison::LessOrEqual,
+    ">" => Comparison::Greater,
+    ">=" => Comparison::GreaterOrEqual,
+};
+
 ShiftExpression: Expression = {
     <e1:ShiftExpression> <l:@L> <op:ShiftOp> <e2:ArithmeticExpression> <r:@R> => Expression {
         location: Location::new(l, r),
@@ -326,6 +326,12 @@ Term: Expression = {
         node: ExpressionType::Binop { a: Box::new(a), op, b: Box::new(b) }
     },
     NotExpression,
+};
+
+MulOp: Operator = {
+    "*" => Operator::Multiply,
+    "/" => Operator::Divide,
+    "%" => Operator::Modulo,
 };
 
 NotExpression: Expression = {
@@ -367,12 +373,6 @@ UnOp: UnaryOperator = {
     "+" => UnaryOperator::Pos,
     "-" => UnaryOperator::Neg,
     "~" => UnaryOperator::Inv,
-};
-
-MulOp: Operator = {
-    "*" => Operator::Multiply,
-    "/" => Operator::Divide,
-    "%" => Operator::Modulo,
 };
 
 Atom: Expression = {
