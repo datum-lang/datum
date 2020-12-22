@@ -1,7 +1,7 @@
 use crate::neat::expression::expression;
 use crate::neat::Namespace;
 use crate::symbol_table::SymbolTable;
-use cjc_hir::{Statement};
+use cjc_hir::Statement;
 use cjc_parser::StructFuncDecl;
 
 pub fn resolve_function_body(

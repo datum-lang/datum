@@ -17,7 +17,6 @@ lazy_static::lazy_static! {
     };
 }
 
-
 #[derive(PartialEq, Clone, Debug)]
 pub enum CodegenResult {
     Jit { exit_code: i32 },
