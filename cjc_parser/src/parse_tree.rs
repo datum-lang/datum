@@ -182,9 +182,6 @@ pub type Statement = Located<StatementType>;
 
 #[derive(Debug, PartialEq)]
 pub enum StatementType {
-    Suite {
-        suite: Suite,
-    },
     VariableDecl {
         field: Identifier,
         ty: Expression, // type

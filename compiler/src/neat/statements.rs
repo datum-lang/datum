@@ -25,7 +25,6 @@ pub fn statement(
 ) {
     for stmt in body {
         match &stmt.node {
-            cjc_parser::StatementType::Suite { .. } => {}
             cjc_parser::StatementType::Break => {}
             cjc_parser::StatementType::Continue => {}
             cjc_parser::StatementType::If { .. } => {}

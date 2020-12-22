@@ -95,7 +95,6 @@ Suite: Suite = {
 };
 
 Statement: Suite = {
-//    <@L> <@R> ";" => None,
     <s:CompoundStatement> => vec![s],
 };
 
@@ -221,11 +220,6 @@ ForStatement: Statement = {
     }
 };
 
-// todo: add suport for "{" and "}"
-//BlockStatement: Statement = {
-//
-//}
-
 Expression: Expression = {
     UnaryExpr,
 }
@@ -306,7 +300,6 @@ ShiftOp: Operator = {
     ">>" => Operator::RShift,
 };
 
-// Unary Expr
 ArithmeticExpression: Expression = {
     <a:ArithmeticExpression> <l:@L> <op:AddOp> <b:Term> <r:@R> => Expression {
         location: Location::new(l, r),
