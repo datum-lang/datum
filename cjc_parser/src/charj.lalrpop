@@ -111,7 +111,7 @@ CompoundStatement: Statement = {
     ExpressionStatement,
 }
 
-ExpressionStatement: Statement = {
+VariableDeclaration: Statement = {
     <l:@L> "let" <name:Identifier> ":" <typ:TypeLiteral> "=" <e:Expression> <r:@R> => {
         Statement {
             location: Location::new(l, r),
@@ -122,6 +122,10 @@ ExpressionStatement: Statement = {
             },
         }
     },
+}
+
+ExpressionStatement: Statement = {
+    VariableDeclaration,
     <l:@L> <e:Expression> <r:@R> => {
         Statement {
             location: Location::new(l, r),
