@@ -29,7 +29,7 @@ mod test {
     #[test]
     #[rustfmt::skip]
     fn should_build_print_builtin() {
-        let ns = parse_and_resolve("default$main() {println(\"hello,world\")}", "hello.cj");
+        let ns = parse_and_resolve("default$main() {println(\"hello,world\");}", "hello.cj");
         assert_eq!(1, ns.functions.len());
         assert_eq!(1, ns.functions[0].body.len());
 
@@ -52,7 +52,7 @@ mod test {
     #[test]
     #[rustfmt::skip]
     fn should_run_hello_world() {
-        let mut ns = process_string("default$main() {println(\"hello,world\")}", "hello.cj");
+        let mut ns = process_string("default$main() {println(\"hello,world\");}", "hello.cj");
         assert_eq!(1, ns.cfgs.len());
         let results = codegen(&mut ns, "jit");
         assert_eq!(1, results.len());
@@ -69,7 +69,7 @@ mod test {
     #[test]
     #[rustfmt::skip]
     fn should_print_nums() {
-        let mut ns = process_string("default$main() {println(5)}", "hello.cj");
+        let mut ns = process_string("default$main() {println(5);}", "hello.cj");
         assert_eq!(1, ns.cfgs.len());
         let results = codegen(&mut ns, "jit");
         assert_eq!(1, results.len());
@@ -86,7 +86,7 @@ mod test {
     #[test]
     #[rustfmt::skip]
     fn should_run_hello_world_utf8() {
-        let mut ns = process_string("default$main() {println(\"你好，世界！\")}", "hello.cj");
+        let mut ns = process_string("default$main() {println(\"你好，世界！\");}", "hello.cj");
         assert_eq!(1, ns.cfgs.len());
         let results = codegen(&mut ns, "jit");
         match results[0] {
@@ -102,7 +102,7 @@ mod test {
     #[test]
     #[rustfmt::skip]
     fn should_down_wasm() {
-        let mut ns = process_string("default$main() {println(\"hello,world\")}", "hello.cj");
+        let mut ns = process_string("default$main() {println(\"hello,world\");}", "hello.cj");
         let results = codegen(&mut ns, "wasm");
         match &results[0] {
             CodegenResult::Wasm { code } => {
@@ -117,9 +117,9 @@ mod test {
     #[test]
     #[rustfmt::skip]
     fn should_support_local_function_call() {
-        let mut ns = process_string("default$main() {say_hello()}
+        let mut ns = process_string("default$main() {say_hello();}
 
-default$say_hello() {println(\"你好，世界！\")}
+default$say_hello() {println(\"你好，世界！\");}
 ", "hello.cj");
         assert_eq!(2, ns.cfgs.len());
         let _results = codegen(&mut ns, "jit");
