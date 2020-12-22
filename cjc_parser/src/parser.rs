@@ -25,14 +25,14 @@ mod test {
 
     #[test]
     #[rustfmt::skip]
-    fn test_parse_empty() {
+    fn parse_parse_empty() {
         let parse_ast = parse_program("");
         assert!(parse_ast.is_err());
     }
 
     #[test]
     #[rustfmt::skip]
-    fn test_parse_package() {
+    fn parse_parse_package() {
         let package = parse_program("package charj");
         assert_eq!(package.unwrap(), Program {
             0: vec![ProgramUnit::PackageDecl(Package::Plain(
@@ -48,14 +48,14 @@ mod test {
 
     #[test]
     #[rustfmt::skip]
-    fn test_parse_struct() {
+    fn parse_parse_struct() {
         let package = parse_program("struct IO {}");
         assert!(package.is_ok());
     }
 
     #[test]
     #[rustfmt::skip]
-    fn test_basic_location() {
+    fn parse_basic_location() {
         let code = parse_program("pkg charj
 struct IO {}");
         assert!(code.is_ok());
@@ -63,7 +63,7 @@ struct IO {}");
 
     #[test]
     #[rustfmt::skip]
-    fn test_normal_struct_function() {
+    fn parse_normal_struct_function() {
         let normal_struct_fun = parse_program("default$main() {}");
         assert!(normal_struct_fun.is_ok());
         let with_empty_struct_fun = parse_program("default $ main () {}");
@@ -72,7 +72,7 @@ struct IO {}");
 
     #[test]
     #[rustfmt::skip]
-    fn test_function_parameters() {
+    fn parse_function_parameters() {
         let params = parse_program("default$main(string name) {}");
         assert!(params.is_ok());
 
@@ -82,7 +82,7 @@ struct IO {}");
 
     #[test]
     #[rustfmt::skip]
-    fn test_comment() {
+    fn parse_comment() {
         let comments = parse_program("// this is a comment
 pkg comment
 ");
@@ -91,7 +91,7 @@ pkg comment
 
     #[test]
     #[rustfmt::skip]
-    fn test_if_statement() {
+    fn parse_if_statement() {
         let empty_if = parse_program("default$main(string name) {
     if(string == \"name\") {
         return;
@@ -107,7 +107,7 @@ pkg comment
 
     #[test]
     #[rustfmt::skip]
-    fn test_while() {
+    fn parse_while() {
         let empty_if = parse_program("default$main(string name) {
     while(string == \"name\") {
         return;
@@ -123,7 +123,7 @@ pkg comment
 
     #[test]
     #[rustfmt::skip]
-    fn test_return() {
+    fn parse_return() {
         let if_return = parse_program("default$main(string name) {
     if(a == true) {
         return a;
@@ -141,7 +141,7 @@ pkg comment
 
     #[test]
     #[rustfmt::skip]
-    fn test_if_else() {
+    fn parse_if_else() {
         let if_else = parse_program("default$compare(int a, int b) {
     if(a > b) {
         return a;
@@ -154,7 +154,7 @@ pkg comment
 
     #[test]
     #[rustfmt::skip]
-    fn test_function_return() {
+    fn parse_function_return() {
         let function_return = parse_program("default$compare(int a, int b) -> int {
     if(a > b) {
         return a;
@@ -176,7 +176,7 @@ pkg comment
 
     #[test]
     #[rustfmt::skip]
-    fn test_function_string_return() {
+    fn parse_function_string_return() {
         let function_return = parse_program("default$compare(int a, int b) -> string {
 }");
 
@@ -193,14 +193,14 @@ pkg comment
 
     #[test]
     #[rustfmt::skip]
-    fn test_parse_import() {
+    fn parse_parse_import() {
         let parse_ast = parse_program("import io");
         assert!(parse_ast.is_ok());
     }
 
     #[test]
     #[rustfmt::skip]
-    fn test_function_call() {
+    fn parse_function_call() {
         let basic_function_call = parse_program("default$main(string name) {
     println(\"hello,world\");
 }");
@@ -209,7 +209,7 @@ pkg comment
 
     #[test]
     #[rustfmt::skip]
-    fn test_utf8_identify() {
+    fn parse_utf8_identify() {
         let basic_function_call = parse_program("default$主要(string name) {
     显示(\"hello,world\");
 }");
@@ -219,7 +219,7 @@ pkg comment
 
     #[test]
     #[rustfmt::skip]
-    fn test_struct_vars() {
+    fn parse_struct_vars() {
         let code = parse_program("pkg charj
 struct Summary {
   	Name   : string
@@ -239,7 +239,7 @@ struct Summary {
 
     #[test]
     #[rustfmt::skip]
-    fn test_struct_array_vars() {
+    fn parse_struct_array_vars() {
         let code = parse_program("pkg charj
 struct Summary {
   	Name   : []string
@@ -249,7 +249,7 @@ struct Summary {
 
     #[test]
     #[rustfmt::skip]
-    fn test_struct_with_method_define() {
+    fn parse_struct_with_method_define() {
         let code = parse_program("pkg charj
 struct Summary {
   	Name   : string
@@ -271,7 +271,7 @@ Summary$constructor(string name) {
 
     #[test]
     #[rustfmt::skip]
-    fn test_struct_in_struct() {
+    fn parse_struct_in_struct() {
         let code = parse_program("pkg charj
 struct Summary {
   	Name   : string
@@ -288,7 +288,7 @@ struct Hello {
 
     #[test]
     #[rustfmt::skip]
-    fn test_assign() {
+    fn parse_assign() {
         let str_assign = parse_program("default$main() {
     let words: string  = \"hello,world\";
     println(words);
@@ -300,7 +300,7 @@ struct Hello {
 
     #[test]
     #[rustfmt::skip]
-    fn test_assign_with_sum() {
+    fn parse_assign_with_sum() {
         let str_assign = parse_program("default$main() {
     let b: int = 2333 + 5;
     let c: int = b - 10;
@@ -316,7 +316,7 @@ struct Hello {
 
     #[test]
     #[rustfmt::skip]
-    fn test_mul() {
+    fn parse_mul() {
         let mul = parse_program("default$main() {
     let b: int = 2333 * 5 - 10 + 100;
     println(b);
@@ -326,7 +326,7 @@ struct Hello {
 
     #[test]
     #[rustfmt::skip]
-    fn test_basic_div() {
+    fn parse_basic_div() {
         let mul = parse_program("default$main() {
     let b: int = 2333 * 5 - 10 + 100 / 5;
     println(b);
@@ -336,7 +336,7 @@ struct Hello {
 
     #[test]
     #[rustfmt::skip]
-    fn test_basic_mode() {
+    fn parse_basic_mode() {
         let mod_code = parse_program("default$main() {
     let b: int = 100 % 5;
     println(b);
@@ -346,7 +346,7 @@ struct Hello {
 
     #[test]
     #[rustfmt::skip]
-    fn test_for_and_or_symbol() {
+    fn parse_and_or_symbol() {
         let and_symbol = parse_program("default$main() {
     let b: bool = a && b;
 }");
@@ -365,7 +365,7 @@ struct Hello {
 
     #[test]
     #[rustfmt::skip]
-    fn test_for_loop() {
+    fn parse_loop() {
         let for_loop = parse_program("default$main(string name) {
     for(x in 1..10) {
         println(x);
@@ -376,7 +376,7 @@ struct Hello {
 
     #[test]
     #[rustfmt::skip]
-    fn test_for_not() {
+    fn parse_not() {
         let not_cond = parse_program("default$main(string name) {
     if (!true){}
 }");
@@ -385,7 +385,7 @@ struct Hello {
 
     #[test]
     #[rustfmt::skip]
-    fn test_for_shift() {
+    fn parse_shift() {
         let shift = parse_program("default$main(string name) {
     let a: int = 1000 << 0;
     let b: int = 1000 >> 1;
@@ -395,7 +395,7 @@ struct Hello {
 
     #[test]
     #[rustfmt::skip]
-    fn test_for_complex_if() {
+    fn parse_complex_if() {
         let complex_not_cond = parse_program("default$main(string name) {
     if ((i % 3) == 0) {}
 }");
@@ -404,11 +404,26 @@ struct Hello {
 
     #[test]
     #[rustfmt::skip]
-    fn test_for_array() {
+    fn parse_array() {
         let array = parse_program("default$main(string name) {
     let i: []int = [1, 2, 3];
     let j: string = [1, 2, 3];
 }");
         assert!(array.is_ok());
+    }
+
+
+    #[test]
+    #[rustfmt::skip]
+    fn parse_multiple_quote() {
+        let quote = parse_program("default$main(string name) {
+    ((((((a))))));
+}");
+        assert!(quote.is_ok());
+
+        let error_quote = parse_program("default$main(string name) {
+    ((((((a)))));
+}");
+        assert!(error_quote.is_err());
     }
 }
