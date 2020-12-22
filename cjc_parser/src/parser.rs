@@ -202,7 +202,7 @@ pkg comment
     #[rustfmt::skip]
     fn test_function_call() {
         let basic_function_call = parse_program("default$main(string name) {
-    println(\"hello,world\")
+    println(\"hello,world\");
 }");
         assert!(basic_function_call.is_ok());
     }
@@ -211,7 +211,7 @@ pkg comment
     #[rustfmt::skip]
     fn test_utf8_identify() {
         let basic_function_call = parse_program("default$主要(string name) {
-    显示(\"hello,world\")
+    显示(\"hello,world\");
 }");
 
         assert!(basic_function_call.is_ok());
@@ -290,10 +290,10 @@ struct Hello {
     #[rustfmt::skip]
     fn test_assign() {
         let str_assign = parse_program("default$main() {
-    let words: string  = \"hello,world\"
-    println(words)
-    let b: int = 2333
-    println(b)
+    let words: string  = \"hello,world\";
+    println(words);
+    let b: int = 2333;
+    println(b);
 }");
         assert!(str_assign.is_ok());
     }
@@ -302,14 +302,14 @@ struct Hello {
     #[rustfmt::skip]
     fn test_assign_with_sum() {
         let str_assign = parse_program("default$main() {
-    let b: int = 2333 + 5
-    let c: int = b - 10
-    println(b)
+    let b: int = 2333 + 5;
+    let c: int = b - 10;
+    println(b);
 }");
         assert!(str_assign.is_ok());
 
         let multiple_expr = parse_program("default$main() {
-    let b: int = 2333 + 5 - 10 -10 + 5 + 100
+    let b: int = 2333 + 5 - 10 -10 + 5 + 100;
 }");
         assert!(multiple_expr.is_ok());
     }
@@ -318,8 +318,8 @@ struct Hello {
     #[rustfmt::skip]
     fn test_mul() {
         let mul = parse_program("default$main() {
-    let b: int = 2333 * 5 - 10 + 100
-    println(b)
+    let b: int = 2333 * 5 - 10 + 100;
+    println(b);
 }");
         assert!(mul.is_ok());
     }
@@ -328,8 +328,8 @@ struct Hello {
     #[rustfmt::skip]
     fn test_basic_div() {
         let mul = parse_program("default$main() {
-    let b: int = 2333 * 5 - 10 + 100 / 5
-    println(b)
+    let b: int = 2333 * 5 - 10 + 100 / 5;
+    println(b);
 }");
         assert!(mul.is_ok());
     }
@@ -338,8 +338,8 @@ struct Hello {
     #[rustfmt::skip]
     fn test_basic_mode() {
         let mod_code = parse_program("default$main() {
-    let b: int = 100 % 5
-    println(b)
+    let b: int = 100 % 5;
+    println(b);
 }");
         assert!(mod_code.is_ok());
     }
@@ -348,17 +348,17 @@ struct Hello {
     #[rustfmt::skip]
     fn test_for_and_or_symbol() {
         let and_symbol = parse_program("default$main() {
-    let b: bool = a && b
+    let b: bool = a && b;
 }");
         assert!(and_symbol.is_ok());
 
         let or_symbol = parse_program("default$main() {
-    let b: bool = a || b
+    let b: bool = a || b;
 }");
         assert!(or_symbol.is_ok());
 
         let complex = parse_program("default$main() {
-    let b: bool = a || b && c || d && e || f
+    let b: bool = a || b && c || d && e || f;
 }");
         assert!(complex.is_ok());
     }
@@ -368,7 +368,7 @@ struct Hello {
     fn test_for_loop() {
         let for_loop = parse_program("default$main(string name) {
     for(x in 1..10) {
-        println(x)
+        println(x);
     }
 }");
         assert!(for_loop.is_ok());
@@ -387,20 +387,18 @@ struct Hello {
     #[rustfmt::skip]
     fn test_for_shift() {
         let shift = parse_program("default$main(string name) {
-    let a: int = 1000 << 0
-    let b: int = 1000 >> 1
+    let a: int = 1000 << 0;
+    let b: int = 1000 >> 1;
 }");
         assert!(shift.is_ok());
     }
 
     #[test]
-    #[ignore]
     #[rustfmt::skip]
     fn test_for_complex_if() {
         let complex_not_cond = parse_program("default$main(string name) {
     if ((i % 3) == 0) {}
 }");
-        println!("{:?}", complex_not_cond);
         assert!(complex_not_cond.is_ok());
     }
 
@@ -408,8 +406,8 @@ struct Hello {
     #[rustfmt::skip]
     fn test_for_array() {
         let array = parse_program("default$main(string name) {
-    let i: []int = [1, 2, 3]
-    let j: string = [1, 2, 3]
+    let i: []int = [1, 2, 3];
+    let j: string = [1, 2, 3];
 }");
         assert!(array.is_ok());
     }

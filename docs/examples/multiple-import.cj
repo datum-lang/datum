@@ -6,5 +6,5 @@ import (
 )
 
 default$main() {
-    println("hello, world")
+    println("hello, world");
 }

@@ -108,7 +108,7 @@ CompoundStatement: Statement = {
     WhileStatement,
     ForStatement,
     FlowStatement,
-    SimpleStatement,
+    <SimpleStatement> ";" => <>,
 }
 
 VariableDeclaration: Statement = {
@@ -353,7 +353,7 @@ PrimaryExpr: Expression = {
         }
     },
     Atom,
-//    ParenthesizedExpression,
+    ParenthesizedExpression,
 }
 
 ParenthesizedExpression: Expression = {
