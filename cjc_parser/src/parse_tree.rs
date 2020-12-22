@@ -17,6 +17,9 @@ pub enum ProgramUnit {
     ObjectDecl(Box<ObjectDecl>),
 }
 
+// todo: inline for support empty stmt, like ';'
+pub type Suite = Vec<Statement>;
+
 #[derive(Debug, PartialEq)]
 pub struct ObjectDecl {
     pub loc: Loc,
@@ -29,7 +32,7 @@ pub struct FuncDecl {
     pub loc: Loc,
     pub name: Identifier,
     pub params: Vec<(Loc, Option<Parameter>)>,
-    pub body: Vec<Statement>,
+    pub body: Suite,
 }
 
 #[derive(Debug, PartialEq)]
@@ -38,7 +41,7 @@ pub struct StructFuncDecl {
     pub name: Identifier,
     pub struct_name: Identifier,
     pub params: Vec<(Loc, Option<Parameter>)>,
-    pub body: Vec<Statement>,
+    pub body: Suite,
     pub returns: Option<Expression>,
 }
 
@@ -187,17 +190,17 @@ pub enum StatementType {
     Continue,
     If {
         cond: Expression,
-        body: Vec<Statement>,
-        orelse: Option<Vec<Statement>>,
+        body: Suite,
+        orelse: Option<Suite>,
     },
     While {
         cond: Expression,
-        body: Vec<Statement>,
+        body: Suite,
     },
     For {
         target: Box<Expression>,
         iter: Box<Expression>,
-        body: Vec<Statement>,
+        body: Suite,
     },
     Loop,
     /// Variable assignment. Note that we can assign to multiple targets.

@@ -58,7 +58,7 @@ FuncDecl: Box<FuncDecl> = {
             loc: Loc(l, r),
             name,
             params,
-            body,
+            body: body,
        })
     }
 };
@@ -90,11 +90,11 @@ VariableDecl: Statement = {
     }
 };
 
-Suite: Vec<Statement> = {
+Suite: Suite = {
     <s:Statement+> => s.into_iter().flatten().collect(),
 };
 
-Statement: Vec<Statement> = {
+Statement: Suite = {
 //    <@L> <@R> ";" => None,
     <s:CompoundStatement> => vec![s],
 };
