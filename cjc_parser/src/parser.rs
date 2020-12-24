@@ -460,8 +460,10 @@ struct Hello {
 }");
         match bool_return.unwrap().0.get(0).unwrap() {
             ProgramUnit::StructFuncDecl(def) => {
-                if let StatementType::Return { value } = &def.body.get(0).unwrap().node {
+                let return_node = &def.body.get(0).unwrap().node;
+                if let StatementType::Return { value } = return_node {
                     let expr = &value.as_ref().unwrap().node;
+
                     if let ExpressionType::List { elements } = expr {
                         let string = format!("{:?}", elements[0]);
                         assert_eq!(string, "Located { location: Location { row: 39, column: 43 }, node: Bool { value: true } }");
@@ -473,6 +475,5 @@ struct Hello {
         }
 
         panic!("not return");
-
     }
 }
