@@ -463,6 +463,16 @@ struct Hello {
 
     #[test]
     #[rustfmt::skip]
+    fn parse_object() {
+        let obj = parse_program("default$main(string name) {
+    let obj: Object = {};
+}");
+        println!("{:?}", obj);
+        assert!(obj.is_ok());
+    }
+
+    #[test]
+    #[rustfmt::skip]
     fn parse_bool_in_expr() {
         let bool_return = parse_program("default$main(string name) {
     return true;

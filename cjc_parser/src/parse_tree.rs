@@ -132,6 +132,7 @@ pub enum ExpressionType {
         left: Box<Expression>,
         right: Box<Expression>,
     },
+    ObjectDecl,
 }
 
 #[derive(Debug, Clone, PartialEq)]

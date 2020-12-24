@@ -121,6 +121,16 @@ VariableDeclaration: Statement = {
             },
         }
     },
+    <l:@L> "let" <name:Identifier> ":" <typ:TypeLiteral> "=" <e:ObjectExpr> <r:@R> => {
+        Statement {
+            location: Location::new(l, r),
+            node: StatementType::Assign {
+                target: name,
+                ty: typ,
+                value: e
+            },
+        }
+    }
 }
 
 SimpleStatement: Statement = {
@@ -384,6 +394,15 @@ PrimaryExpr: Expression = {
     ParenthesizedExpression,
 }
 
+ObjectExpr: Expression = {
+    <l:@L> "{" "}" <r:@R> => {
+        Expression {
+            location: Location::new(l, r),
+            node: ExpressionType::ObjectDecl
+        }
+    }
+}
+
 BoolExpr: Expression = {
     <l:@L> "true" <r:@R> => {
         Expression {
@@ -604,6 +623,8 @@ extern {
         ")" => Token::CloseParenthesis,
         "=" => Token::Assign,
         "==" => Token::Equal,
+
+        // todo: thinking in remove
         "=>" => Token::Arrow,
 
         "|=" => Token::BitwiseOrAssign,
