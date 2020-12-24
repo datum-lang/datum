@@ -78,7 +78,6 @@ pub enum ExpressionType {
         op: BooleanOperator,
         values: Vec<Expression>,
     },
-
     /// A binary operation on two operands.
     /// such as `a * b`, `a + b`, `a · b`.
     Binop {
@@ -86,32 +85,26 @@ pub enum ExpressionType {
         op: Operator,
         b: Box<Expression>,
     },
-
     /// An unary operation.
     Unop {
         op: UnaryOperator,
         a: Box<Expression>,
     },
-
-    /// An unary operation.
+    /// An post unary operation.
     PostUnop {
         op: AffixesUnaryOperator,
         a: Box<Expression>,
     },
-
     String {
         value: String,
     },
-
     Bool {
         value: bool,
     },
-
     /// A numeric literal.
     Number {
         value: BigInt,
     },
-
     /// A `list` literal value.
     List {
         elements: Vec<Expression>,
@@ -120,11 +113,9 @@ pub enum ExpressionType {
     Identifier {
         name: Identifier,
     },
-
     Type {
         ty: Type,
     },
-
     /// Attribute access in the form of `value.name`.
     MemberAccess {
         value: Box<Expression>,

@@ -357,6 +357,11 @@ PostfixUnaryOperator: Expression = {
     PrimaryExpr
 }
 
+AffixesUnOp: AffixesUnaryOperator = {
+    "++" => AffixesUnaryOperator::Increment,
+    "--" => AffixesUnaryOperator::Decrement,
+};
+
 PrimaryExpr: Expression = {
     <FunctionCall> => <>,
     <e:PrimaryExpr> <l:@L> "." <name:Identifier> <r:@R> => {
@@ -365,14 +370,10 @@ PrimaryExpr: Expression = {
             node: ExpressionType::MemberAccess { value: Box::new(e), name }
         }
     },
+//    BoolExpr,
     Atom,
     ParenthesizedExpression,
 }
-
-AffixesUnOp: AffixesUnaryOperator = {
-    "++" => AffixesUnaryOperator::Increment,
-    "--" => AffixesUnaryOperator::Decrement,
-};
 
 ParenthesizedExpression: Expression = {
     "(" <e:Expression> ")" => e,

@@ -450,4 +450,14 @@ struct Hello {
 }");
         assert!(error_quote.is_err());
     }
+
+    #[test]
+    #[rustfmt::skip]
+    fn parse_bool_in_expr() {
+        let bool = parse_program("default$main(string name) {
+    return true;
+}");
+        println!("{:?}", bool);
+        assert!(bool.is_ok());
+    }
 }
