@@ -80,6 +80,7 @@ pub enum ExpressionType {
     },
 
     /// A binary operation on two operands.
+    /// such as `a * b`, `a + b`, `a · b`.
     Binop {
         a: Box<Expression>,
         op: Operator,
@@ -285,6 +286,7 @@ pub enum Operator {
     Add,
     Sub,
     Multiply,
+    /// `@`, from Python, thinking in remove
     MatMult,
     Divide,
     Modulo,
@@ -294,7 +296,9 @@ pub enum Operator {
     BitOr,
     BitXor,
     BitAnd,
-    FloorDiv, // from RustPython, thinking in remove
+    /// from Python, thinking in remove
+    /// also in Java, Math.floorDiv
+    FloorDiv, /// `"//"`
 }
 
 /// An unary operator. This is an operation with only a single operand.
