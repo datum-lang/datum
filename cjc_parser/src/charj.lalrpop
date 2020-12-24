@@ -168,7 +168,21 @@ ReturnValue: Expression = {
 }
 
 IfStatement: Statement = {
-    // todo: support for ClosedStatement.
+    <l:@L> "if" "(" <cond:Expression> ")" <stmt:CompoundStatement> <r:@R> => {
+        let mut vec: Vec<Statement> = Vec::new();
+        vec.push(stmt);
+
+        let body = vec as Suite;
+
+        Statement {
+            location: Location::new(l, r),
+            node: StatementType::If {
+                cond,
+                body,
+                orelse: None
+            }
+        }
+    },
     <l:@L> "if" "(" <cond:Expression> ")" "{" <body:Suite?> "}" <s3:("else" "{" Suite "}")?> <r:@R> => {
         let mut last = s3.map(|s| s.2);
 

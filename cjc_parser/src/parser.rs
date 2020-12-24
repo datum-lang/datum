@@ -386,6 +386,15 @@ struct Hello {
 
     #[test]
     #[rustfmt::skip]
+    fn parse_open_cond() {
+        let open_cond = parse_program("default$main(string name) {
+    if (!true) return 1;
+}");
+        assert!(open_cond.is_ok());
+    }
+
+    #[test]
+    #[rustfmt::skip]
     fn parse_shift() {
         let shift = parse_program("default$main(string name) {
     let a: int = 1000 << 0;
