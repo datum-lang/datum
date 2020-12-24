@@ -1,5 +1,7 @@
-use crate::Type;
 use cjc_lexer::Location;
+use num_bigint::BigInt;
+
+use crate::Type;
 
 #[derive(PartialEq, Clone, Debug)]
 pub enum Builtin {
@@ -15,6 +17,11 @@ pub enum Expression {
     StringLiteral {
         location: Location,
         value: String,
+    },
+    NumberLiteral {
+        location: Location,
+        ty: Type,
+        value: BigInt,
     },
     BytesLiteral {
         location: Location,

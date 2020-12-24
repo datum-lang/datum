@@ -3,7 +3,8 @@ use cjc_parser::{Program, ProgramUnit, StructFuncDecl};
 use crate::neat::struct_function::struct_function_decl;
 use crate::neat::{statements, Namespace};
 
-pub fn resolve_unit(program: Program, namespace: &mut Namespace) {
+pub fn resolve_program(program: Program, namespace: &mut Namespace) {
+    // todo: make structs
     let _structs = program
         .0
         .iter()

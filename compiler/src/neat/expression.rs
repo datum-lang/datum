@@ -1,8 +1,9 @@
+use cjc_hir::{Expression, Type};
+use cjc_parser::{Argument, ExpressionType};
+
 use crate::builtin;
 use crate::neat::Namespace;
 use crate::symbol_table::SymbolTable;
-use cjc_hir::Expression;
-use cjc_parser::{Argument, ExpressionType};
 
 pub fn expression(
     expr: &cjc_parser::Expression,
@@ -19,7 +20,16 @@ pub fn expression(
             value: value.to_string(),
         }),
         ExpressionType::Bool { .. } => Ok(cjc_hir::Expression::Placeholder),
-        ExpressionType::Number { .. } => Ok(cjc_hir::Expression::Placeholder),
+        ExpressionType::Number { value } => {
+            let bits = value.bits();
+            let int_size = if bits < 7 { 8 } else { (bits + 7) & !7 } as u16;
+
+            Ok(cjc_hir::Expression::NumberLiteral {
+                location: *&expr.location,
+                ty: Type::Int(int_size),
+                value: value.clone(),
+            })
+        }
         ExpressionType::List { .. } => Ok(cjc_hir::Expression::Placeholder),
         ExpressionType::Identifier { .. } => Ok(cjc_hir::Expression::Placeholder),
         ExpressionType::Type { .. } => Ok(cjc_hir::Expression::Placeholder),

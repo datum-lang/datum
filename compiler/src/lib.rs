@@ -68,6 +68,22 @@ mod test {
 
     #[test]
     #[rustfmt::skip]
+    fn should_run_print_number() {
+        let mut ns = process_string("default$main() {println(8848);}", "hello.cj");
+        let results = codegen(&mut ns, "jit");
+        assert_eq!(1, results.len());
+        match results[0] {
+            CodegenResult::Jit { exit_code } => {
+                assert_eq!(0, exit_code);
+            }
+            _ => {
+                panic!("run hello, world failure");
+            }
+        }
+    }
+
+    #[test]
+    #[rustfmt::skip]
     fn should_print_nums() {
         let mut ns = process_string("default$main() {println(5);}", "hello.cj");
         assert_eq!(1, ns.cfgs.len());

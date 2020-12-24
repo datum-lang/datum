@@ -62,6 +62,11 @@ pub fn expression_cfg(expr: &Expression, cfg: &mut ControlFlowGraph, ns: &Namesp
             // });
             expr.clone()
         }
+        Expression::NumberLiteral {
+            location: _,
+            ty: _,
+            value: _,
+        } => expr.clone(),
         Expression::BytesLiteral { .. } => Expression::Placeholder,
         Expression::InternalFunctionCall { .. } => Expression::Placeholder,
         Expression::Builtin {
@@ -78,12 +83,19 @@ pub fn expression_cfg(expr: &Expression, cfg: &mut ControlFlowGraph, ns: &Namesp
                     Expression::StringLiteral { location: _, value } => {
                         val = value;
                     }
+                    Expression::NumberLiteral {
+                        location: _,
+                        ty: _,
+                        value,
+                    } => {
+                        val = value.to_string();
+                    }
                     _ => {}
                 }
                 cfg.emit(ExprKind::Print { value: val });
                 Expression::Placeholder
             }
         },
-        _ => expr.clone(),
+        Expression::Variable => expr.clone(),
     }
 }
