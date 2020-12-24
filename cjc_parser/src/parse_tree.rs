@@ -298,7 +298,7 @@ pub enum Operator {
     BitAnd,
     /// from Python, thinking in remove
     /// also in Java, Math.floorDiv
-    FloorDiv, /// `"//"`
+    FloorDiv,
 }
 
 /// An unary operator. This is an operation with only a single operand.
