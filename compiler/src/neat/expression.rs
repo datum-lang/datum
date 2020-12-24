@@ -40,10 +40,10 @@ fn function_call_expr(
     ns: &mut Namespace,
     symtable: &mut SymbolTable,
 ) -> Result<Expression, ()> {
-    method_call(function, args, ns, symtable)
+    function_call(function, args, ns, symtable)
 }
 
-fn method_call(
+fn function_call(
     var: &Box<cjc_parser::Expression>,
     args: &Vec<Argument>,
     ns: &mut Namespace,
