@@ -428,6 +428,17 @@ struct Hello {
 
     #[test]
     #[rustfmt::skip]
+    fn parse_post_unop() {
+        let post_unop = parse_program("default$main(string name) {
+    let j: int = -1;
+    j++;
+    j--;
+}");
+        assert!(post_unop.is_ok());
+    }
+
+    #[test]
+    #[rustfmt::skip]
     fn parse_multiple_quote() {
         let quote = parse_program("default$main(string name) {
     ((((((a))))));

@@ -93,6 +93,12 @@ pub enum ExpressionType {
         a: Box<Expression>,
     },
 
+    /// An unary operation.
+    PostUnop {
+        op: AffixesUnaryOperator,
+        a: Box<Expression>,
+    },
+
     String {
         value: String,
     },
@@ -308,6 +314,13 @@ pub enum UnaryOperator {
     Neg,
     Not,
     Inv,
+}
+
+/// Merge for prefixUnaryOperator `++i` and postfixUnarySuffix `i++` ;
+#[derive(Debug, PartialEq)]
+pub enum AffixesUnaryOperator {
+    Increment,
+    Decrement,
 }
 
 #[derive(Debug, PartialEq, Clone)]

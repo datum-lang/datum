@@ -341,12 +341,21 @@ FactoryExpr: Expression = {
     <l:@L> <op:UnOp> <r:@R> <e:PrimaryExpr> => {
        Expression {
            location: Location::new(l, r),
-           node: ExpressionType::Unop { op:op, a: Box::new(e) }
+           node: ExpressionType::Unop { op, a: Box::new(e) }
        }
    },
-    PrimaryExpr
+    PostfixUnaryOperator
 }
 
+PostfixUnaryOperator: Expression = {
+    <l:@L> <e:PrimaryExpr> <op:AffixesUnOp> <r:@R> => {
+        Expression {
+            location: Location::new(l, r),
+            node: ExpressionType::PostUnop { op, a: Box::new(e) }
+        }
+    },
+    PrimaryExpr
+}
 
 PrimaryExpr: Expression = {
     <FunctionCall> => <>,
@@ -359,6 +368,11 @@ PrimaryExpr: Expression = {
     Atom,
     ParenthesizedExpression,
 }
+
+AffixesUnOp: AffixesUnaryOperator = {
+    "++" => AffixesUnaryOperator::Increment,
+    "--" => AffixesUnaryOperator::Decrement,
+};
 
 ParenthesizedExpression: Expression = {
     "(" <e:Expression> ")" => e,
