@@ -412,6 +412,19 @@ struct Hello {
         assert!(array.is_ok());
     }
 
+    #[test]
+    #[rustfmt::skip]
+    fn parse_unop() {
+        let unop = parse_program("default$main(string name) {
+     let j: int = -1;
+}");
+        assert!(unop.is_ok());
+        let more_unop = parse_program("default$main(string name) {
+     let i: int = +1;
+     let j: bool = !true;
+}");
+        assert!(more_unop.is_ok());
+    }
 
     #[test]
     #[rustfmt::skip]

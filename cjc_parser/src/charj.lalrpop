@@ -314,11 +314,11 @@ AddOp: Operator = {
 };
 
 Term: Expression = {
-    <a:Term> <l:@L> <op:MulOp> <b:NotExpression> <r:@R> => Expression {
+    <a:Term> <l:@L> <op:MulOp> <b:NotExpr> <r:@R> => Expression {
         location: Location::new(l, r),
         node: ExpressionType::Binop { a: Box::new(a), op, b: Box::new(b) }
     },
-    NotExpression,
+    NotExpr,
 };
 
 MulOp: Operator = {
@@ -327,15 +327,26 @@ MulOp: Operator = {
     "%" => Operator::Modulo,
 };
 
-NotExpression: Expression = {
-    <l:@L> "!" <r:@R> <e:NotExpression> => {
+NotExpr: Expression = {
+    <l:@L> "!" <r:@R> <e:NotExpr> => {
        Expression {
            location: Location::new(l, r),
            node: ExpressionType::Unop { op: UnaryOperator::Not, a: Box::new(e) }
        }
    },
-   PrimaryExpr,
+   FactoryExpr,
 }
+
+FactoryExpr: Expression = {
+    <l:@L> <op:UnOp> <r:@R> <e:PrimaryExpr> => {
+       Expression {
+           location: Location::new(l, r),
+           node: ExpressionType::Unop { op:op, a: Box::new(e) }
+       }
+   },
+    PrimaryExpr
+}
+
 
 PrimaryExpr: Expression = {
     <FunctionCall> => <>,
