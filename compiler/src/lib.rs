@@ -33,20 +33,16 @@ mod test {
         assert_eq!(1, ns.functions.len());
         assert_eq!(1, ns.functions[0].body.len());
 
-        let mut is_print_builtin = false;
         let statement = &ns.functions[0].body[0];
         if let Statement::Expression { location: _, expression } = statement {
-            match expression {
-                Expression::Builtin { location: _, types: _, builtin, args: _ } => {
-                    if *builtin == cjc_hir::Builtin::Print {
-                        is_print_builtin = true;
-                    }
+            if let Expression::Builtin { location: _, types: _, builtin, args: _ } = expression {
+                if *builtin == cjc_hir::Builtin::Print {
+                    return assert!(true);
                 }
-                _ => {}
             }
         }
 
-        assert_eq!(true, is_print_builtin);
+        panic!("print inline failure");
     }
 
     #[test]
@@ -57,8 +53,7 @@ mod test {
         assert_eq!(1, results.len());
 
         if let CodegenResult::Jit { exit_code } = results[0] {
-            assert_eq!(0, exit_code);
-            return;
+            return assert_eq!(0, exit_code);
         }
         panic!("run hello, world failure");
     }
@@ -71,8 +66,7 @@ mod test {
         assert_eq!(1, results.len());
 
         if let CodegenResult::Jit { exit_code } = results[0] {
-            assert_eq!(0, exit_code);
-            return;
+            return assert_eq!(0, exit_code);
         }
 
         panic!("run hello, world failure");
@@ -82,17 +76,14 @@ mod test {
     #[rustfmt::skip]
     fn should_print_nums() {
         let mut ns = process_string("default$main() {println(5);}", "hello.cj");
-        assert_eq!(1, ns.cfgs.len());
         let results = codegen(&mut ns, "jit");
         assert_eq!(1, results.len());
-        match results[0] {
-            CodegenResult::Jit { exit_code } => {
-                assert_eq!(0, exit_code);
-            }
-            _ => {
-                panic!("run hello, world failure");
-            }
+
+        if let CodegenResult::Jit { exit_code } = results[0] {
+            return assert_eq!(0, exit_code);
         }
+
+        panic!("run hello, world failure");
     }
 
     #[test]
@@ -102,8 +93,7 @@ mod test {
         let results = codegen(&mut ns, "jit");
 
         if let CodegenResult::Jit { exit_code } = results[0] {
-            assert_eq!(0, exit_code);
-            return;
+            return assert_eq!(0, exit_code);
         }
 
         panic!("run hello, world failure");
