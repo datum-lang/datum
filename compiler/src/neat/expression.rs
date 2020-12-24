@@ -29,6 +29,7 @@ pub fn expression(
             return result;
         }
         ExpressionType::Compare { .. } => Ok(cjc_hir::Expression::Placeholder),
+        ExpressionType::PostUnop { .. } => Ok(cjc_hir::Expression::Placeholder)
     }
 }
 
