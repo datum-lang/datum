@@ -121,7 +121,7 @@ VariableDeclaration: Statement = {
             },
         }
     },
-    <l:@L> "let" <name:Identifier> ":" <typ:TypeLiteral> "=" <e:ObjectExpr> <r:@R> => {
+    <l:@L> "let" <name:Identifier> ":" <typ:TypeLiteral> "=" <e:EmptyObject> <r:@R> => {
         Statement {
             location: Location::new(l, r),
             node: StatementType::Assign {
@@ -133,11 +133,11 @@ VariableDeclaration: Statement = {
     }
 }
 
-ObjectExpr: Expression = {
+EmptyObject: Expression = {
     <l:@L> "{" "}" <r:@R> => {
         Expression {
             location: Location::new(l, r),
-            node: ExpressionType::ObjectDecl
+            node: ExpressionType::EmptyObject
         }
     }
 }
