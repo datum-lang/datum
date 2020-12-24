@@ -53,17 +53,14 @@ mod test {
     #[rustfmt::skip]
     fn should_run_hello_world() {
         let mut ns = process_string("default$main() {println(\"hello,world\");}", "hello.cj");
-        assert_eq!(1, ns.cfgs.len());
         let results = codegen(&mut ns, "jit");
         assert_eq!(1, results.len());
-        match results[0] {
-            CodegenResult::Jit { exit_code } => {
-                assert_eq!(0, exit_code);
-            }
-            _ => {
-                panic!("run hello, world failure");
-            }
+
+        if let CodegenResult::Jit { exit_code } = results[0] {
+            assert_eq!(0, exit_code);
+            return;
         }
+        panic!("run hello, world failure");
     }
 
     #[test]
@@ -72,14 +69,13 @@ mod test {
         let mut ns = process_string("default$main() {println(8848);}", "hello.cj");
         let results = codegen(&mut ns, "jit");
         assert_eq!(1, results.len());
-        match results[0] {
-            CodegenResult::Jit { exit_code } => {
-                assert_eq!(0, exit_code);
-            }
-            _ => {
-                panic!("run hello, world failure");
-            }
+
+        if let CodegenResult::Jit { exit_code } = results[0] {
+            assert_eq!(0, exit_code);
+            return;
         }
+
+        panic!("run hello, world failure");
     }
 
     #[test]
@@ -103,16 +99,14 @@ mod test {
     #[rustfmt::skip]
     fn should_run_hello_world_utf8() {
         let mut ns = process_string("default$main() {println(\"你好，世界！\");}", "hello.cj");
-        assert_eq!(1, ns.cfgs.len());
         let results = codegen(&mut ns, "jit");
-        match results[0] {
-            CodegenResult::Jit { exit_code } => {
-                assert_eq!(0, exit_code);
-            }
-            _ => {
-                panic!("run hello, world failure");
-            }
+
+        if let CodegenResult::Jit { exit_code } = results[0] {
+            assert_eq!(0, exit_code);
+            return;
         }
+
+        panic!("run hello, world failure");
     }
 
     #[test]
@@ -120,14 +114,13 @@ mod test {
     fn should_down_wasm() {
         let mut ns = process_string("default$main() {println(\"hello,world\");}", "hello.cj");
         let results = codegen(&mut ns, "wasm");
-        match &results[0] {
-            CodegenResult::Wasm { code } => {
-                assert!(code.len() > 0);
-            }
-            _ => {
-                panic!("run hello, world failure");
-            }
+
+        if let CodegenResult::Wasm { code } = &results[0] {
+            assert!(code.len() > 0);
+            return;
         }
+
+        panic!("run hello, world failure");
     }
 
     #[test]
