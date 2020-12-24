@@ -133,6 +133,15 @@ VariableDeclaration: Statement = {
     }
 }
 
+ObjectExpr: Expression = {
+    <l:@L> "{" "}" <r:@R> => {
+        Expression {
+            location: Location::new(l, r),
+            node: ExpressionType::ObjectDecl
+        }
+    }
+}
+
 SimpleStatement: Statement = {
     VariableDeclaration,
     <l:@L> <e:Expression> <r:@R> => {
@@ -392,15 +401,6 @@ PrimaryExpr: Expression = {
     BoolExpr,
     Atom,
     ParenthesizedExpression,
-}
-
-ObjectExpr: Expression = {
-    <l:@L> "{" "}" <r:@R> => {
-        Expression {
-            location: Location::new(l, r),
-            node: ExpressionType::ObjectDecl
-        }
-    }
 }
 
 BoolExpr: Expression = {
