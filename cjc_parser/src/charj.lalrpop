@@ -164,12 +164,7 @@ ReturnList: Expression = {
 }
 
 ReturnValue: Expression = {
-    <l:@L><n:Identifier><r:@R> => {
-        Expression {
-            location: Location::new(l, r),
-            node: ExpressionType::Identifier { name: n }
-        }
-    }
+    <l:@L><e:Expression><r:@R> => e,
 }
 
 IfStatement: Statement = {
@@ -370,9 +365,24 @@ PrimaryExpr: Expression = {
             node: ExpressionType::MemberAccess { value: Box::new(e), name }
         }
     },
-//    BoolExpr,
+    BoolExpr,
     Atom,
     ParenthesizedExpression,
+}
+
+BoolExpr: Expression = {
+    <l:@L> "true" <r:@R> => {
+        Expression {
+            location: Location::new(l, r),
+            node: ExpressionType::Bool { value: true }
+        }
+    },
+    <l:@L> "false" <r:@R> => {
+        Expression {
+            location: Location::new(l, r),
+            node: ExpressionType::Bool { value: false }
+        }
+    },
 }
 
 ParenthesizedExpression: Expression = {
@@ -561,6 +571,9 @@ extern {
         "return" => Token::Return,
 
         "bool" => Token::Bool,
+        "true" => Token::True,
+        "false" => Token::False,
+
         "string" => Token::String,
         "bytes" => Token::DynamicBytes,
         Int => Token::Int(<u16>),

@@ -21,6 +21,7 @@ pub fn parse_program(source: &str) -> Result<Program, Diagnostic> {
 mod test {
     use crate::parse_tree::{Identifier, Package, Program, ProgramUnit};
     use crate::parser::parse_program;
+    use crate::{ExpressionType, StatementType};
     use cjc_lexer::Loc;
 
     #[test]
@@ -454,10 +455,24 @@ struct Hello {
     #[test]
     #[rustfmt::skip]
     fn parse_bool_in_expr() {
-        let bool = parse_program("default$main(string name) {
+        let bool_return = parse_program("default$main(string name) {
     return true;
 }");
-        println!("{:?}", bool);
-        assert!(bool.is_ok());
+        match bool_return.unwrap().0.get(0).unwrap() {
+            ProgramUnit::StructFuncDecl(def) => {
+                if let StatementType::Return { value } = &def.body.get(0).unwrap().node {
+                    let expr = &value.as_ref().unwrap().node;
+                    if let ExpressionType::List { elements } = expr {
+                        let string = format!("{:?}", elements[0]);
+                        assert_eq!(string, "Located { location: Location { row: 39, column: 43 }, node: Bool { value: true } }");
+                        return;
+                    }
+                }
+            }
+            _ => {}
+        }
+
+        panic!("not return");
+
     }
 }

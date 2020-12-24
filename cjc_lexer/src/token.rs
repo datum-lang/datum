@@ -33,6 +33,8 @@ pub enum Token<'input> {
 
     // type
     Bool,
+    True,
+    False,
     String,
     Uint(u16),
     Int(u16),
@@ -137,6 +139,9 @@ impl<'input> fmt::Display for Token<'input> {
 
             // type
             Bool => write!(f, "bool"),
+            True => write!(f, "true"),
+            False => write!(f, "false"),
+
             String => write!(f, "string"),
             Uint(w) => write!(f, "uint{}", w),
             Int(w) => write!(f, "int{}", w),
