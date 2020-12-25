@@ -116,13 +116,20 @@ mod test {
     #[test]
     #[rustfmt::skip]
     fn should_support_local_function_call() {
-        let mut ns = process_string("default$main() {say_hello();}
+        let mut ns = process_string("
 default$say_hello() {println(\"你好，世界！\");}
+default$main() {say_hello();}
 ", "hello.cj");
 
         println!("{:?}", ns.cfgs);
-        assert_eq!("main", ns.cfgs[0].name);
-        assert_eq!("say_hello", ns.cfgs[1].name);
-        // let _results = codegen(&mut ns, "llvm");
+        assert_eq!("say_hello", ns.cfgs[0].name);
+        assert_eq!("main", ns.cfgs[1].name);
+        let _results = codegen(&mut ns, "jit");
+    }
+
+    #[test]
+    #[rustfmt::skip]
+    fn should_run_function_after_main() {
+        
     }
 }

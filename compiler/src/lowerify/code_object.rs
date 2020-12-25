@@ -38,14 +38,13 @@ impl<'a> CodeObject<'a> {
     }
 
     pub(crate) fn emit_call(&self, name: &str) {
-        let void_type = self.context.void_type();
-        let printf_type = void_type.fn_type(&[], true);
-
-        let printf = self
-            .module
-            .add_function(name, printf_type, Some(Linkage::External));
-
-        self.builder.build_call(printf, &[], "");
+        let opt = self.module.get_function(name);
+        match opt {
+            None => {}
+            Some(fun) => {
+                self.builder.build_call(fun, &[], name);
+            }
+        }
     }
 
     pub(crate) fn emit_print(&self, name: &&str, data: &str) -> IntType {
