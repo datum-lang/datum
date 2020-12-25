@@ -68,7 +68,9 @@ fn function_call(
                 return result;
             }
         }
-        _ => {}
+        _ => {
+            println!("{:?}", &var.node);
+        }
     }
 
     return Err(());

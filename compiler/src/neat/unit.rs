@@ -50,8 +50,6 @@ pub fn resolve_struct_functions(
     namespace: &mut Namespace,
 ) -> bool {
     let mut _broken = false;
-
-    // let mut function_no_bodies = Vec::new();
     let mut function_bodies = Vec::new();
 
     for (index, func) in struct_funcs {

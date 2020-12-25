@@ -69,7 +69,7 @@ mod test {
             return assert_eq!(0, exit_code);
         }
 
-        panic!("run hello, world failure");
+        panic!("run number failure");
     }
 
     #[test]
@@ -117,12 +117,11 @@ mod test {
     #[rustfmt::skip]
     fn should_support_local_function_call() {
         let mut ns = process_string("default$main() {say_hello();}
-
 default$say_hello() {println(\"你好，世界！\");}
 ", "hello.cj");
-        assert_eq!(2, ns.cfgs.len());
-        let _results = codegen(&mut ns, "jit");
-        // todo: add linker
-        // println!("{:?}", results);
+
+        assert_eq!("main", ns.cfgs[0].name);
+        assert_eq!("say_hello", ns.cfgs[1].name);
+        // let _results = codegen(&mut ns, "jit");
     }
 }

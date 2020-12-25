@@ -10,9 +10,10 @@ pub fn meanify(ns: &mut Namespace) {
     cfg_no = ns.functions.len();
     all_cfg.resize(cfg_no, ControlFlowGraph::placeholder());
 
-    let function_no = 0;
+    let mut function_no = 0;
     for _cfg in all_cfg {
         function_cfg(function_no, ns);
+        function_no = function_no + 1;
     }
 }
 
