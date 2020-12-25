@@ -74,7 +74,7 @@ fn function_call(
                 return result;
             }
 
-            let mut function = expression(var, ns, symbol_table)?;
+            let function = expression(var, ns, symbol_table)?;
             return Ok(Expression::InternalFunctionCall {
                 location: var.location,
                 args: vec![],

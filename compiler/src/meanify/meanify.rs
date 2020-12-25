@@ -71,8 +71,8 @@ pub fn expression_cfg(expr: &Expression, cfg: &mut ControlFlowGraph, ns: &Namesp
         } => {
             match &**fun {
                 Expression::Variable {
-                    location,
-                    ty,
+                    location: _,
+                    ty: _,
                     value,
                 } => {
                     cfg.emit(ExprKind::Call {
@@ -111,9 +111,9 @@ pub fn expression_cfg(expr: &Expression, cfg: &mut ControlFlowGraph, ns: &Namesp
             }
         },
         Expression::Variable {
-            location,
-            ty,
-            value,
+            location: _,
+            ty: _,
+            value: _,
         } => expr.clone(),
     }
 }

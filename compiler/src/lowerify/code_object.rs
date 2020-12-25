@@ -8,7 +8,7 @@ use inkwell::types::IntType;
 use inkwell::values::PointerValue;
 use inkwell::{AddressSpace, OptimizationLevel};
 
-use crate::{ControlFlowGraph, Namespace};
+use crate::Namespace;
 
 #[allow(dead_code)]
 #[derive(Debug)]
@@ -21,12 +21,7 @@ pub struct CodeObject<'a> {
 }
 
 impl<'a> CodeObject<'a> {
-    pub fn new(
-        context: &'a Context,
-        filename: &'a str,
-        ns: &'a Namespace,
-        target: &str,
-    ) -> Self {
+    pub fn new(context: &'a Context, filename: &'a str, ns: &'a Namespace, target: &str) -> Self {
         let triple = TargetTriple::create(target);
         let module = context.create_module(filename);
 

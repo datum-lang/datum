@@ -1,6 +1,6 @@
 use crate::base_target::BaseTarget;
 use crate::code_object::CodeObject;
-use crate::{ControlFlowGraph, Namespace};
+use crate::Namespace;
 use inkwell::context::Context;
 
 pub struct WasmTarget {}
