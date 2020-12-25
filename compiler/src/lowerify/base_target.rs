@@ -30,7 +30,7 @@ pub trait BaseTarget<'a> {
         for instr in &sb.cfg.blocks.instructions {
             match instr {
                 ExprKind::Var { .. } => {}
-                ExprKind::Call { value} => {
+                ExprKind::Call { value } => {
                     sb.emit_call(value);
                 }
                 ExprKind::Print { value } => {

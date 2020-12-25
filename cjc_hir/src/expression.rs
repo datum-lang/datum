@@ -16,7 +16,7 @@ pub enum Expression {
         location: Location,
         ty: Type,
         // change to symbol table
-        value: String
+        value: String,
     },
     StringLiteral {
         location: Location,

@@ -31,13 +31,11 @@ pub fn expression(
             })
         }
         ExpressionType::List { .. } => Ok(cjc_hir::Expression::Placeholder),
-        ExpressionType::Identifier { name } => {
-            Ok(cjc_hir::Expression::Variable {
-                location: *&expr.location,
-                ty: Type::String,
-                value: name.name.clone()
-            })
-        },
+        ExpressionType::Identifier { name } => Ok(cjc_hir::Expression::Variable {
+            location: *&expr.location,
+            ty: Type::String,
+            value: name.name.clone(),
+        }),
         ExpressionType::Type { .. } => Ok(cjc_hir::Expression::Placeholder),
         ExpressionType::MemberAccess { .. } => Ok(cjc_hir::Expression::Placeholder),
         ExpressionType::Call { function, args } => {
