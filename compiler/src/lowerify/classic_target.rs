@@ -9,14 +9,15 @@ pub struct ClassicTarget {}
 impl ClassicTarget {
     pub fn build<'a>(
         filename: &'a String,
-        cfg: &'a ControlFlowGraph,
         context: &'a Context,
         ns: &'a Namespace,
     ) -> CodeObject<'a> {
         let target = ClassicTarget {};
 
-        let mut structure = CodeObject::new(&*cfg.name, cfg, context, filename, ns, "x86_64");
-        target.emit_function(&mut structure);
+        let mut structure = CodeObject::new(context, filename, ns, "x86_64");
+        for cfg in &ns.cfgs {
+            target.emit_function(&mut structure, &cfg);
+        }
 
         structure
     }

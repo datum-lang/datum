@@ -8,21 +8,16 @@ pub struct WasmTarget {}
 impl WasmTarget {
     pub fn build<'a>(
         filename: &'a String,
-        cfg: &'a ControlFlowGraph,
         context: &'a Context,
         ns: &'a Namespace,
     ) -> CodeObject<'a> {
         let target = WasmTarget {};
 
-        let mut structure = CodeObject::new(
-            &*cfg.name,
-            cfg,
-            context,
-            filename,
-            ns,
-            "wasm32-unknown-unknown-wasm",
-        );
-        target.emit_function(&mut structure);
+        let wasm_target = "wasm32-unknown-unknown-wasm";
+        let mut structure = CodeObject::new(context, filename, ns, wasm_target);
+        for cfg in &ns.cfgs {
+            target.emit_function(&mut structure, &cfg);
+        }
 
         structure
     }

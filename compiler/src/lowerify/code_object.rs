@@ -17,30 +17,28 @@ pub struct CodeObject<'a> {
     pub module: Module<'a>,
     pub context: &'a Context,
     pub(crate) builder: Builder<'a>,
-    pub cfg: &'a ControlFlowGraph,
+    pub ns: &'a Namespace,
 }
 
 impl<'a> CodeObject<'a> {
     pub fn new(
-        name: &'a str,
-        cfg: &'a ControlFlowGraph,
         context: &'a Context,
         filename: &'a str,
-        _ns: &'a Namespace,
+        ns: &'a Namespace,
         target: &str,
     ) -> Self {
         let triple = TargetTriple::create(target);
-        let module = context.create_module(&name);
+        let module = context.create_module(filename);
 
         module.set_triple(&triple);
         module.set_source_file_name(filename);
 
         CodeObject {
-            name: &name,
+            name: &filename,
             module,
             builder: context.create_builder(),
             context,
-            cfg,
+            ns,
         }
     }
 

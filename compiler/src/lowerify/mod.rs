@@ -52,46 +52,42 @@ impl CharjTarget {
 pub fn codegen(ns: &mut Namespace, target: &str) -> Vec<CodegenResult> {
     let mut results = vec![];
 
-    for no in 0..ns.cfgs.len() {
-        let cfg = &ns.cfgs[no];
+    let filename = ns.files[0].clone();
+    let context = Context::create();
 
-        let filename = ns.files[0].clone();
-        let context = Context::create();
-
-        match target {
-            "jit" => {
-                let obj = ClassicTarget::build(&filename, cfg, &context, ns);
-                let exit_code = obj.run_jit();
-                results.push(CodegenResult::Jit { exit_code });
-            }
-            "wasm" => {
-                lazy_static::initialize(&LLVM_INIT);
-                let obj = WasmTarget::build(&filename, cfg, &context, ns);
-                let code = obj.code().expect("compile should succeed");
-                results.push(CodegenResult::Wasm { code });
-            }
-            "llvm" => {
-                let obj = ClassicTarget::build(&filename, cfg, &context, ns);
-                let name = format!("{}.ll", &cfg.name);
-                match obj.dump_llvm(Path::new(&name)) {
-                    Ok(_) => {
-                        println!("dump llvm succeed: {:?}", name);
-                    }
-                    Err(_) => {
-                        panic!("dump llvm failed: {:?}", name);
-                    }
+    match target {
+        "jit" => {
+            let obj = ClassicTarget::build(&filename, &context, ns);
+            let exit_code = obj.run_jit();
+            results.push(CodegenResult::Jit { exit_code });
+        }
+        "wasm" => {
+            lazy_static::initialize(&LLVM_INIT);
+            let obj = WasmTarget::build(&filename, &context, ns);
+            let code = obj.code().expect("compile should succeed");
+            results.push(CodegenResult::Wasm { code });
+        }
+        "llvm" => {
+            let obj = ClassicTarget::build(&filename, &context, ns);
+            let name = format!("{}.ll", filename);
+            match obj.dump_llvm(Path::new(&name)) {
+                Ok(_) => {
+                    println!("dump llvm succeed: {:?}", name);
                 }
+                Err(_) => {
+                    panic!("dump llvm failed: {:?}", name);
+                }
+            }
 
-                results.push(CodegenResult::LLVM {
-                    value: "".to_string(),
-                });
-            }
-            &_ => {
-                let obj = ClassicTarget::build(&filename, cfg, &context, ns);
-                let name = format!("{}.bc", &cfg.name);
-                obj.bitcode(Path::new(&name));
-                results.push(CodegenResult::BitCode);
-            }
+            results.push(CodegenResult::LLVM {
+                value: "".to_string(),
+            });
+        }
+        &_ => {
+            let obj = ClassicTarget::build(&filename, &context, ns);
+            let name = format!("{}.bc", &filename);
+            obj.bitcode(Path::new(&name));
+            results.push(CodegenResult::BitCode);
         }
     }
 
