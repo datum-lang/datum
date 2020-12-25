@@ -97,6 +97,6 @@ pub fn expression_cfg(expr: &Expression, cfg: &mut ControlFlowGraph, ns: &Namesp
                 Expression::Placeholder
             }
         },
-        Expression::Variable => expr.clone(),
+        Expression::Variable { .. } => expr.clone(),
     }
 }

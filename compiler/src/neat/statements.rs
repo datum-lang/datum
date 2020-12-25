@@ -36,6 +36,7 @@ pub fn statement(
             cjc_parser::StatementType::Return { .. } => {}
             cjc_parser::StatementType::Expression { expr } => {
                 let result = expression(&expr, namespace, symbol_table);
+                println!("{:?}", result);
                 match result {
                     Ok(expression) => {
                         res.push(Statement::Expression {

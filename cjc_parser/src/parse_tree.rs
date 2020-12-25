@@ -40,6 +40,7 @@ pub struct StructFuncDecl {
     pub loc: Loc,
     pub name: Identifier,
     pub struct_name: Identifier,
+    // todo: thinking in constructor?
     pub params: Vec<(Loc, Option<Parameter>)>,
     pub body: Suite,
     pub returns: Option<Expression>,

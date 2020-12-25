@@ -12,8 +12,12 @@ pub enum Builtin {
 #[derive(Clone, Debug)]
 pub enum Expression {
     Placeholder,
-    Variable,
-    // todo: thinking in change to bytes
+    Variable {
+        location: Location,
+        ty: Type,
+        // change to symbol table
+        value: String
+    },
     StringLiteral {
         location: Location,
         value: String,
