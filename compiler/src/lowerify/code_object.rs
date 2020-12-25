@@ -44,6 +44,17 @@ impl<'a> CodeObject<'a> {
         }
     }
 
+    pub(crate) fn emit_call(&self, name: &str) {
+        let void_type = self.context.void_type();
+        let printf_type = void_type.fn_type(&[], true);
+
+        let printf = self
+            .module
+            .add_function(name, printf_type, Some(Linkage::External));
+
+        self.builder.build_call(printf, &[], "");
+    }
+
     pub(crate) fn emit_print(&self, name: &&str, data: &str) -> IntType {
         let i32_type = self.context.i32_type();
         let str_type = self.context.i8_type().ptr_type(AddressSpace::Generic);
