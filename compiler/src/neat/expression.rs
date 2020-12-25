@@ -66,6 +66,8 @@ fn function_call(
                 let result =
                     builtin::resolve_call(&var.location, None, ns, &*name.name, args, symbol_table);
                 return result;
+            } else {
+                println!("todo: resolve normal call");
             }
         }
         _ => {

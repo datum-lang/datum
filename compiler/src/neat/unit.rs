@@ -54,9 +54,10 @@ pub fn resolve_struct_functions(
 
     for (index, func) in struct_funcs {
         struct_function_decl(func, namespace);
-        if func.body.is_empty() {
-        } else {
+        if !(func.body.is_empty()) {
             function_bodies.push((index, func));
+        } else {
+            // todo
         }
     }
 
