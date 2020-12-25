@@ -15,6 +15,7 @@ impl ClassicTarget {
         let target = ClassicTarget {};
 
         let mut structure = CodeObject::new(context, filename, ns, "x86_64");
+        // todo: call main after build others.
         for cfg in &ns.cfgs {
             target.emit_function(&mut structure, &cfg);
         }

@@ -123,6 +123,6 @@ default$say_hello() {println(\"你好，世界！\");}
         println!("{:?}", ns.cfgs);
         assert_eq!("main", ns.cfgs[0].name);
         assert_eq!("say_hello", ns.cfgs[1].name);
-        // let _results = codegen(&mut ns, "jit");
+        // let _results = codegen(&mut ns, "llvm");
     }
 }

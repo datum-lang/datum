@@ -65,7 +65,7 @@ fn function_call(
     symbol_table: &mut SymbolTable,
 ) -> Result<Expression, ()> {
     match &var.node {
-        ExpressionType::Identifier { id: id } => {
+        ExpressionType::Identifier { id } => {
             let is_builtin = builtin::is_builtin_call(None, &*id.name);
 
             if is_builtin {
