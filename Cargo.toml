@@ -35,6 +35,9 @@ path = "cjc_parser"
 [dependencies.cjc_codegen]
 path = "cjc_codegen"
 
+[dev-dependencies]
+assert_cmd = "1.0.2"
+
 [workspace]
 members = [
     "compiler",
@@ -44,5 +47,4 @@ members = [
     "cjc_hir",
     "cjc_mir",
     "cjc_ir_pretty",  # output IR for debug
-    "e2e"
 ]
