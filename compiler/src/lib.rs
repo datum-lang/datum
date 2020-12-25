@@ -120,9 +120,19 @@ mod test {
 default$say_hello() {println(\"你好，世界！\");}
 default$main() {say_hello();}
 ", "hello.cj");
-
-        println!("{:?}", ns.cfgs);
         assert_eq!("say_hello", ns.cfgs[0].name);
+        assert_eq!("main", ns.cfgs[1].name);
+        let _results = codegen(&mut ns, "jit");
+    }
+
+    #[test]
+    #[rustfmt::skip]
+    fn should_support_local_function_call_utf8() {
+        let mut ns = process_string("
+default$你好() {println(\"你好，世界！\");}
+default$main() {你好();}
+", "hello.cj");
+        assert_eq!("你好", ns.cfgs[0].name);
         assert_eq!("main", ns.cfgs[1].name);
         let _results = codegen(&mut ns, "jit");
     }
