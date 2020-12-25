@@ -33,7 +33,7 @@ jobs:
         run: rustup default nightly
 
       - name: Build Debug
-        run: ${{matrix.ENV_VARS}} cargo build --verbose --debug
+        run: ${{matrix.ENV_VARS}} cargo build --verbose
 
       - name: Run tests
         run: ${{matrix.ENV_VARS}} cargo test --verbose --all
