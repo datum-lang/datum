@@ -25,11 +25,18 @@ jobs:
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
       - name: Install LLVM
         run: ${{matrix.INSTALL_LLVM}}
+
       - name: Get rust nightly
         run: rustup install nightly
+
       - name: Set rust nightly as default for cargo
         run: rustup default nightly
-      - name: Build
-        run: ${{matrix.ENV_VARS}} cargo build --verbose --release
+
+      - name: Build Debug
+        run: ${{matrix.ENV_VARS}} cargo build --verbose --debug
+
       - name: Run tests
         run: ${{matrix.ENV_VARS}} cargo test --verbose --all
+
+      - name: Build Release
+        run: ${{matrix.ENV_VARS}} cargo build --verbose --release
