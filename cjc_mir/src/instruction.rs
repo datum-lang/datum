@@ -19,7 +19,7 @@ pub enum MIRKind {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub enum ExprKind {
     Var { value: String },
-    Call,
+    Call { value: String },
     Print { value: String },
 }
 
