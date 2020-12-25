@@ -112,7 +112,7 @@ pub enum ExpressionType {
     },
     /// An identifier, designating a certain variable or type.
     Identifier {
-        name: Identifier,
+        id: Identifier,
     },
     Type {
         ty: Type,

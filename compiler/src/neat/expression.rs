@@ -31,7 +31,7 @@ pub fn expression(
             })
         }
         ExpressionType::List { .. } => Ok(cjc_hir::Expression::Placeholder),
-        ExpressionType::Identifier { name } => Ok(cjc_hir::Expression::Variable {
+        ExpressionType::Identifier { id: name } => Ok(cjc_hir::Expression::Variable {
             location: *&expr.location,
             ty: Type::String,
             value: name.name.clone(),
@@ -65,12 +65,12 @@ fn function_call(
     symbol_table: &mut SymbolTable,
 ) -> Result<Expression, ()> {
     match &var.node {
-        ExpressionType::Identifier { name } => {
-            let is_builtin = builtin::is_builtin_call(None, &*name.name);
+        ExpressionType::Identifier { id: id } => {
+            let is_builtin = builtin::is_builtin_call(None, &*id.name);
 
             if is_builtin {
                 let result =
-                    builtin::resolve_call(&var.location, None, ns, &*name.name, args, symbol_table);
+                    builtin::resolve_call(&var.location, None, ns, &*id.name, args, symbol_table);
                 return result;
             }
 
