@@ -26,6 +26,7 @@ fn main() {
         )
         .get_matches();
 
+    // todo: split input handler and namespace actions
     for filename in matches.values_of("INPUT").unwrap() {
         if let Ok(path) = PathBuf::from(filename).canonicalize() {
             let mut contents = String::new();

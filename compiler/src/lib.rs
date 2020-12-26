@@ -28,38 +28,6 @@ mod test {
 
     #[test]
     #[rustfmt::skip]
-    fn should_build_print_builtin() {
-        let ns = parse_and_resolve("default$main() {println(\"hello,world\");}", "hello.cj");
-        assert_eq!(1, ns.functions.len());
-        assert_eq!(1, ns.functions[0].body.len());
-
-        let statement = &ns.functions[0].body[0];
-        if let Statement::Expression { location: _, expression } = statement {
-            if let Expression::Builtin { location: _, types: _, builtin, args: _ } = expression {
-                if *builtin == cjc_hir::Builtin::Print {
-                    return assert!(true);
-                }
-            }
-        }
-
-        panic!("print inline failure");
-    }
-
-    #[test]
-    #[rustfmt::skip]
-    fn should_run_hello_world() {
-        let mut ns = process_string("default$main() {println(\"hello,world\");}", "hello.cj");
-        let results = codegen(&mut ns, "jit");
-        assert_eq!(1, results.len());
-
-        if let CodegenResult::Jit { exit_code } = results[0] {
-            return assert_eq!(0, exit_code);
-        }
-        panic!("run hello, world failure");
-    }
-
-    #[test]
-    #[rustfmt::skip]
     fn should_run_print_number() {
         let mut ns = process_string("default$main() {println(8848);}", "hello.cj");
         let results = codegen(&mut ns, "jit");
