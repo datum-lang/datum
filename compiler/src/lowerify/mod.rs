@@ -29,6 +29,7 @@ pub enum CodegenResult {
 pub enum CharjTarget {
     Generic,
     WASM,
+    BitCode,
 }
 
 impl CharjTarget {
@@ -37,6 +38,7 @@ impl CharjTarget {
         return match self {
             CharjTarget::Generic => "generic",
             CharjTarget::WASM => "wasm",
+            CharjTarget::BitCode => "bitcode",
         };
     }
 
@@ -45,6 +47,7 @@ impl CharjTarget {
         return match self {
             CharjTarget::Generic => "x86_64",
             CharjTarget::WASM => "wasm32-unknown-unknown-wasm",
+            CharjTarget::BitCode => "",
         };
     }
 }
