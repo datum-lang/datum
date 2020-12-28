@@ -26,61 +26,6 @@ mod test {
 
     #[test]
     #[rustfmt::skip]
-    fn should_run_print_number() {
-        let mut ns = process_string("default$main() {println(8848);}", "hello.cj");
-        let results = codegen(&mut ns, "jit");
-        assert_eq!(1, results.len());
-
-        if let CodegenResult::Jit { exit_code } = results[0] {
-            return assert_eq!(0, exit_code);
-        }
-
-        panic!("run number failure");
-    }
-
-    #[test]
-    #[rustfmt::skip]
-    fn should_print_nums() {
-        let mut ns = process_string("default$main() {println(5);}", "hello.cj");
-        let results = codegen(&mut ns, "jit");
-        assert_eq!(1, results.len());
-
-        if let CodegenResult::Jit { exit_code } = results[0] {
-            return assert_eq!(0, exit_code);
-        }
-
-        panic!("run hello, world failure");
-    }
-
-    #[test]
-    #[rustfmt::skip]
-    fn should_run_hello_world_utf8() {
-        let mut ns = process_string("default$main() {println(\"你好，世界！\");}", "hello.cj");
-        let results = codegen(&mut ns, "jit");
-
-        if let CodegenResult::Jit { exit_code } = results[0] {
-            return assert_eq!(0, exit_code);
-        }
-
-        panic!("run hello, world failure");
-    }
-
-    #[test]
-    #[rustfmt::skip]
-    fn should_down_wasm() {
-        let mut ns = process_string("default$main() {println(\"hello,world\");}", "hello.cj");
-        let results = codegen(&mut ns, "wasm");
-
-        if let CodegenResult::Wasm { code } = &results[0] {
-            assert!(code.len() > 0);
-            return;
-        }
-
-        panic!("run hello, world failure");
-    }
-
-    #[test]
-    #[rustfmt::skip]
     fn should_support_local_function_call() {
         let mut ns = process_string("
 default$say_hello() {println(\"你好，世界！\");}
