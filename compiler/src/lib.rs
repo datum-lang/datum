@@ -95,7 +95,7 @@ default$main() {say_hello();}
     #[rustfmt::skip]
     fn should_support_local_function_call_utf8() {
         let mut ns = process_string("
-default$你好() {println(\"你好，世界！\");}
+default$你好() {println(\"你好，世界！\");println(5);}
 default$main() {你好();}
 ", "hello.cj");
         assert_eq!("你好", ns.cfgs[0].name);

@@ -4,7 +4,6 @@ use inkwell::builder::Builder;
 use inkwell::context::Context;
 use inkwell::module::{Linkage, Module};
 use inkwell::targets::{CodeModel, FileType, RelocMode, TargetTriple};
-use inkwell::types::IntType;
 use inkwell::values::PointerValue;
 use inkwell::{AddressSpace, OptimizationLevel};
 
@@ -47,19 +46,25 @@ impl<'a> CodeObject<'a> {
         }
     }
 
-    pub(crate) fn emit_print(&self, name: &&str, data: &str) -> IntType {
-        let i32_type = self.context.i32_type();
-        let str_type = self.context.i8_type().ptr_type(AddressSpace::Generic);
-        let printf_type = i32_type.fn_type(&[str_type.into()], true);
+    pub(crate) fn emit_print(&self, name: &&str, data: &str) {
+        let printf;
+        match self.module.get_function("puts") {
+            None => {
+                let i32_type = self.context.i32_type();
+                let str_type = self.context.i8_type().ptr_type(AddressSpace::Generic);
+                let printf_type = i32_type.fn_type(&[str_type.into()], true);
 
-        let printf = self
-            .module
-            .add_function("puts", printf_type, Some(Linkage::External));
+                printf = self
+                    .module
+                    .add_function("puts", printf_type, Some(Linkage::External));
+            }
+            Some(func) => {
+                printf = func;
+            }
+        }
 
         let pointer_value = self.emit_global_string(name, data.as_ref(), false);
         self.builder.build_call(printf, &[pointer_value.into()], "");
-
-        i32_type
     }
 
     fn emit_global_string(&self, name: &str, data: &[u8], constant: bool) -> PointerValue<'a> {
