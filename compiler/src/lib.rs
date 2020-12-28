@@ -22,9 +22,7 @@ pub fn process_string(input: &str, filename: &str) -> Namespace {
 
 #[cfg(test)]
 mod test {
-    use cjc_hir::{Expression, Statement};
-
-    use crate::{codegen, parse_and_resolve, process_string, CodegenResult};
+    use crate::{codegen, process_string, CodegenResult};
 
     #[test]
     #[rustfmt::skip]
