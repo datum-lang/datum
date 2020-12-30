@@ -33,32 +33,32 @@ fn main() {
 }
 
 pub fn process_filename(filename: &str, matches: &ArgMatches) {
-    if let Ok(path) = PathBuf::from(filename).canonicalize() {
-        let mut contents = String::new();
-        let mut f = File::open(&path).unwrap();
-        if let Err(e) = f.read_to_string(&mut contents) {
-            panic!("failed to read file ‘{}’: {}", filename, e.to_string())
-        }
-
-        let mut ns = process_string(&*contents, filename);
-
-        match matches.value_of("TARGET") {
-            Some("jit") => {
-                codegen(&mut ns, "jit");
-            }
-            Some("wasm") => {
-                let result = codegen(&mut ns, "wasm");
-                let mut file = File::create("out.wasm").unwrap();
-                match &result[0] {
-                    CodegenResult::Wasm { code } => file.write_all(code).unwrap(),
-                    _ => {}
-                }
-            }
-            _ => {
-                panic!("not support target{:?}", matches.value_of("TARGET"));
-            }
-        }
-    } else {
+    if let Err(_) = PathBuf::from(filename).canonicalize() {
         panic!("lost file: {:?}", filename);
+    }
+
+    let path = PathBuf::from(filename).canonicalize().unwrap();
+    let mut contents = String::new();
+    let mut f = File::open(&path).unwrap();
+    if let Err(e) = f.read_to_string(&mut contents) {
+        panic!("failed to read file ‘{}’: {}", filename, e.to_string())
+    }
+
+    let mut ns = process_string(&*contents, filename);
+    match matches.value_of("TARGET") {
+        Some("jit") => {
+            codegen(&mut ns, "jit");
+        }
+        Some("wasm") => {
+            let result = codegen(&mut ns, "wasm");
+            let mut file = File::create("out.wasm").unwrap();
+            match &result[0] {
+                CodegenResult::Wasm { code } => file.write_all(code).unwrap(),
+                _ => {}
+            }
+        }
+        _ => {
+            panic!("not support target{:?}", matches.value_of("TARGET"));
+        }
     }
 }
