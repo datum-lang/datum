@@ -26,6 +26,8 @@ fn main() {
         )
         .get_matches();
 
+    let mut namespaces = vec![];
+
     // todo: split input handler and namespace actions
     for filename in matches.values_of("INPUT").unwrap() {
         if let Ok(path) = PathBuf::from(filename).canonicalize() {
@@ -35,25 +37,30 @@ fn main() {
                 panic!("failed to read file ‘{}’: {}", filename, e.to_string())
             }
 
-            let mut ns = process_string(&*contents, filename);
-            match matches.value_of("TARGET") {
-                Some("jit") => {
-                    codegen(&mut ns, "jit");
-                }
-                Some("wasm") => {
-                    let result = codegen(&mut ns, "wasm");
-                    let mut file = File::create("out.wasm").unwrap();
-                    match &result[0] {
-                        CodegenResult::Wasm { code } => file.write_all(code).unwrap(),
-                        _ => {}
-                    }
-                }
-                _ => {
-                    panic!("not support target{:?}", matches.value_of("TARGET"));
-                }
-            }
+            let ns = process_string(&*contents, filename);
+            namespaces.push(ns);
         } else {
             panic!("lost file: {:?}", filename);
+        }
+    }
+
+    // todo: refactor using same namespaces
+    for mut ns in namespaces {
+        match matches.value_of("TARGET") {
+            Some("jit") => {
+                codegen(&mut ns, "jit");
+            }
+            Some("wasm") => {
+                let result = codegen(&mut ns, "wasm");
+                let mut file = File::create("out.wasm").unwrap();
+                match &result[0] {
+                    CodegenResult::Wasm { code } => file.write_all(code).unwrap(),
+                    _ => {}
+                }
+            }
+            _ => {
+                panic!("not support target{:?}", matches.value_of("TARGET"));
+            }
         }
     }
 }
