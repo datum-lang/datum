@@ -47,4 +47,5 @@ members = [
     "cjc_hir",
     "cjc_mir",
     "cjc_ir_pretty",  # output IR for debug
+    "language_server"
 ]
