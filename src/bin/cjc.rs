@@ -2,7 +2,7 @@ use std::fs::File;
 use std::io::{Read, Write};
 use std::path::PathBuf;
 
-use clap::{App, Arg};
+use clap::{App, Arg, ArgMatches};
 
 use compiler::{codegen, process_string, CodegenResult};
 
@@ -26,26 +26,22 @@ fn main() {
         )
         .get_matches();
 
-    let mut namespaces = vec![];
-
     // todo: split input handler and namespace actions
     for filename in matches.values_of("INPUT").unwrap() {
-        if let Ok(path) = PathBuf::from(filename).canonicalize() {
-            let mut contents = String::new();
-            let mut f = File::open(&path).unwrap();
-            if let Err(e) = f.read_to_string(&mut contents) {
-                panic!("failed to read file ‘{}’: {}", filename, e.to_string())
-            }
-
-            let ns = process_string(&*contents, filename);
-            namespaces.push(ns);
-        } else {
-            panic!("lost file: {:?}", filename);
-        }
+        process_filename(filename, &matches);
     }
+}
 
-    // todo: refactor using same namespaces
-    for mut ns in namespaces {
+pub fn process_filename(filename: &str, matches: &ArgMatches) {
+    if let Ok(path) = PathBuf::from(filename).canonicalize() {
+        let mut contents = String::new();
+        let mut f = File::open(&path).unwrap();
+        if let Err(e) = f.read_to_string(&mut contents) {
+            panic!("failed to read file ‘{}’: {}", filename, e.to_string())
+        }
+
+        let mut ns = process_string(&*contents, filename);
+
         match matches.value_of("TARGET") {
             Some("jit") => {
                 codegen(&mut ns, "jit");
@@ -62,5 +58,7 @@ fn main() {
                 panic!("not support target{:?}", matches.value_of("TARGET"));
             }
         }
+    } else {
+        panic!("lost file: {:?}", filename);
     }
 }
