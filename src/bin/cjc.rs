@@ -6,6 +6,8 @@ use clap::{App, Arg, ArgMatches};
 
 use compiler::{codegen, process_string, CodegenResult};
 
+mod languageserver;
+
 fn main() {
     let matches = App::new("charj")
         .version(&*format!("version {}", env!("GIT_HASH")))
@@ -15,6 +17,7 @@ fn main() {
             Arg::with_name("INPUT")
                 .help("Charj input files")
                 .required(true)
+                .conflicts_with("LANGUAGESERVER")
                 .multiple(true),
         )
         .arg(
@@ -24,7 +27,17 @@ fn main() {
                 .last(true)
                 .default_value("jit"),
         )
+        .arg(
+            Arg::with_name("LANGUAGESERVER")
+                .help("Start language server")
+                .conflicts_with_all(&["INPUT"])
+                .long("language-server"),
+        )
         .get_matches();
+
+    if matches.is_present("LANGUAGESERVER") {
+        languageserver::start_server();
+    }
 
     // todo: split input handler and namespace actions
     for filename in matches.values_of("INPUT").unwrap() {
