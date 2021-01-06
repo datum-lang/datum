@@ -25,6 +25,11 @@ exclude = [
 [dependencies]
 clap = "2.33"
 
+# lsp
+tower-lsp = "0.13"
+lsp-types = "0.81"
+tokio = { version = "0.2", features = ["rt-core", "io-std"] }
+
 
 [dependencies.compiler]
 path = "compiler"
