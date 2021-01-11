@@ -1,4 +1,4 @@
-name: Charj Build
+name: Datum Build
 
 on: [push]
 
