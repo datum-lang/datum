@@ -102,13 +102,13 @@ impl<'input> Lexer<'input> {
     /// Helper function to go to the next character coming up.
     #[allow(unused)]
     fn next_char(&mut self) -> Option<char> {
-        let charj = self.char0;
-        if charj == Some('\n') {
+        let next_char = self.char0;
+        if next_char == Some('\n') {
             self.location.newline();
         } else {
             self.location.go_right();
         }
-        charj
+        next_char
     }
 
     fn parse_number(
