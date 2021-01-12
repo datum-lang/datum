@@ -5,7 +5,7 @@ extern crate phf;
 lalrpop_mod!(
     #[allow(clippy::all)]
     #[allow(unused)]
-    pub charj
+    pub datum
 ); // synthesized by LALRPOP
 
 pub mod parse_tree;

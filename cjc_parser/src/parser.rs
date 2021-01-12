@@ -1,12 +1,12 @@
 use cjc_lexer::Diagnostic;
 
-use crate::charj;
+use crate::datum;
 use crate::parse_tree::Program;
 
 macro_rules! do_lalr_parsing {
     ($input: expr) => {{
         let lex = cjc_lexer::Lexer::new($input);
-        match charj::CharjParser::new().parse($input, lex) {
+        match datum::DatumParser::new().parse($input, lex) {
             Err(err) => Err(Diagnostic::handle_error(err)),
             Ok(s) => Ok(s),
         }

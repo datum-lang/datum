@@ -12,7 +12,7 @@ use crate::parse_tree::*;
 
 grammar<'input>(input: &'input str);
 
-pub Charj: Program = {
+pub Datum: Program = {
     ProgramUnit + => Program(<>)
 };
 
