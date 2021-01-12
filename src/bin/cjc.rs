@@ -9,7 +9,7 @@ use compiler::{codegen, process_string, CodegenResult};
 mod languageserver;
 
 fn main() {
-    let matches = App::new("charj")
+    let matches = App::new("datum")
         .version(&*format!("version {}", env!("GIT_HASH")))
         .author(env!("CARGO_PKG_AUTHORS"))
         .about(env!("CARGO_PKG_DESCRIPTION"))

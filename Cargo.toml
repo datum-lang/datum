@@ -1,15 +1,15 @@
 [package]
-name = "charj"
+name = "datum"
 version = "0.1.0"
 authors = ["Phodal Huang <h@phodal.com>"]
 edition = "2018"
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/phodal/charj"
-documentation = "https://github.com/phodal/charj"
-homepage = "https://github.com/phodal/charj"
+repository = "https://github.com/datum-lang/datum"
+documentation = "https://github.com/datum-lang/datum"
+homepage = "https://github.com/datum-lang/datum"
 description = """
-Charj is a language for describe other languages
+Datum is a language for describe other languages
 """
 categories = ["text-processing", "command-line-interface", "development-tools", "parser-implementations", "parsing"]
 exclude = [
