@@ -36,8 +36,8 @@ lsp-types = "0.81"
 tokio = { version = "0.2", features = ["rt-core", "io-std"] }
 
 
-[dependencies.compiler]
-path = "compiler"
+[dependencies.dc_compiler]
+path = "dc_compiler"
 version = "0.1.0"
 
 [dependencies.dc_parser]
@@ -53,7 +53,7 @@ assert_cmd = "1.0.2"
 
 [workspace]
 members = [
-    "compiler",
+    "dc_compiler",
     "dc_lexer",
     "dc_parser",
     "dc_codegen",

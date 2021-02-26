@@ -4,7 +4,7 @@ use std::path::PathBuf;
 
 use clap::{App, Arg, ArgMatches};
 
-use compiler::{codegen, process_string, CodegenResult};
+use dc_compiler::{codegen, process_string, CodegenResult};
 
 mod languageserver;
 
