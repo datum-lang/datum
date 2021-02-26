@@ -47,7 +47,7 @@ pub fn start_server() {
 impl CharjServer {
     /// Parse file
     async fn parse_file(&self, uri: Url) {
-        if let Ok(path) = uri.to_file_path() {}
+        // if let Ok(path) = uri.to_file_path() {}
     }
 }
 
