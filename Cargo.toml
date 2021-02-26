@@ -38,12 +38,15 @@ tokio = { version = "0.2", features = ["rt-core", "io-std"] }
 
 [dependencies.compiler]
 path = "compiler"
+version = "0.1.0"
 
 [dependencies.dc_parser]
 path = "dc_parser"
+version = "0.1.0"
 
 [dependencies.dc_codegen]
 path = "dc_codegen"
+version = "0.1.0"
 
 [dev-dependencies]
 assert_cmd = "1.0.2"
