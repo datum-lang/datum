@@ -39,11 +39,11 @@ tokio = { version = "0.2", features = ["rt-core", "io-std"] }
 [dependencies.compiler]
 path = "compiler"
 
-[dependencies.cjc_parser]
-path = "cjc_parser"
+[dependencies.dc_parser]
+path = "dc_parser"
 
-[dependencies.cjc_codegen]
-path = "cjc_codegen"
+[dependencies.dc_codegen]
+path = "dc_codegen"
 
 [dev-dependencies]
 assert_cmd = "1.0.2"
@@ -51,10 +51,10 @@ assert_cmd = "1.0.2"
 [workspace]
 members = [
     "compiler",
-    "cjc_lexer",
-    "cjc_parser",
-    "cjc_codegen",
-    "cjc_hir",
-    "cjc_mir",
-    "cjc_ir_pretty",  # output IR for debug
+    "dc_lexer",
+    "dc_parser",
+    "dc_codegen",
+    "dc_hir",
+    "dc_mir",
+    "dc_ir_pretty",  # output IR for debug
 ]

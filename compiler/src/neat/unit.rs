@@ -1,4 +1,4 @@
-use cjc_parser::{Program, ProgramUnit, StructFuncDecl};
+use dc_parser::{Program, ProgramUnit, StructFuncDecl};
 
 use crate::neat::struct_function::struct_function_decl;
 use crate::neat::{statements, Namespace};
@@ -17,7 +17,7 @@ pub fn resolve_program(program: Program, namespace: &mut Namespace) {
         })
         .enumerate()
         .map(|(no, def)| (no, def.as_ref()))
-        .collect::<Vec<(usize, &cjc_parser::StructDecl)>>();
+        .collect::<Vec<(usize, &dc_parser::StructDecl)>>();
 
     // todo: resolve struct function
     let struct_funcs = program
@@ -32,7 +32,7 @@ pub fn resolve_program(program: Program, namespace: &mut Namespace) {
         })
         .enumerate()
         .map(|(no, def)| (no, def.as_ref()))
-        .collect::<Vec<(usize, &cjc_parser::StructFuncDecl)>>();
+        .collect::<Vec<(usize, &dc_parser::StructFuncDecl)>>();
 
     // todo: add import support
     for part in &program.0 {

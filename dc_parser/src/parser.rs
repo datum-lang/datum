@@ -1,11 +1,11 @@
-use cjc_lexer::Diagnostic;
+use dc_lexer::Diagnostic;
 
 use crate::datum;
 use crate::parse_tree::Program;
 
 macro_rules! do_lalr_parsing {
     ($input: expr) => {{
-        let lex = cjc_lexer::Lexer::new($input);
+        let lex = dc_lexer::Lexer::new($input);
         match datum::DatumParser::new().parse($input, lex) {
             Err(err) => Err(Diagnostic::handle_error(err)),
             Ok(s) => Ok(s),
@@ -22,7 +22,7 @@ mod test {
     use crate::parse_tree::{Identifier, Package, Program, ProgramUnit};
     use crate::parser::parse_program;
     use crate::{ExpressionType, StatementType};
-    use cjc_lexer::Loc;
+    use dc_lexer::Loc;
 
     #[test]
     #[rustfmt::skip]

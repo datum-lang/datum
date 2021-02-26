@@ -1,6 +1,6 @@
 use crate::code_object::CodeObject;
 use crate::ControlFlowGraph;
-use cjc_mir::instruction::ExprKind;
+use dc_mir::instruction::ExprKind;
 use inkwell::types::BasicTypeEnum;
 use inkwell::values::FunctionValue;
 

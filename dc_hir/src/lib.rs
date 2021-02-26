@@ -1,4 +1,4 @@
-use cjc_lexer::Loc;
+use dc_lexer::Loc;
 pub use expression::*;
 pub use function::*;
 pub use hir::*;

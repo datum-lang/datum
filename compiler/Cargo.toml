@@ -12,11 +12,11 @@ lazy_static = "1.4"
 # todo: update targets
 inkwell = { git = "https://github.com/TheDan64/inkwell", branch = "master", features = ["target-x86", "target-arm", "target-webassembly", "llvm11-0"] }
 
-cjc_lexer = { path = "../cjc_lexer" }
-cjc_hir = { path = "../cjc_hir" }
-cjc_mir = { path = "../cjc_mir" }
-cjc_parser = { path = "../cjc_parser" }
-cjc_codegen = { path = "../cjc_codegen" }
+dc_lexer = { path = "../dc_lexer" }
+dc_hir = { path = "../dc_hir" }
+dc_mir = { path = "../dc_mir" }
+dc_parser = { path = "../dc_parser" }
+dc_codegen = { path = "../dc_codegen" }
 
 [dev-dependencies]
 wasmi = "0.6"

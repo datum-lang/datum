@@ -1,14 +1,14 @@
 ## Development
 
- - cjc_lexer, aka lexer
- - cjc_parser (outputs: AST)
- - cjc_hir (define: CFG)
- - cjc_mir (define: MIR)
+ - dc_lexer, aka lexer
+ - dc_parser (outputs: AST)
+ - dc_hir (define: CFG)
+ - dc_mir (define: MIR)
  - compiler (outputs: LLVM IR)
     - neat. AST -> HIR
     - medium. HIR -> MIR (TBD)
     - lowerify. MIR -> LLVM IR
- - cjc_codegen (process MIR -> LLVM IR)
+ - dc_codegen (process MIR -> LLVM IR)
 
 ## Process
 

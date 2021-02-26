@@ -1,4 +1,4 @@
-use cjc_lexer::Location;
+use dc_lexer::Location;
 use num_bigint::BigInt;
 
 use crate::Type;

@@ -1,6 +1,6 @@
 use crate::{ControlFlowGraph, Namespace};
-use cjc_hir::{Builtin, Expression, Function, Statement};
-use cjc_mir::instruction::ExprKind;
+use dc_hir::{Builtin, Expression, Function, Statement};
+use dc_mir::instruction::ExprKind;
 
 pub fn meanify(ns: &mut Namespace) {
     #[allow(unused_assignments)]

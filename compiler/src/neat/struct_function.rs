@@ -1,8 +1,8 @@
 use crate::neat::Namespace;
-use cjc_hir::{Function, Parameter};
+use dc_hir::{Function, Parameter};
 
 pub fn struct_function_decl(
-    struct_func_def: &cjc_parser::StructFuncDecl,
+    struct_func_def: &dc_parser::StructFuncDecl,
     namespace: &mut Namespace,
 ) -> bool {
     let success = true;
@@ -20,7 +20,7 @@ pub fn struct_function_decl(
 }
 
 pub fn resolve_returns(
-    _returns: &Option<cjc_parser::Expression>,
+    _returns: &Option<dc_parser::Expression>,
     _namespace: &mut Namespace,
 ) -> (Vec<Parameter>, bool) {
     let resolved_returns = Vec::new();
@@ -30,7 +30,7 @@ pub fn resolve_returns(
 }
 
 pub fn resolve_params(
-    parameters: &Vec<(cjc_lexer::Loc, Option<cjc_parser::Parameter>)>,
+    parameters: &Vec<(dc_lexer::Loc, Option<dc_parser::Parameter>)>,
     namespace: &mut Namespace,
 ) -> Vec<Parameter> {
     let mut params = Vec::new();

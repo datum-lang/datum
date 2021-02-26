@@ -1,5 +1,5 @@
 [package]
-name = "cjc_ir_pretty"
+name = "dc_mir"
 version = "0.1.0"
 authors = ["Phodal Huang <h@phodal.com>"]
 edition = "2018"
@@ -7,3 +7,7 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+dc_lexer = { path = "../dc_lexer" }
+
+num-bigint = { version = "0.3", features = ["serde"] }
+serde = { version = "1.0", features = ["derive"] }

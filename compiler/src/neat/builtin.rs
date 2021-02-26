@@ -1,7 +1,7 @@
 use crate::symbol_table::SymbolTable;
 use crate::{expression, Namespace};
-use cjc_hir::{Builtin, Expression, Type};
-use cjc_lexer::Location;
+use dc_hir::{Builtin, Expression, Type};
+use dc_lexer::Location;
 
 #[derive(PartialEq, Clone, Debug)]
 pub struct Prototype {
@@ -60,7 +60,7 @@ pub fn resolve_call(
     namespace: Option<&str>,
     ns: &mut Namespace,
     id: &str,
-    args: &Vec<cjc_parser::Argument>, // args: &[Expression],
+    args: &Vec<dc_parser::Argument>, // args: &[Expression],
     symbol_table: &mut SymbolTable,
 ) -> Result<Expression, ()> {
     let matches = BUILTIN_FUNCTIONS
@@ -96,8 +96,8 @@ pub fn resolve_call(
 #[cfg(test)]
 mod tests {
     use crate::builtin::is_builtin_call;
-    use cjc_lexer::Location;
-    use cjc_parser::parse_tree::{Expression, ExpressionType};
+    use dc_lexer::Location;
+    use dc_parser::parse_tree::{Expression, ExpressionType};
 
     #[test]
     fn should_identify_builtin_print() {

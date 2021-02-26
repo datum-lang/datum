@@ -1,8 +1,8 @@
 use crate::neat::expression::expression;
 use crate::neat::Namespace;
 use crate::symbol_table::SymbolTable;
-use cjc_hir::Statement;
-use cjc_parser::StructFuncDecl;
+use dc_hir::Statement;
+use dc_parser::StructFuncDecl;
 
 pub fn resolve_function_body(
     func_def: &StructFuncDecl,
@@ -18,23 +18,23 @@ pub fn resolve_function_body(
 }
 
 pub fn statement(
-    body: &Vec<cjc_parser::Statement>,
+    body: &Vec<dc_parser::Statement>,
     res: &mut Vec<Statement>,
     namespace: &mut Namespace,
     symbol_table: &mut SymbolTable,
 ) {
     for stmt in body {
         match &stmt.node {
-            cjc_parser::StatementType::Break => {}
-            cjc_parser::StatementType::Continue => {}
-            cjc_parser::StatementType::If { .. } => {}
-            cjc_parser::StatementType::While { .. } => {}
-            cjc_parser::StatementType::For { .. } => {}
-            cjc_parser::StatementType::Loop => {}
-            cjc_parser::StatementType::Assign { .. } => {}
-            cjc_parser::StatementType::VariableDecl { .. } => {}
-            cjc_parser::StatementType::Return { .. } => {}
-            cjc_parser::StatementType::Expression { expr } => {
+            dc_parser::StatementType::Break => {}
+            dc_parser::StatementType::Continue => {}
+            dc_parser::StatementType::If { .. } => {}
+            dc_parser::StatementType::While { .. } => {}
+            dc_parser::StatementType::For { .. } => {}
+            dc_parser::StatementType::Loop => {}
+            dc_parser::StatementType::Assign { .. } => {}
+            dc_parser::StatementType::VariableDecl { .. } => {}
+            dc_parser::StatementType::Return { .. } => {}
+            dc_parser::StatementType::Expression { expr } => {
                 let result = expression(&expr, namespace, symbol_table);
                 match result {
                     Ok(expression) => {

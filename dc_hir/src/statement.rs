@@ -1,5 +1,5 @@
 use crate::Expression;
-use cjc_lexer::Location;
+use dc_lexer::Location;
 
 #[derive(Clone, Debug)]
 pub enum Statement {

@@ -1,6 +1,6 @@
 use crate::ControlFlowGraph;
-use cjc_hir::{Function, StructDecl};
-use cjc_parser::ExpressionType;
+use dc_hir::{Function, StructDecl};
+use dc_parser::ExpressionType;
 
 #[derive(Debug)]
 pub struct Namespace {
@@ -21,11 +21,11 @@ impl Namespace {
         }
     }
 
-    pub fn resolve_type(&mut self, id: &cjc_parser::Expression) {
+    pub fn resolve_type(&mut self, id: &dc_parser::Expression) {
         self.expr_to_type(&id);
     }
 
-    pub fn expr_to_type<'a>(&mut self, expr: &'a cjc_parser::Expression) {
+    pub fn expr_to_type<'a>(&mut self, expr: &'a dc_parser::Expression) {
         let expr = expr;
         match expr.node {
             ExpressionType::Call { .. } => {}

@@ -1,6 +1,6 @@
-use cjc_hir::Parameter;
-use cjc_mir::basic_block::BasicBlock;
-use cjc_mir::instruction::ExprKind;
+use dc_hir::Parameter;
+use dc_mir::basic_block::BasicBlock;
+use dc_mir::instruction::ExprKind;
 
 ///  which is a [Control-flow graph](https://en.wikipedia.org/wiki/Control-flow_graph)
 #[derive(Clone, Debug)]
