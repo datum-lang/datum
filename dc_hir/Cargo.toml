@@ -3,6 +3,23 @@ name = "dc_hir"
 version = "0.1.0"
 authors = ["Phodal Huang <h@phodal.com>"]
 edition = "2018"
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/datum-lang/datum"
+documentation = "https://github.com/datum-lang/datum"
+homepage = "https://github.com/datum-lang/datum"
+description = """
+Datum is a language for describe other languages
+"""
+categories = ["text-processing", "command-line-interface", "development-tools", "parser-implementations", "parsing"]
+exclude = [
+    "benchmark/*",
+    "fixtures/*",
+    ".github/*",
+    ".gitattributes",
+    ".adr.json",
+    ".cargo_vcs_info.json",
+]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
