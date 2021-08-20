@@ -39,6 +39,9 @@ dc_parser = { path = "dc_parser" }
 dc_compiler = { path = "dc_compiler" }
 dc_codegen = { path = "dc_codegen" }
 
+[dev-dependencies]
+assert_cmd = "2.0.0"
+
 [workspace]
 members = [
     "dc_compiler",
