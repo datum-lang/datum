@@ -19,53 +19,9 @@ lexer -----> parser -----> hir -----> mir -----> codegen -----> LLVM IR
 
 ## Setup LLVM
 
-### by homebrew with LLVM 11
-
 ```
 brew install llvm
 ```
-
-```
-LLVM_SYS_110_PREFIX=/usr/local/Cellar/llvm/11.0.0 cargo build
-```
-
-### by llvmenv with LLVM 10
-
-
-we use [llvmenv](https://github.com/termoshtt/llvmenv) to manage multiple LLVM/Clang build in macOS.
-
-#### install
-
-```bash
-cargo install llvmenv
-```
-
-usage
-
-```
-llvmenv init
-llvmenv entries
-llvmenv build-entry 10.0.0
-```
-
-#### offline build
-
-if failure to download from GitHub, try download and build in local
-
-```
-llvmenv build-entry local-llvm
-```
-
-then export:
-
-```
-LLVM_SYS_100_PREFIX=$HOME/llvm/llvm-10.0.1.src/build cargo build
-LLVM_SYS_100_PREFIX=$HOME/llvm/llvm-10.0.1.src/build cargo run
-```
-
-### Clion Debug Config
-
-add: `LLVM_SYS_100_PREFIX=/Users/fdhuang/llvm/llvm-10.0.1.src/build` to **Run/Debug Configurations**.
 
 ## Target Platform Support (Plan)
 

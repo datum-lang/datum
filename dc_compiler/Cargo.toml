@@ -27,7 +27,7 @@ exclude = [
 indexmap = "1.0"
 lazy_static = "1.4"
 # todo: update targets
-inkwell = { git = "https://github.com/TheDan64/inkwell", branch = "master", features = ["target-x86", "target-arm", "target-webassembly", "llvm11-0"] }
+inkwell = { git = "https://github.com/TheDan64/inkwell", branch = "master", features = ["target-x86", "target-arm", "target-webassembly", "llvm12-0"] }
 
 dc_lexer = { path = "../dc_lexer" }
 dc_hir = { path = "../dc_hir" }

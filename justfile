@@ -1,9 +1,6 @@
 tests:
 	cargo test --all
 
-build-macos:
-    LLVM_SYS_110_PREFIX="/usr/local/opt/llvm" cargo build
-
 build:
     cargo build
 
