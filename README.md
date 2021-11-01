@@ -4,7 +4,7 @@
 
 > A easy maintain(read/write) language for transform **from**/**to** other languages.
 
-Design for:
+A language of thinking in [https://github.com/phodal/cloud-dev](https://github.com/phodal/cloud-dev), design for:
 
  - legacy system migration.
  - multiple-targets compiled languages. (by LLVM)
