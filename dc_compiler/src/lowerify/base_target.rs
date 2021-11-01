@@ -1,8 +1,10 @@
+use inkwell::types::BasicMetadataTypeEnum;
+use inkwell::values::FunctionValue;
+
+use dc_mir::instruction::ExprKind;
+
 use crate::code_object::CodeObject;
 use crate::ControlFlowGraph;
-use dc_mir::instruction::ExprKind;
-use inkwell::types::BasicTypeEnum;
-use inkwell::values::FunctionValue;
 
 pub trait BaseTarget<'a> {
     fn emit_function(&self, sb: &mut CodeObject, cfg: &ControlFlowGraph) {
@@ -19,7 +21,7 @@ pub trait BaseTarget<'a> {
         let args_types = std::iter::repeat(ret_type)
             .take(cfg.params.len())
             .map(|f| f.into())
-            .collect::<Vec<BasicTypeEnum>>();
+            .collect::<Vec<BasicMetadataTypeEnum>>();
         let args_types = args_types.as_slice();
 
         let fn_type = co.context.i32_type().fn_type(args_types, false);

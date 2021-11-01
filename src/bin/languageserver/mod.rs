@@ -2,25 +2,24 @@ use std::collections::HashMap;
 use std::path::PathBuf;
 use std::sync::Mutex;
 
+use serde_json::Value;
 use tower_lsp::jsonrpc::Result;
 use tower_lsp::lsp_types::*;
 use tower_lsp::{Client, LanguageServer, LspService, Server};
 
-use serde_json::Value;
-
 #[derive(Debug)]
 pub struct FileOffsets {
-    files: Vec<Vec<usize>>,
+    _files: Vec<Vec<usize>>,
 }
 
 #[derive(Debug)]
 pub struct Hovers {
-    offsets: FileOffsets,
-    lookup: Vec<(usize, usize, String)>,
+    _offsets: FileOffsets,
+    _lookup: Vec<(usize, usize, String)>,
 }
 
 #[derive(Debug)]
-struct CharjServer {
+struct DatumServer {
     client: Client,
     files: Mutex<HashMap<PathBuf, Hovers>>,
 }
@@ -31,7 +30,7 @@ pub fn start_server() {
         let stdin = tokio::io::stdin();
         let stdout = tokio::io::stdout();
 
-        let (service, messages) = LspService::new(|client| CharjServer {
+        let (service, messages) = LspService::new(|client| DatumServer {
             client,
             files: Mutex::new(HashMap::new()),
         });
@@ -44,15 +43,15 @@ pub fn start_server() {
     std::process::exit(1);
 }
 
-impl CharjServer {
+impl DatumServer {
     /// Parse file
-    async fn parse_file(&self, uri: Url) {
+    async fn parse_file(&self, _uri: Url) {
         // if let Ok(path) = uri.to_file_path() {}
     }
 }
 
 #[tower_lsp::async_trait]
-impl LanguageServer for CharjServer {
+impl LanguageServer for DatumServer {
     async fn initialize(&self, _: InitializeParams) -> Result<InitializeResult> {
         Ok(InitializeResult::default())
     }
