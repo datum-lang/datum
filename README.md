@@ -1,6 +1,6 @@
 # Datum (aka Charj）
 
-![Datum Build](https://github.com/datum-lang/datum/workflows/Charj%20Build/badge.svg)
+[![Datum Build](https://github.com/datum-lang/datum/actions/workflows/quickstart.yml/badge.svg)](https://github.com/datum-lang/datum/actions/workflows/quickstart.yml)
 
 > A easy maintain(read/write) language for transform **from**/**to** other languages.
 
