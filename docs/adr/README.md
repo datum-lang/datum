@@ -21,3 +21,4 @@
 * [19. language-server](0019-language-server.md)
 * [20. low-code-design-inside](0020-low-code-design-inside.md)
 * [21. replace-tower-lsp](0021-replace-tower-lsp.md)
+* [22. design-by-contract-design](0022-design-by-contract-design.md)
